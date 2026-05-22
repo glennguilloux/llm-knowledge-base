@@ -30,7 +30,11 @@ Small coding models (7-14B) are fast and free, but they **hallucinate APIs**, in
 ## 30-Second Demo
 
 ```bash
+# Install from PyPI
 pip install llm-knowledge-base
+
+# Or install from source
+pip install git+https://github.com/glennguilloux/llm-knowledge-base.git
 
 # Search for patterns
 llm-kb search "FastAPI JWT authentication"
