@@ -285,15 +285,16 @@ def print_dashboard(data: dict, verbose: bool = False):
         ("Retrieval test coverage", "retrieval_coverage"),
     ]
 
-    print(f"┌{'─'*30}┬{'─'*8}┐")
-    print(f"│{'Metric':<30}│{'Score':>6}  │")
-    print(f"├{'─'*30}┼{'─'*8}┤")
+    # Use ASCII-safe characters for Windows compatibility
+    print(f"+{'-'*30}+{'-'*8}+")
+    print(f"|{'Metric':<30}|{'Score':>6}  |")
+    print(f"+{'-'*30}+{'-'*8}+")
     for display_name, key in order:
         score = data["metrics"][key]
-        print(f"│ {display_name:<29}│ {score:>4}/100│")
-    print(f"├{'─'*30}┼{'─'*8}┤")
-    print(f"│ {'OVERALL':<29}│ {data['overall']:>4}/100│")
-    print(f"└{'─'*30}┴{'─'*8}┘")
+        print(f"| {display_name:<29}| {score:>4}/100|")
+    print(f"+{'-'*30}+{'-'*8}+")
+    print(f"| {'OVERALL':<29}| {data['overall']:>4}/100|")
+    print(f"+{'-'*30}+{'-'*8}+")
 
     if verbose:
         print(f"\n{'─'*60}")
