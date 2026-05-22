@@ -3,7 +3,7 @@ pyyaml>=6.0
 
 # Retrieval system
 chromadb>=0.4.0
-sentence-transformers>=2.2.0
+sentence-transformers>=5.5.1
 
 # Testing
 pytest>=7.0
