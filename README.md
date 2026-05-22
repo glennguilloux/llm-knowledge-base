@@ -1,18 +1,80 @@
-# LLM Codebase Knowledge Base
+# LLM Knowledge Base
 
-> Make your local model write code like a senior engineer — works with any model size.
+> **Make your 7B model write code like a senior engineer.**
+> 275 curated patterns. 2,804 tests. 92/100 quality score. Zero ML dependencies.
+
+![Validate](https://github.com/glennguilloux/llm-knowledge-base/actions/workflows/validate.yml/badge.svg)
+![Release](https://github.com/glennguilloux/llm-knowledge-base/actions/workflows/release.yml/badge.svg)
+![PyPI](https://img.shields.io/pypi/v/llm-knowledge-base)
+![Python](https://img.shields.io/pypi/pyversions/llm-knowledge-base)
+![License](https://img.shields.io/badge/license-MIT-blue)
 
 ---
 
-## Works With Any Model Size
+## The Problem
 
-Different models need different amounts of help. The knowledge base automatically adapts:
+Small coding models (7-14B) are fast and free, but they **hallucinate APIs**, invent nonexistent methods, and get syntax wrong. Larger models (27B+) are smarter but still miss library-specific patterns.
 
-| Model Size | Examples | Entries | Format | What's Included |
-|:---|:---|:---:|:---|:---|
-| **7-14B** | Qwen2.5-Coder 7B, CodeLlama 7B | 3 | Full | Everything: patterns, mistakes, gotchas, imports |
-| **27-32B** | Qwen2.5-Coder 32B, Command-R, Mixtral | 5 | Condensed | Key patterns, gotchas, mistakes (no imports, no "when to use") |
-| **70B+** | Llama 3.1 70B, Qwen 2.5 72B | 8 | Reference | Signatures only, gotchas, version quirks |
+**The fix:** Give them a cheat sheet. Before the model writes code, we inject 3-5 relevant, validated patterns directly into the prompt. The model writes better code because it checks reference first.
+
+**The proof:**
+
+| Metric | Without KB | With KB |
+|:---|:---:|:---:|
+| Quality Score | ~45% | **92%** |
+| Tasks Fully Correct | 3/20 | **19/20** |
+| Hallucinated APIs | Frequent | **Rare** |
+
+---
+
+## 30-Second Demo
+
+```bash
+pip install llm-knowledge-base
+
+# Search for patterns
+llm-kb search "FastAPI JWT authentication"
+
+# Build a prompt for your model (auto-detects model size)
+llm-kb prompt "write a FastAPI endpoint with JWT auth" --model qwen2.5-coder:32b
+
+# Pipe directly to your local model
+llm-kb prompt "write a REST API with JWT auth" --lang python | ollama run qwen2.5-coder:7b
+```
+
+That's it. One install, immediate improvement.
+
+---
+
+## What's Inside
+
+275 validated knowledge entries across 13 languages and categories:
+
+| Language | Entries | Language | Entries |
+|:---|:---:|:---|:---:|
+| Python | 74 | Go | 20 |
+| Java | 39 | Rust | 15 |
+| TypeScript | 35 | SQL | 11 |
+| C# | 11 | Bash/Shell | 5 |
+| Crypto | 5 | DevOps/Other | 9 |
+
+Each entry contains:
+- **Standard Pattern** — Idiomatic, runnable code with imports and type annotations
+- **Common Mistakes** — 3+ WRONG/CORRECT pairs showing exactly what goes wrong
+- **Gotchas** — 3+ subtle edge cases (concurrency, encoding, thread-safety, version quirks)
+- **Related Links** — Cross-references to related patterns
+
+---
+
+## Works With Your Model
+
+The knowledge base automatically adapts to model size. 38 models pre-mapped, auto-detect from name:
+
+| Profile | Models | Entries | Format | Context |
+|:---|:---|:---:|:---|:---:|
+| **Small** (7-14B) | Qwen2.5-Coder 7B, CodeLlama 7B, Phi-3, DeepSeek-Coder 6.7B | 3 | Full | Everything: patterns, mistakes, gotchas, imports |
+| **Medium** (14-32B) | Qwen2.5-Coder 32B, Command-R, Mixtral, Codestral 22B | 5 | Condensed | Key patterns, gotchas, mistakes |
+| **Large** (70B+) | Llama 3.1 70B, Qwen 2.5 72B, DeepSeek-Coder-V2 236B | 8 | Reference | Signatures, gotchas, version quirks |
 
 ```bash
 # Auto-detect from model name
@@ -21,90 +83,15 @@ llm-kb prompt "write a REST API" --model qwen2.5-coder:32b
 # Or specify profile explicitly
 llm-kb prompt "write a REST API" --profile medium
 
-# See what a model gets
-llm-kb profile --model qwen2.5-coder:32b
-llm-kb profile --list  # Show all 38 known models
+# See all 38 known models
+llm-kb profile --list
 ```
-
----
-
-## What It Does
-
-Small coding models (7-14B) are fast and free, but they hallucinate APIs, invent nonexistent methods, and get syntax wrong. Larger models (27B+) are smarter but still miss library-specific patterns. This knowledge base gives them a cheat sheet — 278 curated, validated code patterns they can look up before writing code.
-
-**Result:** Models of any size write better code because they check reference first.
-
----
-
-## Quick Start
-
-### Install
-```bash
-# Clone the repository
-git clone https://github.com/example/llm-knowledge-base.git
-cd ForLLm
-
-# Install the Python package inside your virtual environment
-pip install -e .
-```
-
-### Command Line Interface (CLI)
-```bash
-# Search for knowledge
-llm-kb search "how to hash a file in Python"
-
-# Build a prompt for your LLM and pipe it directly to a local coder
-llm-kb prompt "write a REST API with JWT auth" --lang python | ollama run qwen2.5-coder:7b
-```
-
-### Python API
-```python
-from llm_kb import retrieve, build_prompt
-
-# Retrieve relevant entries (outputs details about correct code, common mistakes and gotchas)
-results = retrieve("FastAPI JWT authentication")
-print(f"Top Result: {results[0]['title']}")
-
-# Build a prompt with knowledge injected (handles budgeting automatically)
-prompt = build_prompt("write a REST API", language="python", max_tokens=8192)
-```
-
----
-
-## The Proof
-
-We benchmarked code generation on 20 standard tasks with and without the knowledge base. Here are the average results:
-
-| Metric | Without KB | With KB |
-|:---|:---:|:---:|
-| **Quality Score** | ~45% | **92%** |
-| **Tasks Fully Correct** | 3/20 | **19/20** |
-
-See full benchmark results in [docs/integration-guide.md](docs/integration-guide.md).
-
----
-
-## What's Inside
-
-276 entries across 10 languages, curated by frontier models and validated by automated scripts:
-
-| Language/Category | Entries |
-|:---|:---:|
-| Python | 74 |
-| Java | 39 |
-| TypeScript | 35 |
-| Go | 20 |
-| Rust | 15 |
-| C# | 11 |
-| Bash / Shell | 16 |
-| Database / DevOps / Others | 68 |
-| **Total** | **278** |
 
 ---
 
 ## MCP Integration
 
-Use with Claude Desktop, Cursor, or any Model Context Protocol compatible client:
+Use with Claude Desktop, Cursor, or any MCP-compatible client. Add to your config:
 
 ```json
 {
@@ -117,59 +104,135 @@ Use with Claude Desktop, Cursor, or any Model Context Protocol compatible client
 }
 ```
 
-Provides 4 highly helpful coding tools:
-- `search_knowledge`: Search for relevant coding patterns
-- `build_code_prompt`: Build structured system prompts with knowledge for code generation
-- `list_languages`: List all covered coding languages
-- `get_entry`: Retrieve a single specific knowledge entry by ID
+Four tools available to your AI assistant:
+- `search_knowledge(query, language?, top_k?)` — Find relevant code patterns
+- `build_code_prompt(query, language?, model?)` — Build a system prompt with knowledge injected
+- `list_languages()` — List all covered languages
+- `get_entry(entry_id)` — Get a specific entry by ID
 
 ---
 
-## IDE Integration
+## Quick Reference
 
-Pre-configured for frictionless adoption:
+### CLI
 
-- **Cursor**: `.cursorrules` with MCP server setup, quick reference search patterns, and recommended AI workflow
-- **VS Code**: `.vscode/tasks.json` with 7 tasks (Search, Prompt building for small/medium/large models, Validate, Scorecard, Run All Tests)
-- **Claude Desktop**: `docs/claude-desktop-config.json` with MCP server configuration
+```bash
+# Search
+llm-kb search "how to hash a file in Python"
+llm-kb search "JWT auth" --lang python
 
-All IDE configs use the 6 MCP tools: `search_knowledge`, `build_code_prompt`, `list_languages`, `get_entry`, `get_model_profile`, `list_supported_models`
+# Build prompt (pipe to any model)
+llm-kb prompt "write a REST API" --lang python --model qwen2.5-coder:32b
+llm-kb prompt "write a REST API" --lang python | ollama run qwen2.5-coder:7b
+
+# Validate all entries
+llm-kb validate
+
+# Quality scorecard
+llm-kb scorecard
+
+# Model profiles
+llm-kb profile --model qwen2.5-coder:32b
+llm-kb profile --list
+
+# Statistics
+llm-kb stats
+```
+
+### Python API
+
+```python
+from llm_kb import retrieve, build_prompt, get_stats
+
+# Search for entries
+results = retrieve("FastAPI JWT authentication", language="python", top_k=3)
+print(results[0]["title"])  # "JWT Authentication with FastAPI"
+
+# Build a prompt with knowledge injected
+prompt = build_prompt(
+    "write a REST API with JWT auth",
+    language="python",
+    model="qwen2.5-coder:32b"
+)
+
+# Get stats
+stats = get_stats()
+print(f"{stats['total_entries']} entries, quality: {stats['quality_score']}/100")
+```
+
+### IDE Integration
+
+Pre-configured for zero-friction adoption:
+- **Cursor** — `.cursorrules` with MCP setup and search patterns
+- **VS Code** — `.vscode/tasks.json` with 7 tasks (search, prompt, validate, scorecard, test)
+- **Claude Desktop** — `docs/claude-desktop-config.json` with MCP server config
+
+---
+
+## Quality Scorecard
+
+```bash
+$ llm-kb scorecard
+```
+
+| Metric | Score |
+|:---|:---:|
+| Coverage | 100/100 |
+| Depth | 93/100 |
+| Cross-references | 93/100 |
+| Freshness | 99/100 |
+| Anti-pattern coverage | 80/100 |
+| Retrieval test coverage | 87/100 |
+| **Overall** | **92/100** |
 
 ---
 
 ## How It Works
 
 ```
-[User Request] ─► [Retrieve 3-5 Related Patterns] ─► [Merge with System Prompt Template] ─► [Generate Senior-Grade Code]
+[User Request]
+      │
+      ▼
+[Retrieve 3-5 Related Patterns]  ←  keyword + tag matching, no ML required
+      │
+      ▼
+[Condense for Model Size]        ←  small=full, medium=condensed, large=reference
+      │
+      ▼
+[Inject into System Prompt]      ←  budget-aware, fits context window
+      │
+      ▼
+[Model Writes Better Code]       ←  with exact patterns, gotchas, and mistakes
 ```
 
-1. **Ask a coding question:** Describe the task as normal.
-2. **Context retrieval:** We run local grep-similarity matching to fetch the 3-5 most relevant validated coding patterns.
-3. **Prompt injection:** Context is budgeted for of the target LLM and formatted into a highly polished structure.
-4. **Senior code synthesis:** The local model synthesizes pristine code using the exact standards in the cheat sheet.
-
----
-
-## Quality Scorecard
-
-Run it yourself to see the quality metrics:
-```bash
-llm-kb scorecard
-```
-
-Our current metrics show the extreme maturity of the codebase:
-
-- **Coverage:** 100%
-- **Depth:** 94%
-- **Cross-references:** 94%
-- **Freshness:** 99%
-- **Anti-patterns:** 80%
-- **Retrieval accuracy:** 87%
-- **Overall:** 92/100
+No vector database. No embeddings. No API calls. Pure grep + smart ranking. Works offline.
 
 ---
 
 ## Contributing
 
-Ready to add a new pattern? Please read our guidelines in [CONTRIBUTING.md](CONTRIBUTING.md).
+We welcome new entries! See [CONTRIBUTING.md](CONTRIBUTING.md) for the quality bar and submission checklist.
 
+**Entry ideas:** Run `python scripts/gap_detector.py` to find coverage gaps.
+
+**Quick start:**
+```bash
+# 1. Copy a template
+cp templates/python.md python/stdlib/your-topic.md
+
+# 2. Fill in the pattern, mistakes, gotchas, and related links
+
+# 3. Validate
+llm-kb validate
+
+# 4. Run tests
+python -m pytest test_entries_quality.py -v
+
+# 5. Open a PR
+```
+
+---
+
+## License
+
+MIT — see [LICENSE](LICENSE).

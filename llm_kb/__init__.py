@@ -10,7 +10,7 @@ from llm_kb.scorecard import get_scorecard_data
 from llm_kb.profiles import list_models, describe_profile, ModelProfile, PROFILES, MODEL_MAP
 from llm_kb.profiles import get_profile as _get_profile
 
-__version__ = "2.0.0"
+__version__ = "1.0.0"
 
 
 def get_profile(model: str | None = None, size_hint: str | None = None) -> ModelProfile:

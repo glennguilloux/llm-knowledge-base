@@ -72,6 +72,13 @@ def load_entries(kb_path: Path = Path(".")) -> list[KBEntry]:
         if entry:
             entries.append(entry)
 
+    # Deduplicate by ID (handles symlinked data directories)
+    seen: dict[str, KBEntry] = {}
+    for entry in entries:
+        if entry.id not in seen:
+            seen[entry.id] = entry
+    entries = list(seen.values())
+
     return entries
 
 
