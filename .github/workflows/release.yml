@@ -5,7 +5,8 @@ on:
     tags: ['v*']
 
 permissions:
-  id-token: write  # Trusted publishing
+  id-token: write  # Trusted publishing (OIDC)
+  contents: write  # For creating GitHub Release
 
 jobs:
   test:
@@ -18,11 +19,14 @@ jobs:
       - run: pip install -e ".[vector]"
       - run: pip install pytest
       - run: python -m llm_kb validate
-      - run: python -m pytest test_retrieval.py test_entries_quality.py test_retrieval_comprehensive.py test_e2e.py test_retrieval_edge_cases.py test_phase14_profiles.py -v
+      - run: python -m pytest test_retrieval.py test_entries_quality.py test_retrieval_comprehensive.py test_e2e.py test_retrieval_edge_cases.py test_phase14_profiles.py -v --tb=short
 
   build-and-publish:
     needs: test
     runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/p/llm-knowledge-base
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -32,8 +36,6 @@ jobs:
       - run: python -m build
       - name: Publish to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
-        with:
-          password: ${{ secrets.PYPI_API_TOKEN }}
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
