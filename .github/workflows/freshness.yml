@@ -1,0 +1,56 @@
+name: Monthly Freshness Check
+
+on:
+  schedule:
+    - cron: '0 0 1 * *'  # First of every month
+  workflow_dispatch:       # Manual trigger
+
+jobs:
+  freshness:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install -e .
+
+      - name: Run freshness check
+        id: freshness
+        run: python scripts/auto_freshness.py --json-only
+        continue-on-error: true
+
+      - name: Upload freshness report
+        uses: actions/upload-artifact@v4
+        with:
+          name: freshness-report
+          path: scripts/freshness_report.json
+
+      - name: Create issue if stale
+        if: steps.freshness.outcome == 'failure'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          # Generate a markdown summary from the JSON report
+          python -c "
+          import json
+          with open('scripts/freshness_report.json') as f:
+              data = json.load(f)
+          issues = data.get('total_issues', 0)
+          print(f'Found {issues} issue(s) in the knowledge base freshness check.')
+          print()
+          for item in data.get('details', [])[:20]:
+              print(f'- **{item[\"entry_id\"]}** ({item[\"type\"]}: {item[\"severity\"]})')
+              print(f'  {item[\"reason\"]}')
+              print()
+          " > scripts/freshness_summary.md
+
+          gh issue create \
+            --title "Monthly Freshness Check: Entries Need Review" \
+            --body-file scripts/freshness_summary.md \
+            --label "maintenance" \
+            --label "stale-entries"

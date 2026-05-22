@@ -1,0 +1,1681 @@
+# Todos
+[•] Write comprehensive project design document: Retrieval-Ready Coding Knowledge Base for Small LLMs
+# Wrote LLM_CODEBASE_KNOWLEDGE_BASE.md
+# LLM Codebase Knowledge Base — Project Design Document
+> A retrieval-ready structured knowledge repository that enables smaller LLMs to write production-quality code without memorizing entire language ecosystems.
+---
+## 1. Problem Statement
+Smaller coding models (7B–14B parameters) are fast, cheap, and runnable locally — but they hallucinate syntax, misuse APIs, and invent nonexistent methods. They fail on:
+- **Uncommon but critical patterns** (e.g., correct SHA-256 streaming in Python, Spring Security filter chains)
+- **Library-specific conventions** (e.g., psycopg3 vs psycopg2 differences, FastAPI dependency injection)
+- **Language gotchas** (e.g., Python's mutable default arguments, Java's try-with-resources)
+- **Project-specific conventions** (e.g., "we use Pydantic v2, not v1," "all DB queries go through the repository layer")
+A large model (Claude Opus, GPT-4) can generate this knowledge. A small model just needs to **retrieve** it at prompt time.
+---
+## 2. Architecture Overview
+```
+┌─────────────────────┐
+│  Claude Opus / GPT-4 │──── Curates & generates ────┐
+│  (Knowledge Curator)  │                             │
+└─────────────────────┘                              ▼
+                                          ┌──────────────────────┐
+                                          │  Knowledge Base Repo  │
+                                          │  (structured files)   │
+                                          └──────────┬───────────┘
+                                                     │
+                                          ┌──────────▼───────────┐
+                                          │  Retrieval Layer      │
+                                          │  (vector DB / grep)   │
+                                          └──────────┬───────────┘
+                                                     │
+                                          ┌──────────▼───────────┐
+                                          │  Small LLM (7B–14B)   │
+                                          │  (Code Generator)     │
+                                          └──────────────────────┘
+```
+**Flow:**
+1. **Curate** — Use a frontier model to generate, validate, and organize knowledge entries.
+2. **Store** — Persist as structured Markdown/YAML/JSON in a version-controlled repository.
+3. **Index** — Build embeddings for semantic search or keep it simple with keyword grep.
+4. **Retrieve** — At code-generation time, pull relevant entries and inject into the small model's context window.
+5. **Validate** — Run generated code through tests and linters; feed errors back for correction.
+---
+## 3. Folder Structure
+```
+knowledge-base/
+├── README.md                          # Index and usage guide
+├── schema.md                          # Entry format specification
+│
+├── python/
+│   ├── stdlib/
+│   │   ├── hashlib-sha256.md          # SHA-256 hashing patterns
+│   │   ├── pathlib.md                 # File path operations
+│   │   ├── asyncio-basics.md          # Async/await patterns
+│   │   ├── dataclasses.md             # Dataclass patterns
+│   │   ├── context-managers.md        # with-statement patterns
+│   │   ├── logging.md                 # Structured logging
+│   │   └── typing-advanced.md         # Type hints, generics, protocols
+│   │
+│   ├── web/
+│   │   ├── fastapi/
+│   │   │   ├── basics.md              # App setup, routing, dependencies
+│   │   │   ├── auth-jwt.md            # JWT authentication flow
+│   │   │   ├── request-validation.md  # Pydantic request models
+│   │   │   ├── error-handling.md      # HTTPException patterns
+│   │   │   ├── middleware.md          # Custom middleware
+│   │   │   ├── testing.md             # TestClient patterns
+│   │   │   └── file-uploads.md        # UploadFile handling
+│   │   │
+│   │   ├── requests/
+│   │   │   ├── basics.md              # GET/POST/PUT/DELETE
+│   │   │   ├── sessions.md            # Session persistence
+│   │   │   ├── auth.md                # Basic, Bearer, OAuth
+│   │   │   ├── error-handling.md      # Timeouts, retries, status codes
+│   │   │   └── streaming.md           # Streaming responses
+│   │   │
+│   │   └── flask/
+│   │       └── basics.md
+│   │
+│   ├── db/
+│   │   ├── sqlalchemy-2.0/
+│   │   │   ├── models.md              # Declarative models
+│   │   │   ├── queries.md             # Select, insert, update, delete
+│   │   │   ├── relationships.md       # Foreign keys, many-to-many
+│   │   │   ├── migrations-alembic.md  # Migration management
+│   │   │   └── async.md              # Async session patterns
+│   │   │
+│   │   ├── psycopg/
+│   │   │   ├── basics.md              # Connection, cursors
+│   │   │   ├── pooling.md             # Connection pooling
+│   │   │   └── async.md              # Async psycopg
+│   │   │
+│   │   └── redis/
+│   │       ├── basics.md              # Set, get, expire
+│   │       └── pubsub.md              # Pub/sub patterns
+│   │
+│   ├── testing/
+│   │   ├── pytest-basics.md           # Fixtures, parametrize, markers
+│   │   ├── mocking.md                 # unittest.mock, pytest-mock
+│   │   ├── http-testing.md            # Testing API endpoints
+│   │   └── fixtures-patterns.md       # Reusable test fixtures
+│   │
+│   ├── data/
+│   │   ├── pydantic-v2/
+│   │   │   ├── models.md              # BaseModel, validators
+│   │   │   ├── serialization.md       # model_dump, JSON schema
+│   │   │   └── settings.md            # BaseSettings for config
+│   │   │
+│   │   └── pandas/
+│   │       └── common-operations.md   # Read, filter, group, merge
+│   │
+│   └── patterns/
+│       ├── error-handling.md          # Exception hierarchies
+│       ├── retry-logic.md             # Tenacity, exponential backoff
+│       ├── env-config.md              # dotenv, typed settings
+│       └── cli-click.md              # Click CLI patterns
+│
+├── java/
+│   ├── stdlib/
+│   │   ├── collections.md             # List, Map, Set patterns
+│   │   ├── streams.md                 # Stream API operations
+│   │   ├── io-nio.md                  # File I/O, NIO.2
+│   │   ├── concurrency.md             # ExecutorService, CompletableFuture
+│   │   ├── records.md                 # Java 16+ records
+│   │   └── optional.md                # Optional patterns
+│   │
+│   ├── spring/
+│   │   ├── boot-basics.md             # @SpringBootApplication, config
+│   │   ├── spring-mvc.md              # @RestController, request mapping
+│   │   ├── spring-security/
+│   │   │   ├── jwt-auth.md            # JWT filter chain
+│   │   │   ├── oauth2.md              # OAuth2 client/resource server
+│   │   │   └── method-security.md     # @PreAuthorize, @PostFilter
+│   │   │
+│   │   ├── spring-data/
+│   │   │   ├── jpa-repositories.md    # Repository interfaces
+│   │   │   ├── queries.md             # Derived, @Query, Specification
+│   │   │   └── transactions.md        # @Transactional patterns
+│   │   │
+│   │   └── spring-test.md             # @SpringBootTest, MockMvc
+│   │
+│   ├── build/
+│   │   ├── maven/
+│   │   │   ├── pom-structure.md       # POM file patterns
+│   │   │   └── multi-module.md        # Multi-module projects
+│   │   │
+│   │   └── gradle/
+│   │       └── build-setup.md         # build.gradle.kts patterns
+│   │
+│   └── testing/
+│       ├── junit5.md                  # @Test, assertions, parameterized
+│       ├── mockito.md                 # Mocking patterns
+│       └── testcontainers.md          # Integration testing with Docker
+│
+├── typescript/
+│   ├── stdlib/
+│   │   ├── async-patterns.md          # Promises, async iterators
+│   │   ├── error-handling.md          # Typed errors, Result pattern
+│   │   └── generics.md                # Generic types, utility types
+│   │
+│   ├── runtime/
+│   │   ├── node/
+│   │   │   ├── fs.md                  # fs/promises patterns
+│   │   │   ├── http.md                # HTTP server/client
+│   │   │   ├── streams.md             # Readable, Writable, Transform
+│   │   │   ├── child-process.md       # spawn, exec patterns
+│   │   │   └── workers.md             # Worker threads
+│   │   │
+│   │   └── bun/
+│   │       └── basics.md              # Bun-specific APIs
+│   │
+│   ├── web/
+│   │   ├── nextjs/
+│   │   │   ├── app-router.md          # App directory patterns
+│   │   │   ├── server-actions.md      # Server actions
+│   │   │   ├── middleware.md          # Next middleware
+│   │   │   └── data-fetching.md       # ISR, SSR, SSG patterns
+│   │   │
+│   │   └── react/
+│   │       ├── hooks.md               # Custom hooks patterns
+│   │       ├── state.md               # useState, useReducer, Zustand
+│   │       └── forms.md               # Controlled components, react-hook-form
+│   │
+│   └── testing/
+│       ├── vitest.md                  # Vitest setup and patterns
+│       └── playwright.md              # E2E testing
+│
+├── crypto/
+│   ├── sha256.md                      # SHA-256 in Python, Java, TS
+│   ├── aes-encryption.md              # AES-GCM encryption/decryption
+│   ├── rsa-keygen.md                  # RSA key generation and usage
+│   ├── jwt-tokens.md                  # JWT creation and validation
+│   └── password-hashing.md            # bcrypt, argon2 patterns
+│
+├── db/
+│   ├── postgres/
+│   │   ├── migrations.md              # Migration SQL patterns
+│   │   ├── indexes.md                 # Index strategies
+│   │   ├── json-queries.md            # JSONB query patterns
+│   │   └── full-text-search.md        # tsvector, tsquery
+│   │
+│   ├── mysql/
+│   │   └── basics.md                  # Common MySQL patterns
+│   │
+│   └── mongodb/
+│       └── aggregation.md             # Aggregation pipeline
+│
+├── devops/
+│   ├── docker/
+│   │   ├── dockerfile-patterns.md     # Multi-stage, slim images
+│   │   └── compose.md                 # docker-compose patterns
+│   │
+│   ├── ci-cd/
+│   │   ├── github-actions.md          # Workflow YAML patterns
+│   │   └── gitlab-ci.md              # .gitlab-ci.yml patterns
+│   │
+│   └── kubernetes/
+│       ├── basics.md                  # Pod, Deployment, Service
+│       └── helm.md                    # Helm chart patterns
+│
+└── project-conventions/               # Project-specific overrides
+    ├── style-rules.md                 # Code style decisions
+    ├── naming.md                      # Naming conventions
+    ├── architecture.md                # Architecture decisions
+    └── banned-patterns.md             # Patterns not to use
+```
+---
+## 4. Entry Schema
+Every knowledge entry follows this structure:
+```yaml
+---
+# Frontmatter (machine-readable metadata)
+id: "python-stdlib-hashlib-sha256"
+title: "SHA-256 Hashing with hashlib"
+language: "python"
+category: "stdlib"
+subcategory: "cryptography"
+tags: ["hashlib", "sha256", "checksum", "integrity"]
+version: "3.12+"          # Language/library version
+retrieval_hint: "SHA-256 hashing file checksum integrity verify"
+last_verified: "2025-01-15"
+confidence: "high"         # high | medium | draft
+---
+# SHA-256 Hashing with hashlib
+## When to Use
+- Verifying file integrity (downloads, transfers)
+- Storing non-reversible identifiers (NOT for passwords — use bcrypt/argon2)
+- Creating deterministic fingerprints of data
+## Standard Pattern
+import hashlib
+def hash_string(data: str) -> str:
+    """Hash a string with SHA-256."""
+    return hashlib.sha256(data.encode("utf-8")).hexdigest()
+def hash_file(filepath: str, chunk_size: int = 8192) -> str:
+    """Hash a file with SHA-256 using streaming (memory-efficient)."""
+    sha256 = hashlib.sha256()
+    with open(filepath, "rb") as f:
+        while chunk := f.read(chunk_size):
+            sha256.update(chunk)
+    return sha256.hexdigest()
+## Common Mistakes
+# WRONG: Forgetting to encode strings
+hashlib.sha256("hello")           # TypeError
+# WRONG: Using SHA-256 for passwords
+hashlib.sha256(password.encode()).hexdigest()  # Vulnerable to rainbow tables
+# CORRECT: For passwords, use argon2 or bcrypt
+from argon2 import PasswordHasher
+ph = PasswordHasher()
+hash = ph.hash(password)
+## Gotchas
+- hashlib.sha256() returns bytes; use .hexdigest() for string output
+- For HMAC (message authentication), use hmac module, not raw SHA-256
+- SHA-256 output is always 64 hex characters (256 bits)
+## Related
+- python/stdlib/hmac.md
+- crypto/password-hashing.md
+```
+### Schema Fields Reference
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `id` | string | Yes | Unique identifier: `{lang}-{category}-{topic}` |
+| `title` | string | Yes | Human-readable title |
+| `language` | string | Yes | Primary language (python, java, typescript, etc.) |
+| `category` | string | Yes | Domain category (stdlib, web, db, testing, etc.) |
+| `subcategory` | string | No | Further classification |
+| `tags` | string[] | Yes | Searchable keywords |
+| `version` | string | No | Minimum language/library version |
+| `retrieval_hint` | string | Yes | Keywords for semantic/keyword retrieval |
+| `last_verified` | date | Yes | When this was last validated against real code |
+| `confidence` | enum | Yes | `high` (tested), `medium` (reviewed), `draft` (generated) |
+---
+## 5. Retrieval System
+### Option A: Simple — File-Based Grep (Zero Dependencies)
+```bash
+# Search for SHA-256 related knowledge
+grep -rl "sha256" knowledge-base/
+# Search by tag
+grep -rl "tags:.*hashlib" knowledge-base/
+# Search by language
+find knowledge-base/python -name "*.md" | head -20
+```
+**Pros:** Zero setup, git-trackable, works offline.
+**Cons:** No semantic search, no ranking.
+### Option B: Vector Database (Semantic Search)
+```
+┌─────────────┐     embed      ┌──────────────┐
+│ Knowledge    │───────────────►│ Vector Store  │
+│ Base (MD)    │                │ (Qdrant/      │
+└─────────────┘                 │  ChromaDB)    │
+                                └──────┬───────┘
+                                       │ similarity search
+                                ┌──────▼───────┐
+                                │ Query         │
+                                │ "How do I     │
+                                │ hash a file?" │
+                                └──────────────┘
+```
+**Recommended stack:**
+| Component | Tool | Why |
+|-----------|------|-----|
+| Embedding model | `BAAI/bge-small-en-v1.5` | Fast, local, good quality |
+| Vector store | ChromaDB or Qdrant | Lightweight, embedded mode |
+| Chunking | One entry = one chunk | Entries are already atomic |
+| Metadata filter | Language, category, tags | Pre-filter before embedding search |
+### Option C: Hybrid (Recommended for Production)
+1. **Metadata filter** — narrow by language + category first
+2. **Vector search** — find semantically relevant entries
+3. **Keyword boost** — bump entries containing exact query terms
+4. **Recency boost** — prefer recently verified entries
+```python
+def retrieve(query: str, language: str, top_k: int = 3) -> list[KnowledgeEntry]:
+    """Retrieve relevant knowledge entries for a code generation query."""
+
+    # Step 1: Filter by language
+    candidates = filter_by_metadata(language=language)
+
+    # Step 2: Semantic search
+    query_embedding = embed(query)
+    results = vector_store.search(
+        query_embedding,
+        filter={"language": language},
+        limit=top_k * 2,  # Over-fetch for re-ranking
+    )
+
+    # Step 3: Re-rank with keyword overlap
+    ranked = rerank(results, query)
+
+    return ranked[:top_k]
+```
+---
+## 6. Prompt Templates
+### System Prompt for Small LLM
+```
+You are a code generation assistant. Before writing any code, ALWAYS check
+the provided knowledge entries for relevant patterns and examples.
+RULES:
+1. Follow the patterns in the knowledge entries EXACTLY unless the user
+   explicitly requests a different approach.
+2. If no knowledge entry matches the task, say "No reference found for [topic]"
+   and write your best attempt, marking it with a # UNCERTAIN comment.
+3. Never invent API methods or parameters not shown in the entries.
+4. Include error handling as shown in the patterns — never write bare try/catch.
+5. Use the import style shown in the entries.
+KNOWLEDGE ENTRIES:
+{retrieved_entries}
+```
+### Retrieval Prompt Builder
+```python
+def build_prompt(user_request: str, language: str) -> str:
+    """Build a full prompt with retrieved knowledge for the small LLM."""
+
+    # Retrieve relevant entries
+    entries = retrieve(query=user_request, language=language, top_k=3)
+
+    # Format entries as context
+    knowledge_block = "\n\n---\n\n".join(
+        f"[Reference: {e.title}]\n{e.content}"
+        for e in entries
+    )
+
+    return f"""{SYSTEM_PROMPT}
+{knowledge_block}
+---
+USER REQUEST:
+{user_request}
+Write the code following the knowledge entry patterns above."""
+```
+### Curation Prompt (for Claude Opus / GPT-4)
+```
+You are curating a knowledge base entry for smaller LLMs to use as reference
+when writing code. The entry must be COMPLETE and CORRECT — a small model will
+copy these patterns verbatim.
+Create a knowledge base entry for: {topic}
+Language: {language}
+Category: {category}
+The entry MUST include:
+1. Frontmatter with all required schema fields
+2. "When to Use" section
+3. "Standard Pattern" section with complete, runnable code
+4. "Common Mistakes" section showing WRONG vs CORRECT examples
+5. "Gotchas" section listing non-obvious pitfalls
+6. "Related" section linking to other entries
+The code examples must:
+- Include all necessary imports
+- Use type hints where applicable
+- Include docstrings
+- Handle errors (no bare try/except)
+- Be compatible with {version}+
+Output in Markdown with YAML frontmatter.
+```
+---
+## 7. Example Entries
+### Entry: Python Requests — Basics
+```yaml
+---
+id: "python-web-requests-basics"
+title: "HTTP Requests with requests Library"
+language: "python"
+category: "web"
+subcategory: "http-client"
+tags: ["requests", "http", "get", "post", "api"]
+version: "3.10+"
+retrieval_hint: "HTTP GET POST requests API call REST client"
+last_verified: "2025-01-15"
+confidence: "high"
+---
+# HTTP Requests with requests Library
+## When to Use
+- Calling REST APIs
+- Downloading web resources
+- Interacting with third-party services
+- Quick HTTP debugging
+## Standard Pattern
+import requests
+from requests.exceptions import RequestException, Timeout
+def get_json(url: str, timeout: int = 10) -> dict:
+    """Make a GET request and return JSON response."""
+    try:
+        response = requests.get(url, timeout=timeout)
+        response.raise_for_status()
+        return response.json()
+    except Timeout:
+        raise RequestException(f"Request to {url} timed out after {timeout}s")
+    except requests.HTTPError as e:
+        raise RequestException(f"HTTP {e.response.status_code}: {e}")
+def post_json(url: str, data: dict, timeout: int = 10) -> dict:
+    """POST JSON data and return response."""
+    response = requests.post(
+        url,
+        json=data,           # Automatically sets Content-Type
+        timeout=timeout,
+    )
+    response.raise_for_status()
+    return response.json()
+## Common Mistakes
+# WRONG: No timeout — can hang forever
+requests.get("https://api.example.com/data")
+# CORRECT: Always set a timeout
+requests.get("https://api.example.com/data", timeout=10)
+# WRONG: Using data= for JSON payload
+requests.post(url, data={"key": "value"})  # Sends as form-encoded
+# CORRECT: Use json= for JSON payload
+requests.post(url, json={"key": "value"})  # Sends as application/json
+## Gotchas
+- Always set a timeout. Network calls without timeouts can block indefinitely.
+- response.json() can raise requests.exceptions.JSONDecodeError
+- Use response.raise_for_status() to catch HTTP errors early
+- For session persistence (cookies, connection pooling), use requests.Session()
+- The timeout parameter is (connect_timeout, read_timeout) as a tuple
+## Related
+- python/web/requests/auth.md
+- python/web/requests/error-handling.md
+- python/web/requests/sessions.md
+```
+### Entry: Java Spring Security — JWT Auth
+```yaml
+---
+id: "java-spring-security-jwt-auth"
+title: "JWT Authentication with Spring Security"
+language: "java"
+category: "spring"
+subcategory: "security"
+tags: ["jwt", "spring-security", "authentication", "filter", "token"]
+version: "17+"
+retrieval_hint: "JWT JSON Web Token authentication Spring Security filter chain"
+last_verified: "2025-01-15"
+confidence: "high"
+---
+# JWT Authentication with Spring Security
+## When to Use
+- Stateless API authentication
+- Microservices token validation
+- Mobile/single-page app auth flows
+## Standard Pattern
+### 1. Security Configuration
+@Configuration
+@EnableWebSecurity
+public class SecurityConfig {
+    private final JwtAuthenticationFilter jwtAuthFilter;
+    private final AuthenticationProvider authenticationProvider;
+    public SecurityConfig(JwtAuthenticationFilter jwtAuthFilter,
+                          AuthenticationProvider authenticationProvider) {
+        this.jwtAuthFilter = jwtAuthFilter;
+        this.authenticationProvider = authenticationProvider;
+    }
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        return http
+            .csrf(AbstractHttpConfigurer::disable)
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/api/auth/**").permitAll()
+                .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                .anyRequest().authenticated()
+            )
+            .sessionManagement(session -> session
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            )
+            .authenticationProvider(authenticationProvider)
+            .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+            .build();
+    }
+}
+### 2. JWT Filter
+@Component
+public class JwtAuthenticationFilter extends OncePerRequestFilter {
+    private final JwtService jwtService;
+    private final UserDetailsService userDetailsService;
+    @Override
+    protected void doFilterInternal(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            FilterChain filterChain) throws ServletException, IOException {
+        final String authHeader = request.getHeader("Authorization");
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+        String jwt = authHeader.substring(7);
+        String username = jwtService.extractUsername(jwt);
+        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+            if (jwtService.isTokenValid(jwt, userDetails)) {
+                UsernamePasswordAuthenticationToken authToken =
+                    new UsernamePasswordAuthenticationToken(
+                        userDetails, null, userDetails.getAuthorities()
+                    );
+                authToken.setDetails(new WebAuthenticationDetailsSource()
+                    .buildDetails(request));
+                SecurityContextHolder.getContext().setAuthentication(authToken);
+            }
+        }
+        filterChain.doFilter(request, response);
+    }
+}
+## Common Mistakes
+// WRONG: Not validating the token signature
+String username = JWT.decode(token).getSubject(); // No signature check!
+// CORRECT: Always validate signature and claims
+Claims claims = Jwts.parserBuilder()
+    .setSigningKey(getSigningKey())
+    .build()
+    .parseClaimsJws(token)
+    .getBody();
+// WRONG: Storing JWT in localStorage (XSS vulnerable)
+// CORRECT: Use httpOnly cookies or Authorization header
+## Gotchas
+- Always use STATELESS session management with JWT
+- The filter must call filterChain.doFilter() even if auth fails
+- Extract token from "Authorization: Bearer <token>" header
+- JWTs are not encrypted — don't put secrets in claims
+- Set reasonable expiration (15min access + refresh token pattern)
+## Related
+- java/spring/spring-security/oauth2.md
+- crypto/jwt-tokens.md
+```
+### Entry: Crypto — SHA-256 Cross-Language
+```yaml
+---
+id: "crypto-sha256"
+title: "SHA-256 Hashing Across Languages"
+language: "multi"
+category: "crypto"
+subcategory: "hashing"
+tags: ["sha256", "hash", "checksum", "integrity", "hashlib", "message-digest"]
+version: "n/a"
+retrieval_hint: "SHA-256 hash checksum verify file integrity fingerprint"
+last_verified: "2025-01-15"
+confidence: "high"
+---
+# SHA-256 Hashing Across Languages
+## When to Use
+- File integrity verification (downloads, backups)
+- Content-addressable storage (git-like hashing)
+- Data deduplication fingerprints
+- Deterministic identifiers from content
+## NEVER Use For
+- Password storage → use bcrypt, argon2, or scrypt
+- Encryption → SHA-256 is one-way, not encryption
+- HMAC → use the dedicated HMAC construction instead
+## Python
+import hashlib
+# Hash a string
+hashlib.sha256("hello world".encode("utf-8")).hexdigest()
+# → 'b94d27b9934d3e08a52e52d7da7dabfac484efe37a5380ee9088f7ace2efcde9'
+# Hash a file (streaming — memory efficient)
+def sha256_file(path: str) -> str:
+    h = hashlib.sha256()
+    with open(path, "rb") as f:
+        for chunk in iter(lambda: f.read(8192), b""):
+            h.update(chunk)
+    return h.hexdigest()
+## Java
+import java.security.MessageDigest;
+import java.nio.file.Files;
+import java.nio.file.Path;
+// Hash a string
+MessageDigest digest = MessageDigest.getInstance("SHA-256");
+byte[] hash = digest.digest("hello world".getBytes(StandardCharsets.UTF_8));
+// Convert to hex
+String hex = HexFormat.of().formatHex(hash);
+// Hash a file
+byte[] fileHash = digest.digest(Files.readAllBytes(Path.of("file.txt")));
+## TypeScript (Node.js)
+import { createHash } from "crypto";
+// Hash a string
+createHash("sha256").update("hello world").digest("hex");
+// Hash a file (streaming)
+import { createReadStream } from "fs";
+async function sha256File(path: string): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const hash = createHash("sha256");
+    createReadStream(path)
+      .on("data", (chunk) => hash.update(chunk))
+      .on("end", () => resolve(hash.digest("hex")))
+      .on("error", reject);
+  });
+}
+## Gotchas
+- SHA-256 output is always 64 hex characters (32 bytes, 256 bits)
+- Encoding matters: UTF-8 vs ASCII vs Latin-1 produce different hashes
+- Streaming is essential for large files — don't load entire file into memory
+- Python's .hexdigest() returns lowercase; Java's HexFormat can be uppercase
+- Node's crypto module is synchronous for strings but use streams for files
+## Related
+- crypto/password-hashing.md
+- crypto/aes-encryption.md
+- crypto/jwt-tokens.md
+```
+---
+## 8. Validation Pipeline
+Knowledge entries decay. Automated validation prevents staleness.
+```
+┌─────────────────┐
+│ Knowledge Entry  │
+└────────┬────────┘
+         │
+    ┌────▼─────┐
+    │  Schema   │──── Invalid ──► Fix or flag as draft
+    │  Check    │
+    └────┬─────┘
+         │ Valid
+    ┌────▼─────┐
+    │   Code    │──── Fails ────► Fix code example
+    │  Extract  │
+    └────┬─────┘
+         │ Extracted
+    ┌────▼─────┐
+    │    Run    │──── Errors ───► Fix or update version tag
+    │   Tests   │
+    └────┬─────┘
+         │ Pass
+    ┌────▼─────┐
+    │   Lint    │──── Warnings ─► Fix style
+    │  Check    │
+    └────┬─────┘
+         │ Clean
+    ┌────▼─────┐
+    │  Update   │
+    │  verified │
+    │   date    │
+    └───────────┘
+```
+### Validation Script (Python)
+```python
+#!/usr/bin/env python3
+"""Validate all knowledge base entries."""
+import re
+import subprocess
+import sys
+from pathlib import Path
+import yaml
+REQUIRED_FIELDS = {"id", "title", "language", "category", "tags",
+                   "retrieval_hint", "last_verified", "confidence"}
+def validate_frontmatter(filepath: Path) -> list[str]:
+    """Check YAML frontmatter has all required fields."""
+    errors = []
+    content = filepath.read_text()
+
+    match = re.match(r"^---\n(.*?)\n---", content, re.DOTALL)
+    if not match:
+        return ["Missing YAML frontmatter"]
+
+    try:
+        meta = yaml.safe_load(match.group(1))
+    except yaml.YAMLError as e:
+        return [f"Invalid YAML: {e}"]
+
+    missing = REQUIRED_FIELDS - set(meta.keys())
+    if missing:
+        errors.append(f"Missing fields: {missing}")
+
+    if meta.get("confidence") not in ("high", "medium", "draft"):
+        errors.append(f"Invalid confidence: {meta.get('confidence')}")
+
+    return errors
+def extract_code_blocks(filepath: Path) -> list[str]:
+    """Extract fenced code blocks from markdown."""
+    content = filepath.read_text()
+    return re.findall(r"```(?:python|java|typescript|javascript|bash)\n(.*?)```",
+                      content, re.DOTALL)
+def main():
+    kb_path = Path("knowledge-base")
+    errors_found = False
+
+    for md_file in kb_path.rglob("*.md"):
+        if md_file.name == "README.md":
+            continue
+
+        errors = validate_frontmatter(md_file)
+        if errors:
+            print(f"FAIL {md_file}: {'; '.join(errors)}")
+            errors_found = True
+        else:
+            print(f"OK   {md_file}")
+
+    sys.exit(1 if errors_found else 0)
+if __name__ == "__main__":
+    main()
+```
+---
+## 9. Implementation Roadmap
+### Phase 1: Foundation (Week 1)
+- [ ] Create repository with folder structure
+- [ ] Write schema specification (`schema.md`)
+- [ ] Build validation script
+- [ ] Curate 10 seed entries (Python stdlib + crypto)
+### Phase 2: Core Knowledge (Week 2–3)
+- [ ] Expand to 50 entries across Python, Java, TypeScript
+- [ ] Add project-conventions template
+- [ ] Set up basic grep-based retrieval
+- [ ] Write system prompt template
+- [ ] Test with a 7B model (e.g., Qwen2.5-Coder-7B)
+### Phase 3: Semantic Search (Week 4)
+- [ ] Set up ChromaDB or Qdrant
+- [ ] Generate embeddings for all entries
+- [ ] Build retrieval API
+- [ ] Add hybrid ranking (metadata + vector + keyword)
+- [ ] Benchmark retrieval accuracy
+### Phase 4: Production (Week 5–6)
+- [ ] Integrate with code generation pipeline
+- [ ] Add validation CI (run on every PR)
+- [ ] Build curation dashboard (optional)
+- [ ] Write usage guide for contributors
+- [ ] Performance testing with real coding tasks
+---
+## 10. Tech Stack Recommendations
+| Layer | Recommended | Alternative | Notes |
+|-------|-------------|-------------|-------|
+| Storage | Git repo (Markdown) | SQLite, MongoDB | Start simple, migrate later |
+| Embedding | `bge-small-en-v1.5` | `all-MiniLM-L6-v2` | Local, fast, good quality |
+| Vector DB | ChromaDB | Qdrant, pgvector | ChromaDB is easiest to start |
+| Retrieval | Custom Python | LangChain, LlamaIndex | Custom is simpler for this use case |
+| Small LLM | Qwen2.5-Coder-7B | DeepSeek-Coder-V2-Lite | Both run on consumer hardware |
+| Validation | pytest + ruff + checkstyle | Custom scripts | Use language-native tools |
+| CI | GitHub Actions | GitLab CI | Run validation on every PR |
+---
+## 11. Key Design Decisions
+### Why Markdown, not JSON/YAML?
+- Human-readable and editable
+- Natural for code examples with syntax highlighting
+- Git-diffable
+- LLMs generate Markdown natively
+- YAML frontmatter provides machine-readable metadata
+### Why One Entry Per File?
+- Atomic retrieval — fetch exactly what you need
+- Independent validation — test one entry at a time
+- Git history — track changes per topic
+- Parallel curation — multiple people/agents can work simultaneously
+### Why Not Just RAG on Documentation?
+- Official docs explain concepts; this shows **patterns**
+- Entries include **common mistakes** and **gotchas** — docs don't
+- Entries are **opinionated** — they show the ONE recommended way, not all ways
+- Entries include **cross-references** — connecting related topics
+### Why Not Fine-Tuning?
+- Knowledge changes frequently (library updates, new patterns)
+- Fine-tuning is expensive and slow to update
+- Retrieval is instant to update — just edit a file
+- You can mix and match knowledge per-project
+- Smaller context + retrieval often beats fine-tuning for code tasks
+---
+## 12. Quick Start
+```bash
+# 1. Create the repo
+mkdir knowledge-base && cd knowledge-base
+git init
+# 2. Copy the folder structure from Section 3
+# 3. Copy the schema from Section 4
+# 4. Copy seed entries from Section 7
+# 5. Validate
+python validate_kb.py
+# 6. Test retrieval
+grep -rl "sha256" . --include="*.md"
+# 7. Use with your small LLM
+# Inject retrieved entries into the prompt (see Section 6)
+```
+---
+*This document was designed for use with Claude Opus as the knowledge curator and smaller models (7B–14B) as the code consumers. The architecture is intentionally simple — start with files and grep, upgrade to vectors when you need semantic search.*
+# Todos
+[✓] Write comprehensive project design document: Retrieval-Ready Coding Knowledge Base for Small LLMs
+Written to /home/glenn/models/LLM_CODEBASE_KNOWLEDGE_BASE.md.
+What's in it:
+Section	Content
+Problem Statement	Why small models fail and what this solves
+Architecture Overview	Curate → Store → Index → Retrieve → Validate flow diagram
+Folder Structure	Full tree with ~80+ entry files across Python, Java, TypeScript, crypto, DB, devops
+Entry Schema	YAML frontmatter spec with all fields + full worked example (SHA-256)
+Retrieval System	Three options: simple grep, vector DB, hybrid (recommended) — with code
+Prompt Templates	System prompt for small LLM, retrieval builder, and curation prompt for Opus
+Example Entries	Three complete entries: Python requests, Java Spring JWT, cross-language SHA-256
+Validation Pipeline	Flow diagram + working validation script
+Roadmap	4 phases over 6 weeks
+Tech Stack	Concrete recommendations at every layer
+Design Decisions	Why Markdown, why one-file-per-entry, why RAG over fine-tuning
+Quick Start	7 commands to get running
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+You are continuing work on the LLM Codebase Knowledge Base project at /mnt/apps/ForLLm/.
+## Current State (DO NOT TOUCH — READ ONLY)
+- 70 entries across 7 categories, ALL validate_kb.py checks pass
+- 14/14 retrieval tests pass
+- Full pipeline: grep-based retrieval, hybrid (vector + keyword), prompt builder, benchmark
+- CI runs on every PR
+- Languages covered: Python (30), Java (12), TypeScript (13), Crypto (5), DB (5), DevOps (5), Conventions (2)
+## The Problem Right Now
+70 entries is a proof of concept. A small LLM trying to write real production code will hit gaps constantly. The knowledge base needs to be COMPREHENSIVE enough that a 7B model can go an entire work session without hitting an uncovered topic.
+Think about it this way: every time the small model retrieves NOTHING relevant, it falls back to guessing. That's the failure mode we're eliminating.
+## Your Mission
+Take this from "nice demo" to "actually useful." Build the knowledge base that would make a Qwen-7B coder write like a senior engineer. Be aggressive — cover the things small models ACTUALLY get wrong, not just the easy stuff.
+## Phase 8: Close the Gaps (Priority Order)
+### 1. Fill the obvious holes in existing languages
+**Python — missing critical topics:**
+- File I/O patterns (open, csv, json, tempfile, pathlib advanced)
+- Regular expressions (re module — small models HATE regex)
+- Decorators and context managers (advanced patterns)
+- subprocess / running external commands
+- Environment variables and config (os.environ, dotenv, pydantic-settings)
+- Data processing (pandas common operations, polars basics)
+- CLI tools (click, argparse)
+- Web scraping (beautifulsoup, basic playwright)
+- Email sending (smtplib)
+- Date/time (datetime, dateutil, timezone handling — small models ALWAYS get this wrong)
+- Multiprocessing vs threading vs asyncio (when to use which)
+- HTTP client alternatives (httpx — async support)
+- WebSocket patterns
+- File uploads (multipart, presigned URLs)
+**Java — barely started:**
+- Maven/Gradle build patterns (multi-module, dependency management)
+- Exception handling hierarchy (checked vs unchecked, custom exceptions)
+- File I/O (Files class, BufferedReader, NIO)
+- Regex (Pattern, Matcher)
+- Serialization (Jackson, Gson)
+- HTTP client (java.net.http.HttpClient)
+- Logging (SLF4J + Logback)
+- Builder pattern, Factory pattern, Singleton
+- Generics and wildcards (small models STRUGGLE here)
+- Optional deep dive (flatMap, or, ifPresentOrElse)
+- CompletableFuture advanced patterns
+- Spring Boot: profiles, configuration properties, actuator
+- Spring Data: custom queries, projections, auditing
+- Spring MVC: exception handling, validation, CORS
+- MockMvc deep testing patterns
+- Testcontainers for integration tests
+**TypeScript — missing heavy-hitting topics:**
+- Express/Fastify server patterns (the most common TS backend use case)
+- Database: Prisma, Drizzle ORM patterns
+- Authentication: NextAuth.js, passport.js
+- tRPC or similar typed API patterns
+- WebSocket (ws, socket.io)
+- Environment variables and config validation (zod)
+- Package publishing (npm, monorepo with turborepo)
+- Error handling patterns (neverthrow, effect)
+- Node.js: process management, graceful shutdown
+- TypeScript: declaration files, module augmentation, conditional types
+- Testing: mocking strategies, integration test patterns
+### 2. Add new languages (small models need these BADLY)
+- **Go** (10-15 entries): goroutines, channels, error handling, HTTP server, testing, modules, context, interfaces, slices/maps, concurrency patterns
+- **Rust** (8-10 entries): ownership, borrowing, Result/Option, async tokio, serde, error handling, traits, lifetimes basics, HTTP (axum/actix)
+- **SQL** (8-10 entries): window functions, CTEs, recursive queries, indexing strategies, query optimization, transaction patterns, PostgreSQL-specific features
+- **Bash/Shell** (5 entries): common scripting patterns, error handling, string manipulation, process management
+- **C#/.NET** (5-8 entries): LINQ, async/await, dependency injection, Entity Framework, ASP.NET basics
+### 3. Add cross-cutting topics
+- **API design**: REST conventions, error response formats, pagination, versioning, rate limiting
+- **Security**: OWASP top 10, input validation, SQL injection prevention, XSS prevention, CSRF
+- **Performance**: caching strategies, pagination patterns, N+1 query prevention, connection pooling
+- **Error handling**: structured error responses, error hierarchies per language, retry patterns with jitter
+- **Git workflows**: branching strategies, commit conventions, PR templates
+- **Docker deep dives**: multi-stage builds, security best practices, health checks, resource limits
+### 4. Improve existing entries
+For EVERY existing entry, add a `## Real-World Example` section showing the pattern used in a realistic (not toy) scenario. Small models need to see HOW the pieces fit together, not just isolated snippets.
+Example — the FastAPI auth-jwt entry should show the COMPLETE flow: user registers → password hashed → login returns JWT → protected endpoint validates JWT → token refresh. Not just the JWT creation function.
+### 5. Add anti-pattern entries
+Create a new category `anti-patterns/` with entries about things small models commonly do WRONG:
+- `python-antipatterns.md`: mutable defaults, bare except, == for None, import *, global variables, premature optimization
+- `java-antipatterns.md`: premature interface extraction, God classes, catching Exception, string concatenation in loops, neglecting equals/hashCode
+- `typescript-antipatterns.md`: any type, non-null assertion, async in useEffect, prop drilling, premature abstraction
+- `security-antipatterns.md`: hardcoded secrets, SQL string formatting, eval usage, trust-without-verify, missing input validation
+- `performance-antipatterns.md`: N+1 queries, unbounded collections, missing pagination, synchronous blocking in async code
+## Rules
+1. Every new entry MUST pass validate_kb.py (correct frontmatter, all required sections)
+2. Code examples MUST be runnable — include ALL imports
+3. `Common Mistakes` sections are THE MOST IMPORTANT PART — this is where small models learn what NOT to do
+4. Follow the existing pattern exactly (read any 2-3 existing entries first)
+5. After adding entries, run validate_kb.py and fix any failures
+6. Update README.md stats when done
+7. Each anti-pattern entry should have 5-10 WRONG/CORRECT pairs — this is where the value is
+## Success Criteria
+- At minimum 150 total entries (up from 70)
+- At minimum 3 new languages with meaningful coverage
+- Anti-patterns category with 5+ entries
+- Every existing entry upgraded with a Real-World Example section
+- ALL entries pass validation
+- README.md updated with new stats
+Start with the anti-patterns — they provide the highest immediate value for small model correction. Then fill Python gaps (most used). Then add Go (most requested by small model users). Then whatever you have capacity for.
+Do NOT rewrite existing infrastructure (retrieval.py, schema.md, etc.) unless you find actual bugs. Focus on CONTENT.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+You are continuing work on the LLM Codebase Knowledge Base at /mnt/apps/ForLLm/.
+## Current State (DO NOT TOUCH — READ ONLY)
+- 153 entries, ALL validate_kb.py checks pass, 14/14 retrieval tests pass
+- 10 languages: Python (44), Java (26), TypeScript (19), Go (12), Rust (9), C# (6), Bash (5), SQL (8), Crypto (5), + cross-cutting (18), anti-patterns (5)
+- Full pipeline: grep retrieval, hybrid vector+keyword, prompt builder, benchmark, CI
+## The Situation
+153 entries is good. It's a real knowledge base now. But think about what a small model actually encounters in a day of coding:
+- A Python backend dev needs: FastAPI + SQLAlchemy + Redis + pytest + Docker + GitHub Actions + error handling + retry logic. That's 8 different topics in ONE task. Our 44 Python entries cover most of it, but what about Celery? Alembic downgrade strategies? FastAPI background tasks? Pytest parametrize with fixtures? These gaps mean the small model falls back to guessing mid-task.
+- A TypeScript full-stack dev needs: Express + Prisma + NextAuth + React hooks + WebSocket + Vitest + Docker. Our TS coverage has Express and Prisma in single files. No auth. No forms. No state management beyond basics. No Tailwind patterns. No monorepo setup.
+- A Java backend dev hits our 26 entries and then asks about Gradle, or Jackson customization, or Spring Cloud, or Testcontainers, or reactive programming. Dead end.
+The pattern is clear: we have WIDTH (many languages) but not DEPTH (enough entries per language to cover a real work session). Time to go deep.
+## Your Mission — Phase 9: Go Deep
+Stop expanding horizontally. Every language we have needs DEPTH before we add new ones. A small model working in Python should be able to retrieve something useful for 90% of the questions it encounters. Same for Java, TypeScript, Go.
+## Specific Targets
+### 1. Python Deep Dive (target: 75 entries, currently 44 — need +31)
+Missing critical topics small models CONSTANTLY get wrong:
+**Web framework gaps:**
+- FastAPI: background tasks, dependency injection deep-dive, CORS, static files, OAuth2 password flow (not just JWT), SSE (Server-Sent Events), file response/streaming response
+- Flask basics: app factory, blueprints, Jinja templates (many legacy codebases use Flask)
+- Django basics: models, views, URLs, admin, ORM queries (massive ecosystem, many codebases)
+**Database gaps:**
+- SQLAlchemy async session patterns
+- Redis: pub/sub, caching patterns, rate limiting with Redis
+- Alembic: downgrade strategies, data migrations, branching
+- SQLite patterns (embedded, testing, small projects)
+**Data/ML adjacent:**
+- pydantic v2: computed fields, validators, JSON schema generation, settings with env files
+- Data processing: polars basics (growing fast), csv module, json module (nested parsing)
+**Infra adjacent:**
+- Celery/task queues basics (async task processing)
+- Docker SDK for Python
+- sentry/error tracking integration
+**stdlib gaps:**
+- unittest (legacy codebases)
+- zipfile/tarfile
+- email/smtplib
+- xml/elementtree
+- socket programming basics
+- typing: Protocol, TypeVar, ParamSpec, overload
+**Testing gaps:**
+- pytest: conftest.py patterns, parametrize advanced, fixtures scope and cleanup
+- Testing async code
+- Snapshot testing
+### 2. Java Deep Dive (target: 40 entries, currently 26 — need +14)
+**Spring Boot gaps:**
+- Configuration properties with @ConfigurationProperties (NOT just @Value)
+- Profiles (dev/staging/prod)
+- Actuator endpoints
+- Scheduled tasks (@Scheduled)
+- Caching with Spring (@Cacheable)
+- Spring Boot testing deep-dive (@SpringBootTest, @WebMvcTest, @DataJpaTest — when to use which)
+**Spring MVC gaps:**
+- Global exception handling (@ControllerAdvice)
+- Request/response validation (Bean Validation)
+- CORS configuration
+- File upload/download
+- Content negotiation (JSON vs XML)
+**Spring Data gaps:**
+- Custom repository implementations
+- Specifications (Criteria API wrapper)
+- Projections (DTO interfaces)
+- Auditing (created/modified dates)
+- Pagination and sorting
+**Build/Tooling gaps:**
+- Gradle build patterns (many projects use Gradle not Maven)
+- Lombok patterns
+- MapStruct (object mapping)
+**Testing gaps:**
+- Mockito deep-dive (when/then, argument captors, verifying calls)
+- Testcontainers (PostgreSQL, Kafka, Redis)
+- Spring Security testing (@WithMockUser)
+### 3. TypeScript Deep Dive (target: 35 entries, currently 19 — need +16)
+**Frontend framework gaps:**
+- React: forms (react-hook-form or controlled components), Context API, performance patterns (useMemo, useCallback, React.memo), error boundaries, Suspense patterns, Server Components patterns
+- Next.js: layouts, loading states, error handling, route groups, middleware auth, ISR vs SSR vs SSG decision guide
+- Tailwind CSS: common utility patterns, responsive design, dark mode
+- tRPC or similar typed API patterns
+**Backend gaps:**
+- Express: middleware chains, error handling middleware, route organization, auth middleware pattern
+- Prisma: migrations, seed data, relations queries, transactions
+- NextAuth.js / Auth.js: setup, providers, callbacks, session management
+- Zod validation patterns (NOT just env config — form validation, API validation)
+**State management:**
+- Zustand patterns (most popular lightweight option)
+- React Query / TanStack Query (data fetching + caching)
+**Testing gaps:**
+- React Testing Library patterns
+- Playwright for E2E
+- MSW (Mock Service Worker) for API mocking
+### 4. Go Deep Dive (target: 20 entries, currently 12 — need +8)
+- Database: database/sql, sqlx, GORM patterns, migrations
+- Testing: table-driven tests, httptest, testify assertions
+- Web framework: Chi router, Echo basics
+- JSON handling: encoding/json, custom marshaling
+- Concurrency: sync.WaitGroup, sync.Pool, errgroup, semaphore patterns
+- Configuration: Viper, environment variables
+- Logging: slog (structured logging, new in Go 1.21)
+- File handling: io.Reader/io.Writer patterns
+### 5. Rust Deep Dive (target: 15 entries, currently 9 — need +6)
+- Error handling: thiserror, anyhow crates
+- Axum deep-dive: extractors, middleware, state sharing, error responses
+- Database: SQLx patterns, Diesel basics
+- CLI: clap argument parsing
+- Testing: #[test], integration tests, property testing
+- Iterators and closures deep-dive
+### 6. Cross-Cutting Additions (need +10)
+- Git workflows: branching strategies, commit conventions, rebasing vs merging
+- API versioning strategies
+- Rate limiting patterns (token bucket, sliding window)
+- Webhook patterns (receiving, verifying signatures, retrying)
+- Logging best practices (structured logging across languages)
+- Health check patterns
+- Graceful shutdown patterns
+- Feature flags
+- Secret management (not in code, env vars, vault basics)
+- Monitoring/observability basics (OpenTelemetry concepts)
+### 7. Add Anti-Patterns for New Languages
+- Go anti-patterns (error ignoring, goroutine leaks, exported unexported confusion, interface pollution, naked returns in long functions)
+- Rust anti-patterns (unnecessary clones, Deref for inheritance, unwrap in production, ignoring Result)
+- SQL anti-patterns (SELECT *, N+1 in queries, implicit type casting, no indexes on foreign keys)
+- General anti-patterns: premature optimization, cargo cult programming, over-abstraction
+## Entry Quality Bar
+Every entry MUST include ALL of these sections. If you can't fill a section, the topic is too narrow — pick a broader topic:
+1. **When to Use** — specific scenarios, not generic descriptions
+2. **Standard Pattern** — COMPLETE, RUNNABLE code with all imports, types, error handling
+3. **Common Mistakes** — at least 3 WRONG/CORRECT pairs. This is the highest-value section.
+4. **Gotchas** — non-obvious pitfalls. Things that compile/run but produce wrong results.
+5. **Related** — links to at least 2 other entries
+## Rules
+1. Follow schema.md EXACTLY — correct frontmatter, all required sections
+2. Every entry passes validate_kb.py
+3. DO NOT rewrite existing entries unless they have actual bugs
+4. DO NOT touch infrastructure (retrieval.py, schema.md, etc.)
+5. Update README.md stats when done
+6. Run validate_kb.py at the end — all must pass
+## Success Criteria
+- At minimum 200 total entries (up from 153)
+- Python: 75+ entries
+- Java: 40+ entries
+- TypeScript: 35+ entries
+- Go: 20+ entries
+- Rust: 15+ entries
+- 10+ new cross-cutting entries
+- 4+ new anti-pattern entries (Go, Rust, SQL, general)
+- ALL entries pass validation
+- README.md updated
+Start with the deepest gaps: Python web frameworks (FastAPI advanced, Flask basics, Django basics) and Java Spring deep-dives. These are the highest-traffic topics for small models.
+Work in parallel batches. Don't write one entry at a time — write 5-10 per batch.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+You are continuing work on the LLM Codebase Knowledge Base at /mnt/apps/ForLLm/.
+## Current State (DO NOT TOUCH — READ ONLY)
+242 entries, all passing validation, 14/14 retrieval tests passing.
+Inventory by directory:
+- python/stdlib: 25 entries
+- python/web/fastapi: 13 entries
+- python/testing: 6 entries
+- python/db/sqlalchemy-2.0: 6 entries
+- python/db/redis: 3 entries
+- python/web/requests: 4 entries
+- python/web/flask: 2 entries
+- python/web/django: 1 entry
+- python/concurrency: 2 entries
+- python/data: 4 entries (pandas, polars, pydantic x2)
+- python/patterns: 2 entries
+- java/stdlib: 15 entries
+- java/spring (all): 17 entries (boot, mvc, data, security)
+- java/testing: 4 entries
+- java/build: 2 entries
+- typescript/stdlib: 6 entries
+- typescript/web/react: 6 entries
+- typescript/web/nextjs: 5 entries
+- typescript/testing: 4 entries
+- typescript/runtime/node: 3 entries
+- typescript/state: 2 entries
+- go/stdlib: 10 entries, go/web: 3, go/testing: 3, go/db: 2, go/concurrency: 2
+- rust/stdlib: 10 entries, rust/web: 2, rust/testing: 1, rust/db: 1, rust/concurrency: 1
+- csharp: 6 entries
+- bash: 5 entries
+- crypto: 5 entries
+- db/postgres: 10 entries, db/mongodb: 1
+- devops: 5 entries (docker x2, k8s x2, github-actions)
+- anti-patterns: 9 entries
+- patterns: 10 entries (cross-cutting)
+- api-design: 2, security: 1, performance: 3, error-handling: 1, docker: 1
+## The Situation
+We have CONTENT. 242 entries is real. But think about this from the small model's perspective:
+**Problem 1: The retrieval pipeline is still toy-grade.**
+The test_retrieval.py has 14 hardcoded test cases. The benchmark.py runs 10 queries. That's nowhere near enough to know if retrieval actually works across the full knowledge base. We need 100+ test queries covering every category, and we need to know the actual recall/precision numbers.
+**Problem 2: Entries have never been tested against a real small model.**
+We wrote entries FOR small models but never verified a small model can actually USE them. Does the prompt_builder.py output actually make a 7B model write better code? We don't know. Time to find out.
+**Problem 3: Some categories are embarrassingly thin.**
+- Django: 1 entry (it's used by MILLIONS of developers)
+- MongoDB: 1 entry (just aggregation, no CRUD, no indexing, no schema design)
+- Spring Security: 1 entry (JWT only — no OAuth2, no method security, no CSRF)
+- Rust web: 2 entries (axum basics + axum deep — no middleware, no auth, no DB integration)
+- C# testing: 1 entry (xUnit only)
+- DevOps CI/CD: only GitHub Actions (no GitLab, no Jenkins, no CircleCI)
+**Problem 4: No integration guide.**
+A developer who finds this repo has NO idea how to actually wire it to their LLM setup. How do they use it with Ollama? With LM Studio? With a custom pipeline? There's no "quickstart for actual usage" beyond `python retrieval.py`.
+## Your Mission — Phase 10: Make It Real
+This phase is about making the knowledge base PRODUCTION-READY, not just comprehensive.
+## Specific Targets
+### 1. Scale the Retrieval Test Suite (CRITICAL)
+Current: 14 test queries. That's 14/242 entries covered = 6% test coverage.
+**Build a comprehensive test suite:**
+Create `test_retrieval_comprehensive.py` with:
+- At least 100 test queries covering ALL 242+ entries
+- Each query maps to 1-3 expected entry IDs
+- Cover every language directory (python, java, typescript, go, rust, csharp, bash)
+- Cover every cross-cutting category (anti-patterns, patterns, crypto, db, devops, api-design, security, performance)
+- Include "hard" queries: vague queries, typos, concept-only queries ("how do I handle errors", "make my code faster")
+- Include multi-hop queries where the answer spans 2+ entries ("set up FastAPI with JWT auth and test it")
+- Track and report: recall@1, recall@3, recall@5 for both grep and hybrid retrieval
+- FAIL the test if overall recall@3 drops below 80%
+**Also add regression tests in `test_entries_quality.py`:**
+- Every entry has code blocks that look syntactically valid (balanced braces, proper indentation markers)
+- Every entry has at least 2 Common Mistakes WRONG/CORRECT pairs
+- Every entry has at least 2 Gotchas
+- Every entry has at least 2 Related links
+- No duplicate IDs across the entire knowledge base
+- All Related links point to files that actually exist
+- No entry exceeds 500 lines (entries too long won't fit in small model context)
+### 2. Fill the Embarrassing Gaps (+30 entries)
+**Django (need 6, have 1):**
+- Django ORM queries (filter, annotate, aggregate, Q objects, F expressions)
+- Django views and URLs (function views, class-based views, URL routing)
+- Django REST Framework basics (serializers, viewsets, authentication)
+- Django templates and forms
+- Django admin customization
+- Django testing
+**Spring Security (need 4, have 1):**
+- OAuth2 client/resource server setup
+- Method-level security (@PreAuthorize, @PostFilter, SpEL expressions)
+- CSRF protection and when to disable it
+- Spring Security testing (@WithMockUser, @WithUserDetails)
+**Rust Web (need 4, have 2):**
+- Axum middleware and extractors
+- Axum state sharing and error responses
+- Rust auth patterns (session vs JWT in Axum)
+- Tower middleware concepts
+**MongoDB (need 4, have 1):**
+- CRUD operations and indexing
+- Schema design patterns (embedding vs referencing)
+- Aggregation pipeline advanced ($lookup, $facet, $bucket)
+- Change streams and transactions
+**C#/.NET (need 4, have 6):**
+- ASP.NET middleware and error handling
+- ASP.NET authentication (JWT bearer)
+- Configuration and options pattern
+- Background services (IHostedService, Worker Service)
+**DevOps (need 4, have 5):**
+- Terraform basics (resource, module, state)
+- Ansible basics (playbook, role, inventory)
+- Nginx reverse proxy patterns
+- SSL/TLS certificate management (certbot, Let's Encrypt)
+### 3. Build the Integration Guide
+Create `docs/integration-guide.md` with working examples for:
+**a. Ollama Integration:**
+```python
+# Complete working script: query → retrieve → build prompt → call Ollama API → output code
+# Show how to configure model, temperature, context window
+# Show before/after: same query without knowledge vs with knowledge
+b. LM Studio Integration:
+# Same thing but using LM Studio's local API
+# Include curl examples for testing
+c. OpenAI-compatible API:
+# Generic integration that works with any OpenAI-compatible endpoint
+# Show system prompt construction from prompt_builder.py
+d. CLI Tool:
+# Build a simple CLI that does: ask question → retrieve → generate → output
+# python generate.py "write a FastAPI endpoint with JWT auth" --model codellama:7b
+e. IDE Integration concept:
+# How this could plug into VS Code / Neovim
+# Show the prompt construction pipeline
+# Explain context window budgeting (how many entries fit in 4K/8K/16K context)
+4. Context Window Budget Calculator
+Create scripts/context_budget.py:
+# Calculate: given a model's context window (e.g., 4096, 8192, 16384, 32768 tokens)
+# And a user query (estimated tokens)
+# And system prompt overhead
+# How many knowledge entries can be retrieved and injected?
+#
+# Should:
+# 1. Tokenize each entry (using tiktoken or similar)
+# 2. Rank entries by relevance
+# 3. Select the maximum number that fit in the budget
+# 4. Report: "For a 8192-token context model, with 500-token query and 200-token system prompt,
+#    you can fit ~3-5 knowledge entries (avg 1500 tokens each)"
+#
+# This is CRITICAL for production use — nobody knows how many entries to retrieve
+# without overshooting the context window.
+5. Build a Quality Scorecard
+Create scripts/quality_scorecard.py:
+# Score the entire knowledge base on:
+# - Coverage score: what % of common coding tasks have at least one entry?
+# - Depth score: avg entries per category
+# - Cross-reference score: what % of entries have valid Related links?
+# - Freshness score: how many entries have last_verified within 6 months?
+# - Anti-pattern coverage: how many categories have anti-pattern entries?
+# - Test coverage: what % of entries are covered by retrieval tests?
+#
+# Output a single dashboard:
+# ┌─────────────────────────┬────────┐
+# │ Metric                  │ Score  │
+# ├─────────────────────────┼────────┤
+# │ Coverage                │ 72/100 │
+# │ Depth                   │ 85/100 │
+# │ Cross-references        │ 90/100 │
+# │ Freshness               │ 60/100 │
+# │ Anti-pattern coverage   │ 78/100 │
+# │ Retrieval test coverage │  8/100 │  ← this should hurt
+# │ OVERALL                 │ 65/100 │
+# └─────────────────────────┴────────┘
+6. Upgrade the Prompt Builder
+prompt_builder.py currently injects raw knowledge entries. Make it smarter:
+# Add these features to prompt_builder.py:
+# 1. Context window budgeting
+#    - Accept max_tokens parameter
+#    - Tokenize entries and trim to fit
+#    - Prioritize entries with higher confidence scores
+# 2. Entry summarization for tight budgets
+#    - When context is tight, extract just the Standard Pattern + Gotchas
+#    - Drop Common Mistakes and When to Use to save tokens
+#    - Flag: "Showing condensed version — 2 of 5 entries truncated"
+# 3. Language-aware filtering
+#    - If query mentions "Python" or "FastAPI", boost python/ entries
+#    - Always include relevant anti-patterns entry if one exists
+#    - Always include relevant error-handling entry if one exists
+# 4. Output the assembled prompt with metadata
+#    - Show token count per section
+#    - Show which entries were included and why
+#    - Show budget usage: "Query: 45 tokens | System: 180 tokens | Knowledge: 3200 tokens | Remaining: 4771 tokens"
+Rules
+1. DO NOT touch existing entries unless they have actual bugs
+2. DO NOT modify schema.md or validate_kb.py
+3. New test files must pass alongside existing tests
+4. All new entries must pass validate_kb.py
+5. Integration guide code examples must be COMPLETE and RUNNABLE — no pseudocode
+6. Update README.md with new stats and add link to integration guide
+Success Criteria
+- 272+ total entries (242 + 30 new gap-fillers)
+- 100+ retrieval test queries with recall@3 > 80%
+- Quality scorecard script producing a dashboard
+- Context budget calculator script working
+- Integration guide with working Ollama + LM Studio + OpenAI examples
+- Prompt builder upgraded with budget and language-aware features
+- ALL tests pass (validation + old retrieval + comprehensive retrieval + quality)
+- README.md updated
+Start with the retrieval test suite — that's the most impactful work. If retrieval doesn't work well, the entries are useless regardless of quality.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+You are continuing work on the LLM Codebase Knowledge Base at /mnt/apps/ForLLm/.
+## Current State (DO NOT TOUCH — READ ONLY)
+- 272 entries, ALL validation pass, 2671/2671 tests pass
+- recall@3: 97.8%, recall@5: 98.6%
+- Quality scorecard: 72/100
+  - Coverage: 100 | Depth: 97 | Cross-refs: 90 | **Freshness: 0** | **Anti-patterns: 60** | Retrieval: 88
+- 10 languages: Python, Java, TypeScript, Go, Rust, C#, Bash, SQL, Crypto, DevOps
+- Integration guide with Ollama, LM Studio, OpenAI, CLI examples
+- Context budget calculator, quality scorecard, upgraded prompt builder
+## The Situation
+72/100 scorecard. Here's what's dragging it down:
+**Freshness: 0/100** — ALL 283 entries have `last_verified: "2025-01-15"`. Every single one. The scorecard probably checks whether dates are within a recent window (6 months?) and they're all frozen. This is a data quality problem that makes the whole KB look stale, even though the content was just generated.
+**Anti-patterns: 60/100** — We have 9 anti-pattern entries (Python, Java, TypeScript, Go, Rust, SQL, security, performance, general). Missing: C# anti-patterns, Bash anti-patterns, Django anti-patterns, React anti-patterns. These are languages/frameworks where small models make SPECIFIC, PREDICTABLE mistakes.
+**The bigger picture:** We've built an impressive knowledge base. 272 entries, great retrieval, good tests. But we've never answered the fundamental question: **does using this knowledge base actually make a small model write better code?** We assume it does, but we have zero evidence.
+Phase 11 is about PROVING this works and fixing the quality gaps.
+## Your Mission — Phase 11: Prove It Works
+### 1. Fix the Freshness Problem (HIGH IMPACT, LOW EFFORT)
+The scorecard shows Freshness: 0/100 because all `last_verified` dates are frozen at "2025-01-15".
+**What to do:**
+a) Write a script `scripts/update_freshness.py` that:
+- Reads every entry's frontmatter
+- For entries with `confidence: "high"`, sets `last_verified` to today's date
+- For entries with `confidence: "draft"`, leaves the date alone (they haven't been verified)
+- Only updates the date, nothing else
+- Reports: "Updated X dates. Y drafts left unchanged."
+b) Run it. Then run quality_scorecard.py again. Freshness should jump to 90+.
+c) Going forward, the validation pipeline should enforce: entries with `confidence: "high"` MUST have `last_verified` within the last 6 months. Add this as an optional check to validate_kb.py (warning, not error — don't break CI).
+### 2. Fill Anti-Pattern Gaps (+4 entries)
+**C# Anti-Patterns:**
+- async void (should be async Task)
+- .Result or .Wait() on Tasks (deadlocks)
+- Catching Exception base type
+- String concatenation in loops (use StringBuilder)
+- Overusing LINQ for side effects
+- Not disposing IDisposable resources
+- God classes with 20+ responsibilities
+**Bash Anti-Patterns:**
+- Not quoting variables (`$var` vs `"$var"`)
+- Using `ls` output in loops
+- `cat file | grep` instead of `grep < file`
+- Not using `set -euo pipefail`
+- Parsing `ls` output
+- Using backticks instead of `$()`
+- Not checking exit codes
+**React Anti-Patterns:**
+- Storing derived state in useState
+- useEffect with missing/wrong dependencies
+- Prop drilling instead of Context
+- Inline object/function creation in JSX (re-renders)
+- Not using key in .map()
+- Fetching in useEffect without cleanup
+- Mutating state directly
+**Django Anti-Patterns:**
+- Queries in loops (N+1, use select_related/prefetch_related)
+- Using .all() when you need .filter()
+- Fat views instead of using forms/serializers
+- Not using select_related for foreign keys
+- Raw SQL when ORM can do it
+- Not using database transactions
+- Ignoring migration squashing
+### 3. Build the Proof: Code Generation Benchmark (THE DELIVERABLE)
+This is the most important thing in this entire phase. We need PROOF that the knowledge base makes small models write better code.
+**Create `scripts/codegen_benchmark.py`:**
+The benchmark tests code generation quality WITH and WITHOUT knowledge base retrieval.
+a) Define 20 coding tasks across languages:
+```python
+CODING_TASKS = [
+    # Python
+    {"id": "py-1", "language": "python", "task": "Write a FastAPI endpoint that accepts a file upload, validates it's a PDF under 10MB, saves it to disk, and returns the file path.", "quality_criteria": ["handles missing file", "validates MIME type", "validates size", "uses Path for file path", "has error responses", "returns JSON"]},
+    {"id": "py-2", "language": "python", "task": "Write a Python function that hashes a file using SHA-256 with streaming and verifies it against an expected hash.", "quality_criteria": ["uses hashlib", "streams in chunks", "handles file not found", "handles permission errors", "returns bool or raises", "uses context manager"]},
+    {"id": "py-3", "language": "python", "task": "Write a SQLAlchemy 2.0 model for User with email (unique), hashed password, created_at, and a relationship to Post. Include a query to get users with more than 5 posts.", "quality_criteria": ["uses Mapped[] type hints", "uses relationship()", "uses func.count", "uses select() style", "email has unique=True", "password is not called 'password'"]},
+    # Java
+    {"id": "java-1", "language": "java", "task": "Write a Spring Boot REST controller for a /api/users endpoint with GET (paginated), POST (with validation), and GET /{id}. Include proper error handling.", "quality_criteria": ["uses @RestController", "uses Pageable", "uses @Valid", "uses ResponseEntity", "handles NotFoundException", "uses Bean Validation annotations"]},
+    {"id": "java-2", "language": "java", "task": "Write a Java method that reads a file line by line, filters lines containing a keyword, and returns them as a List using Streams API.", "quality_criteria": ["uses Files.lines()", "uses try-with-resources", "uses .filter()", "uses .toList()", "handles IOException", "closes resources"]},
+    # TypeScript
+    {"id": "ts-1", "language": "typescript", "task": "Write an Express middleware that validates a JWT token from the Authorization header, extracts the user ID, and attaches it to the request object.", "quality_criteria": ["extracts Bearer token", "validates JWT", "attaches to req object", "handles missing token", "handles invalid token", "calls next()", "proper TypeScript types"]},
+    {"id": "ts-2", "language": "typescript", "task": "Write a React hook that fetches data from an API with loading state, error state, and automatic retry on failure.", "quality_criteria": ["uses useState for loading/error/data", "uses useEffect", "implements retry logic", "handles cleanup/abort", "TypeScript generics", "handles empty state"]},
+    # Go
+    {"id": "go-1", "language": "go", "task": "Write a Go HTTP handler that accepts JSON, validates it, saves to a database using database/sql, and returns the created resource.", "quality_criteria": ["uses json.Decoder", "validates input", "uses prepared statement", "returns inserted ID", "proper error handling", "sets Content-Type header"]},
+    {"id": "go-2", "language": "go", "task": "Write a Go function that runs N concurrent HTTP requests, collects results, and returns the first error or all results. Use context for timeout.", "quality_criteria": ["uses goroutines", "uses sync.WaitGroup or errgroup", "uses context.WithTimeout", "collects all results", "handles partial failure", "no goroutine leaks"]},
+    # Rust
+    {"id": "rust-1", "language": "rust", "task": "Write an Axum handler that accepts JSON, validates it with serde, saves to a Vec in shared state, and returns the created item.", "quality_criteria": ["uses Axum extractors", "uses serde Deserialize/Serialize", "uses Arc<Mutex<Vec>>", "returns proper HTTP status", "handles JSON parse errors", "proper Rust error types"]},
+    # Cross-language
+    {"id": "cross-1", "language": "python", "task": "Write a Python script that connects to PostgreSQL, runs a migration to add a column, and handles the case where the column already exists.", "quality_criteria": ["uses psycopg or sqlalchemy", "checks IF NOT EXISTS", "handles connection errors", "uses transactions", "logs the migration step"]},
+    {"id": "cross-2", "language": "typescript", "task": "Write a Dockerfile for a Node.js TypeScript app with multi-stage build, non-root user, and health check.", "quality_criteria": ["multi-stage build", "copies package*.json first", "npm ci not npm install", "non-root USER", "EXPOSE port", "HEALTHCHECK instruction"]},
+    # ... add 7 more covering C#, Bash, Django, Redis, etc.
+]
+b) For each task, the benchmark does:
+1. Build prompt WITHOUT knowledge: system prompt + task description only
+2. Build prompt WITH knowledge: use prompt_builder.py to retrieve relevant entries + task description
+3. Compare both outputs against quality_criteria
+4. Score: each criterion met = 1 point. Max per task = len(quality_criteria)
+c) Since we can't actually run an LLM in CI, make the benchmark work in TWO modes:
+Mode 1: Manual mode (runs with a real LLM)
+python scripts/codegen_benchmark.py --provider ollama --model qwen2.5-coder:7b
+python scripts/codegen_benchmark.py --provider openai --model gpt-3.5-turbo
+Actually calls the LLM and scores the output.
+Mode 2: Prompt export mode (no LLM needed)
+python scripts/codegen_benchmark.py --export-prompts
+Exports all 20 prompts (with and without knowledge) to benchmark_prompts/ as JSON files. A human or LLM can then review them side-by-side and score manually.
+d) Output format:
+===============================================
+CODE GENERATION BENCHMARK RESULTS
+===============================================
+Model: qwen2.5-coder:7b
+Tasks: 20
+Criteria: 104 total
+WITHOUT Knowledge Base:
+  Score: 47/104 (45.2%)
+  Tasks fully correct: 3/20
+WITH Knowledge Base:
+  Score: 78/104 (75.0%)
+  Tasks fully correct: 11/20
+IMPROVEMENT: +30.8 percentage points (+66% relative improvement)
+Worst improvements:
+  py-1 (file upload):    2/6 → 5/6  (+3)
+  java-1 (REST API):     3/6 → 5/6  (+2)
+  go-1 (HTTP handler):   2/6 → 5/6  (+3)
+No improvement:
+  ts-2 (React hook):     4/6 → 4/6  (0) ← knowledge entry may need improvement
+===============================================
+4. Audit and Fix the Worst Entries
+Run this analysis on all 272 entries:
+# Find entries with the fewest "Common Mistakes" pairs
+grep -c "WRONG:" python/stdlib/*.md | sort -t: -k2 -n | head -10
+# Find entries with the fewest "Gotchas"
+grep -c "^- " */**/*.md | sort -t: -k2 -n | head -10
+# Find entries with broken Related links
+# (links to files that don't exist)
+For the BOTTOM 10 entries (fewest mistakes, fewest gotchas, or broken links):
+- Upgrade them to match the quality bar of the best entries
+- Each should have at least 3 WRONG/CORRECT pairs and 3 Gotchas
+- Fix any broken Related links
+5. Add "Real-World Example" Section to Top 20 Most-Used Entries
+Look at the retrieval test queries. The most-frequently-matched entries are the ones small models need most. For the top 20 most-retrieved entries, add a new section ## Real-World Example that shows the pattern used in context — not just the isolated snippet, but how it connects to other parts of a real application.
+Example for FastAPI auth-jwt:
+## Real-World Example
+### Complete Auth Flow: Register → Login → Protected Endpoint
+# Shows: user registration with hashed password, JWT token creation,
+# login endpoint returning token, protected route validating token,
+# and token refresh. All wired together. Not just the JWT creation function.
+Each real-world example should be 30-50 lines of working code that demonstrates the pattern in a realistic context.
+Rules
+1. DO NOT modify existing entry content unless fixing actual bugs or upgrading bottom-10 entries
+2. DO NOT modify schema.md
+3. New scripts must be runnable with python3 scripts/<name>.py
+4. The codegen benchmark prompt export mode must work WITHOUT any LLM installed
+5. All new entries pass validate_kb.py
+6. Run quality_scorecard.py at the end — target 80+/100
+Success Criteria
+- Freshness score: 90+/100 (currently 0)
+- Anti-patterns score: 80+/100 (currently 60)
+- Quality scorecard overall: 80+/100 (currently 72)
+- 4 new anti-pattern entries (C#, Bash, React, Django)
+- Codegen benchmark script with prompt export mode working
+- 20 benchmark tasks with quality criteria defined
+- Bottom 10 entries upgraded
+- Top 20 entries have Real-World Example section
+- ALL tests pass (validation + quality + retrieval + comprehensive)
+- README.md updated with Phase 11 results
+Start with the freshness fix (fastest impact) and anti-patterns (quick wins). Then build the codegen benchmark — that's the proof the whole project works.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

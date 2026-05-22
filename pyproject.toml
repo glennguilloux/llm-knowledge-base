@@ -1,0 +1,39 @@
+[build-system]
+requires = ["setuptools>=61.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "llm-knowledge-base"
+version = "1.0.0"
+description = "Retrieval-ready code patterns for small LLMs"
+readme = "README.md"
+authors = [
+    { name = "LLM Knowledge Base Contributors" }
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+requires-python = ">=3.10"
+dependencies = [
+    "PyYAML>=6.0",
+]
+
+[project.optional-dependencies]
+vector = [
+    "chromadb>=0.4.0",
+]
+mcp = [
+    "mcp>=0.1.0",
+]
+
+[project.scripts]
+llm-kb = "llm_kb.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["llm_kb*"]
+
+[tool.setuptools.package-data]
+llm_kb = ["data/**/*.md"]

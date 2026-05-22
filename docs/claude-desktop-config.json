@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "llm-kb": {
+      "command": "python",
+      "args": ["-m", "llm_kb.mcp_server"],
+      "cwd": "/path/to/ForLLm"
+    }
+  }
+}

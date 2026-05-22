@@ -1,0 +1,48 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+dist/
+build/
+*.egg
+.eggs/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Vector DB artifacts
+chroma_db/
+qdrant_data/
+*.db
+*.index
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Embeddings cache
+.embeddings_cache/
+
+# Auto-generated reports
+scripts/freshness_report.json
+scripts/freshness_summary.md
+scripts/gap_report.md
+
+# Benchmark results
+benchmark_results.json
+benchmark_prompts/

@@ -1,0 +1,33 @@
+# LLM Knowledge Base Integration for Cursor
+
+## Quick Reference
+- Search patterns: `python -m llm_kb search "QUERY" --lang python --top 3`
+- Build prompt: `python -m llm_kb prompt "QUERY" --model qwen2.5-coder:32b`
+- MCP Server: configure in Cursor Settings → MCP → Add Server
+
+## MCP Setup
+Add to your Cursor MCP configuration:
+```json
+{
+  "mcpServers": {
+    "llm-kb": {
+      "command": "python",
+      "args": ["-m", "llm_kb.mcp_server"],
+      "cwd": "/path/to/ForLLm"
+    }
+  }
+}
+```
+
+## Available MCP Tools
+- `search_knowledge(query, language?, top_k?)` — Find relevant code patterns
+- `build_code_prompt(query, language?, max_tokens?, model?)` — Build a system prompt
+- `list_languages()` — List all covered languages
+- `get_entry(entry_id)` — Get a specific entry by ID
+- `get_model_profile(model?)` — Get model-specific retrieval settings
+- `list_supported_models()` — List all known model names
+
+## Recommended Workflow
+1. Before coding: `search_knowledge` for relevant patterns
+2. During coding: Reference gotchas from retrieved entries
+3. After coding: Check against anti-patterns for your language
