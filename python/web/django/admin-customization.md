@@ -7,7 +7,7 @@ subcategory: "api-framework"
 tags: ["django", "admin", "customization", "list-display", "inlines", "actions", "fieldsets"]
 version: "3.10+"
 retrieval_hint: "Django admin customization list_display list_filter search_fields inline models admin actions readonly_fields fieldsets"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

@@ -7,7 +7,7 @@ subcategory: "validation"
 tags: ["pydantic", "validation", "model", "serialization", "typing"]
 version: "3.10+"
 retrieval_hint: "Pydantic model validation serialization BaseModel"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

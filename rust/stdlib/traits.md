@@ -6,7 +6,7 @@ category: "stdlib"
 tags: ["traits", "generics", "trait-bounds", "dyn", "associated-types", "derive"]
 version: "1.75+"
 retrieval_hint: "traits generics trait bounds dyn associated types derive Display Debug Clone"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

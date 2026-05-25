@@ -7,7 +7,7 @@ subcategory: "async"
 tags: ["pytest", "async", "asyncio", "httpx", "testing", "mock"]
 version: "3.10+"
 retrieval_hint: "pytest async asyncio anyio httpx AsyncClient test async function"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

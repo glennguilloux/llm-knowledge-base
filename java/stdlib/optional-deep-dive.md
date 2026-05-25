@@ -6,7 +6,7 @@ category: "stdlib"
 tags: ["java", "optional", "null-safety", "functional", "monad"]
 version: "17+"
 retrieval_hint: "Optional flatMap orElse ifPresent null safety"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

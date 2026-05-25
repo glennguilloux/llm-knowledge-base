@@ -7,7 +7,7 @@ subcategory: "api-framework"
 tags: ["django", "drf", "rest-framework", "serializers", "viewsets", "authentication", "api"]
 version: "3.10+"
 retrieval_hint: "Django REST Framework DRF serializers viewsets routers authentication permissions token JWT API"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

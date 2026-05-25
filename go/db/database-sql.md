@@ -7,7 +7,7 @@ subcategory: "sql"
 tags: ["go", "database", "sql", "sqlx", "postgresql", "connection-pool"]
 version: "1.21+"
 retrieval_hint: "Go database sql sqlx PostgreSQL connection pool query row scan"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

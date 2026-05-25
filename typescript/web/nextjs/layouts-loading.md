@@ -7,7 +7,7 @@ subcategory: "frontend"
 tags: ["nextjs", "layout", "loading", "error", "app-router", "suspense"]
 version: "5.0+"
 retrieval_hint: "Next.js layout loading error app router Suspense template nested"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

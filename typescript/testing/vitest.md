@@ -7,7 +7,7 @@ subcategory: "unit-testing"
 tags: ["vitest", "testing", "mock", "describe", "expect", "vi"]
 version: "1.0+"
 retrieval_hint: "Vitest testing mock describe expect vi.fn"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 
@@ -133,6 +133,18 @@ it('should call internal method', () => {
 it('should return correct result', () => {
   const result = service.doSomething();
   expect(result).toBe('expected');
+});
+
+// WRONG: Missing await on async test
+it('should fetch user', () => {
+  const result = getUser(1);  // Returns a Promise, not a user!
+  expect(result.name).toBe('Alice');  // Always passes — Promise has no .name
+});
+
+// CORRECT: Await the async call
+it('should fetch user', async () => {
+  const result = await getUser(1);
+  expect(result.name).toBe('Alice');
 });
 ```
 

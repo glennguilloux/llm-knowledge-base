@@ -6,7 +6,7 @@ category: "patterns"
 tags: ["REST", "API", "design", "conventions", "pagination", "versioning", "error-format"]
 version: "n/a"
 retrieval_hint: "REST API design conventions pagination versioning error response rate limiting HATEOAS"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

@@ -6,7 +6,7 @@ category: "anti-patterns"
 tags: ["antipatterns", "security", "owasp", "injection", "xss", "csrf"]
 version: "n/a"
 retrieval_hint: "security antipatterns hardcoded secrets SQL injection XSS CSRF"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

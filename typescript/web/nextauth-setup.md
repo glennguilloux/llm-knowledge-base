@@ -7,7 +7,7 @@ subcategory: "auth"
 tags: ["nextauth", "auth", "oauth", "credentials", "session", "jwt", "providers"]
 version: "5.0+"
 retrieval_hint: "NextAuth.js Auth.js setup providers credentials session JWT callbacks"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 
@@ -169,4 +169,4 @@ const session = await getServerSession(authOptions);
 ## Related
 - typescript/web/nextjs/app-router.md
 - typescript/web/express/middleware.md
-- security/authentication.md
+- patterns/authentication-patterns.md

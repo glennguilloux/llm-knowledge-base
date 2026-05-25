@@ -6,7 +6,7 @@ category: "performance"
 tags: ["connection-pool", "database", "performance", "pool-size", "async", "pgbouncer"]
 version: "n/a"
 retrieval_hint: "connection pool database performance pool size pgbouncer asyncpg SQLAlchemy"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

@@ -7,7 +7,7 @@ subcategory: "cryptography"
 tags: ["hashlib", "sha256", "checksum", "integrity", "hash"]
 version: "3.10+"
 retrieval_hint: "SHA-256 hashing file checksum integrity verify"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

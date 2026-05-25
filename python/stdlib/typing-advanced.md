@@ -7,7 +7,7 @@ subcategory: "typing"
 tags: ["typing", "generics", "protocol", "type-hints", "typevar"]
 version: "3.10+"
 retrieval_hint: "type hints generics protocol TypeVar typing advanced"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

@@ -6,7 +6,7 @@ category: "anti-patterns"
 tags: ["antipatterns", "java", "common-mistakes", "best-practices"]
 version: "n/a"
 retrieval_hint: "java common mistakes antipatterns equals hashCode exception handling"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

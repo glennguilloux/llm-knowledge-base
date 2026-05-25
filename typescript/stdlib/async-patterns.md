@@ -7,7 +7,7 @@ subcategory: "async"
 tags: ["async", "await", "promise", "concurrency", "parallel"]
 version: "5.0+"
 retrieval_hint: "TypeScript async await promise concurrency parallel"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

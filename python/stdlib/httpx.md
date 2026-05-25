@@ -6,7 +6,7 @@ category: "stdlib"
 tags: ["httpx", "http", "client", "async", "requests", "api"]
 version: "3.10+"
 retrieval_hint: "httpx HTTP client async requests timeout retry session"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

@@ -7,7 +7,7 @@ subcategory: "unit-testing"
 tags: ["csharp", "mocking", "moq", "nsubstitute", "unit-testing", "dependency-injection"]
 version: "latest"
 retrieval_hint: "C# mocking Moq NSubstitute mock setup verification argument matcher interface"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

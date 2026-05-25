@@ -6,7 +6,7 @@ category: "stdlib"
 tags: ["go", "context", "cancel", "timeout", "deadline", "propagation"]
 version: "1.21+"
 retrieval_hint: "context cancel timeout deadline WithCancel WithTimeout"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

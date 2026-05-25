@@ -6,7 +6,7 @@ category: "stdlib"
 tags: ["cli", "argparse", "click", "command-line", "argument-parsing"]
 version: "3.10+"
 retrieval_hint: "CLI argparse click command line arguments subcommands"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

@@ -6,7 +6,7 @@ category: "db"
 tags: ["sql", "postgresql", "index", "btree", "gin", "gist", "performance"]
 version: "14+"
 retrieval_hint: "index btree gin gist partial index covering index EXPLAIN"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

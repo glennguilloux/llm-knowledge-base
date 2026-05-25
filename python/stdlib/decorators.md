@@ -6,7 +6,7 @@ category: "stdlib"
 tags: ["decorators", "closures", "functools", "wraps", "higher-order"]
 version: "3.10+"
 retrieval_hint: "decorator closure functools wraps higher-order function"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

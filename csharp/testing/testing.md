@@ -6,7 +6,7 @@ category: "testing"
 tags: ["csharp", "dotnet", "xunit", "testing", "mock", "moq", "integration"]
 version: ".NET 8+"
 retrieval_hint: "C# xUnit test Fact Theory Moq mock integration WebApplicationFactory"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

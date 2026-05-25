@@ -6,7 +6,7 @@ category: "stdlib"
 tags: ["ownership", "borrowing", "lifetime", "move", "reference", "memory"]
 version: "1.75+"
 retrieval_hint: "ownership borrowing move semantics lifetime reference String &str"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

@@ -6,7 +6,7 @@ category: "stdlib"
 tags: ["csharp", "dotnet", "linq", "query", "collections", "enumerable"]
 version: ".NET 8+"
 retrieval_hint: "C# LINQ query lambda Select Where GroupBy OrderBy IEnumerable"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

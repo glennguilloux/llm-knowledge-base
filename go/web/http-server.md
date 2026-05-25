@@ -6,7 +6,7 @@ category: "web"
 tags: ["go", "http", "server", "handler", "mux", "middleware"]
 version: "1.21+"
 retrieval_hint: "HTTP server handler ServeMux middleware graceful shutdown"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

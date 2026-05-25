@@ -7,7 +7,7 @@ subcategory: "orm"
 tags: ["spring", "data", "jpa", "repository", "database", "entity"]
 version: "17+"
 retrieval_hint: "Spring Data JPA repository database entity CRUD"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 
@@ -118,6 +118,39 @@ User user = userRepository.findById(id).get();  // NoSuchElementException!
 // CORRECT: Handle Optional
 User user = userRepository.findById(id)
     .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+
+// WRONG: Calling save() without @Transactional on modifying operations
+@Service
+public class UserService {
+    private final UserRepository userRepository;
+
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    public void deactivateAll() {
+        List<User> users = userRepository.findAll();
+        users.forEach(u -> u.setActive(false));
+        userRepository.saveAll(users);  // No transaction — each save is separate
+    }
+}
+
+// CORRECT: Wrap in @Transactional
+@Service
+@Transactional
+public class UserService {
+    private final UserRepository userRepository;
+
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    public void deactivateAll() {
+        List<User> users = userRepository.findAll();
+        users.forEach(u -> u.setActive(false));
+        userRepository.saveAll(users);  // Single transaction
+    }
+}
 ```
 
 ## Gotchas

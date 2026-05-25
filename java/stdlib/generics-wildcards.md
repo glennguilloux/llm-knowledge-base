@@ -6,7 +6,7 @@ category: "stdlib"
 tags: ["java", "generics", "wildcards", "type-erasure", "bounded", "generic"]
 version: "17+"
 retrieval_hint: "Java generics wildcards extends super type erasure bounded"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

@@ -6,7 +6,7 @@ category: "error-handling"
 tags: ["error-handling", "errors", "retry", "resilience", "circuit-breaker"]
 version: "n/a"
 retrieval_hint: "error handling structured retry circuit breaker resilience exponential backoff"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

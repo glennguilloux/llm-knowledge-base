@@ -7,7 +7,7 @@ subcategory: "file-formats"
 tags: ["zipfile", "tarfile", "archive", "compress", "gzip", "extract"]
 version: "3.10+"
 retrieval_hint: "zipfile tarfile archive compress extract gzip tar zip"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

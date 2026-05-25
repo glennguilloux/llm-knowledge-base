@@ -6,7 +6,7 @@ category: "stdlib"
 tags: ["subprocess", "shell", "command", "process", "exec"]
 version: "3.10+"
 retrieval_hint: "subprocess run shell command external process Popen"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

@@ -7,7 +7,7 @@ subcategory: "frontend"
 tags: ["react", "context", "provider", "consumer", "theme", "global-state"]
 version: "5.0+"
 retrieval_hint: "React Context API Provider useContext global state theme auth"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

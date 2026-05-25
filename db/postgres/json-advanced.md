@@ -6,7 +6,7 @@ category: "db"
 tags: ["sql", "postgresql", "json", "jsonb", "document", "query"]
 version: "14+"
 retrieval_hint: "jsonb operators ->> #> @> jsonb_path_query"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

@@ -7,7 +7,7 @@ subcategory: "cache"
 tags: ["redis", "rate-limit", "token-bucket", "sliding-window", "throttle"]
 version: "3.10+"
 retrieval_hint: "Redis rate limiting token bucket sliding window throttle API limit"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

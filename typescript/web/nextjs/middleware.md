@@ -7,7 +7,7 @@ subcategory: "middleware"
 tags: ["nextjs", "middleware", "auth", "redirect", "rewrite"]
 version: "14+"
 retrieval_hint: "Next.js middleware authentication redirect rewrite"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 
@@ -78,6 +78,16 @@ export function middleware(request: NextRequest) {
 // CORRECT: Use matcher to limit scope
 export const config = {
   matcher: ['/dashboard/:path*', '/api/:path*'],
+};
+
+// WRONG: Matcher missing trailing path wildcard
+export const config = {
+  matcher: ['/dashboard'],  // Only matches /dashboard exactly, not /dashboard/settings
+};
+
+// CORRECT: Use :path* to match nested routes
+export const config = {
+  matcher: ['/dashboard/:path*'],
 };
 ```
 

@@ -1,13 +1,13 @@
 ---
 id: "python-patterns-error-handling"
-title: "Exception Handling Patterns"
+title: "Python Error Handling: Custom Exception Patterns"
 language: "python"
 category: "patterns"
 subcategory: "error-handling"
-tags: ["exception", "error", "try-except", "custom-exception", "hierarchy"]
+tags: ["python", "exception", "error", "try-except", "custom-exception", "hierarchy", "handling"]
 version: "3.10+"
-retrieval_hint: "exception error try-except custom exception hierarchy"
-last_verified: "2026-05-22"
+retrieval_hint: "Python error handling exception patterns try-except custom exception hierarchy raise catch"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

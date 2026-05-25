@@ -6,7 +6,7 @@ category: "anti-patterns"
 tags: ["antipatterns", "performance", "n-plus-one", "pagination", "caching"]
 version: "n/a"
 retrieval_hint: "performance antipatterns N+1 query pagination connection pooling"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

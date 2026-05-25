@@ -1,13 +1,13 @@
 ---
 id: "java-spring-boot-basics"
-title: "Spring Boot Application Setup"
+title: "Java Spring Boot Basics: Starter Application Setup"
 language: "java"
 category: "web"
 subcategory: "api-framework"
-tags: ["spring", "boot", "application", "configuration", "auto-configuration"]
+tags: ["spring", "boot", "basics", "application", "configuration", "auto-configuration", "starter"]
 version: "17+"
-retrieval_hint: "Spring Boot application configuration auto-configuration"
-last_verified: "2026-05-22"
+retrieval_hint: "Spring Boot basics application configuration auto-configuration starter"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 
@@ -129,6 +129,24 @@ public User createUser(@RequestBody UserRequest request) {
 @PostMapping
 public User createUser(@Valid @RequestBody UserRequest request) {
     return userService.create(request);
+}
+
+// WRONG: Circular dependency with constructor injection
+@Service
+public class UserService {
+    private final OrderService orderService;
+    public UserService(OrderService orderService) {
+        this.orderService = orderService;  // Fails if OrderService depends on UserService
+    }
+}
+
+// CORRECT: Use @Lazy to break the cycle
+@Service
+public class UserService {
+    private final OrderService orderService;
+    public UserService(@Lazy OrderService orderService) {
+        this.orderService = orderService;
+    }
 }
 ```
 

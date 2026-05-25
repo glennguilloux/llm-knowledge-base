@@ -6,7 +6,7 @@ category: "performance"
 tags: ["performance", "caching", "redis", "cdn", "cache-aside", "ttl"]
 version: "n/a"
 retrieval_hint: "caching strategy Redis CDN cache-aside TTL invalidation write-through"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 
@@ -194,5 +194,5 @@ for user in users:
 
 ## Related
 - api-design/rest-conventions.md
-- performance/anti-patterns.md
+- anti-patterns/performance-antipatterns.md
 - csharp/db/entity-framework.md

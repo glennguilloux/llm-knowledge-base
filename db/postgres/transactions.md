@@ -6,7 +6,7 @@ category: "db"
 tags: ["sql", "postgresql", "transactions", "isolation", "acid", "locking"]
 version: "14+"
 retrieval_hint: "transaction BEGIN COMMIT ROLLBACK isolation level deadlock"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

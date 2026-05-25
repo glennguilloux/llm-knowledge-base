@@ -7,7 +7,7 @@ subcategory: "serialization"
 tags: ["go", "json", "marshal", "unmarshal", "custom", "encoding"]
 version: "1.21+"
 retrieval_hint: "Go JSON marshal unmarshal custom encoding jsoniter struct tags"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

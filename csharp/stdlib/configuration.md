@@ -7,7 +7,7 @@ subcategory: "configuration"
 tags: ["csharp", "dotnet", "configuration", "options", "appsettings", "secrets", "env"]
 version: "8.0+"
 retrieval_hint: ".NET IConfiguration Options pattern appsettings environment variables user secrets"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

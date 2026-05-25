@@ -7,7 +7,7 @@ subcategory: "testing"
 tags: ["django", "testing", "testcase", "client", "fixtures", "factory-boy", "api-testing"]
 version: "3.10+"
 retrieval_hint: "Django testing TestCase Client fixtures factory_boy test database transaction APIClient"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

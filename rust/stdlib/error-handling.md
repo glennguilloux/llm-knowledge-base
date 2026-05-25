@@ -6,7 +6,7 @@ category: "stdlib"
 tags: ["error-handling", "thiserror", "anyhow", "panic", "Result", "From"]
 version: "1.75+"
 retrieval_hint: "error handling thiserror anyhow panic Result custom error From"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

@@ -6,7 +6,7 @@ category: "stdlib"
 tags: ["go", "slice", "map", "collection", "data-structure", "append", "sync.Map"]
 version: "1.21+"
 retrieval_hint: "slice map append make capacity range delete sync.Map"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

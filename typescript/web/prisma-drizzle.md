@@ -6,7 +6,7 @@ category: "db"
 tags: ["prisma", "drizzle", "orm", "database", "query", "migration", "postgresql"]
 version: "5.0+"
 retrieval_hint: "prisma drizzle ORM database query migration PostgreSQL schema type-safe"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

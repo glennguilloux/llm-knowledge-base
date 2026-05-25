@@ -6,7 +6,7 @@ category: "api-design"
 tags: ["api", "rest", "http", "conventions", "pagination", "versioning"]
 version: "n/a"
 retrieval_hint: "REST API design conventions pagination error response versioning rate limiting"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

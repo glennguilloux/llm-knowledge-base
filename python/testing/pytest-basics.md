@@ -7,7 +7,7 @@ subcategory: "unit-testing"
 tags: ["pytest", "testing", "fixture", "parametrize", "markers"]
 version: "3.10+"
 retrieval_hint: "pytest test fixture parametrize marker assert"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

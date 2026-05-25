@@ -7,7 +7,7 @@ subcategory: "mocking"
 tags: ["mock", "patch", "unittest", "pytest-mock", "stub", "fake"]
 version: "3.10+"
 retrieval_hint: "mock patch unittest pytest mock stub fake test double"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

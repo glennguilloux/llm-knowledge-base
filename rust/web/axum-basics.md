@@ -6,7 +6,7 @@ category: "web"
 tags: ["axum", "http", "server", "rest", "routing", "tower", "extractor"]
 version: "1.75+"
 retrieval_hint: "axum HTTP server router handler extractor middleware tower REST API"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

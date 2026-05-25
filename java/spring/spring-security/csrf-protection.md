@@ -7,7 +7,7 @@ subcategory: "security"
 tags: ["spring", "spring-security", "csrf", "xsrf", "spa", "cookie"]
 version: "17+"
 retrieval_hint: "Spring Security CSRF token protection SPA cookie XSRF stateless"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

@@ -7,7 +7,7 @@ subcategory: "docker"
 tags: ["docker", "sdk", "container", "image", "api", "dockerfile"]
 version: "3.10+"
 retrieval_hint: "Docker SDK Python container image build run API client"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 
@@ -153,5 +153,5 @@ container = client.containers.run("nginx", ports={"80/tcp": 8080})
 
 ## Related
 - python/concurrency/celery-basics.md
-- devops/docker-compose.md
+- devops/docker/compose.md
 - python/testing/pytest-fixtures.md

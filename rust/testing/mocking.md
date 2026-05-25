@@ -7,7 +7,7 @@ subcategory: "unit-testing"
 tags: ["rust", "mocking", "mockall", "trait", "unit-testing", "dependency-injection"]
 version: "latest"
 retrieval_hint: "Rust mocking Mockall trait automock expectation predicate dependency injection unit test"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 
@@ -216,6 +216,24 @@ mock_repo
         email: "alice@example.com".into(),
     }));
 // OR use return_const for repeated calls
+
+// WRONG: Forgetting .returning() on an expectation
+let mut mock_repo = MockUserRepository::new();
+mock_repo
+    .expect_find_by_id()
+    .with(eq(42));
+    // Missing .returning() — panics at runtime with "expected ... but got no return value set"
+
+// CORRECT: Always set a return value
+let mut mock_repo = MockUserRepository::new();
+mock_repo
+    .expect_find_by_id()
+    .with(eq(42))
+    .returning(|_| Ok(User {
+        id: 42,
+        name: "Alice".into(),
+        email: "alice@example.com".into(),
+    }));
 ```
 
 ## Gotchas

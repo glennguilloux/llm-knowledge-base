@@ -6,7 +6,7 @@ category: "web"
 tags: ["express", "fastify", "server", "api", "middleware", "routing", "REST"]
 version: "5.0+"
 retrieval_hint: "express fastify server API middleware routing REST endpoint handler"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

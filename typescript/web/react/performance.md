@@ -7,7 +7,7 @@ subcategory: "frontend"
 tags: ["react", "performance", "memo", "usememo", "usecallback", "re-render"]
 version: "5.0+"
 retrieval_hint: "React performance useMemo useCallback React.memo re-render optimization"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

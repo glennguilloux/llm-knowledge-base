@@ -7,7 +7,7 @@ subcategory: "orm"
 tags: ["sqlalchemy", "async", "session", "asyncpg", "database", "asyncio"]
 version: "3.10+"
 retrieval_hint: "SQLAlchemy async session asyncpg AsyncSession create_async_engine"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

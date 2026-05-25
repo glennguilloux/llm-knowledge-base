@@ -7,7 +7,7 @@ subcategory: "api-framework"
 tags: ["spring", "mvc", "cors", "cross-origin", "security", "headers"]
 version: "17+"
 retrieval_hint: "Spring MVC CORS CrossOrigin configuration global WebMvcConfigurer"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

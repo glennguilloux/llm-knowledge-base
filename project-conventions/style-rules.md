@@ -7,7 +7,7 @@ subcategory: "style"
 tags: ["conventions", "style", "linting", "formatting", "project"]
 version: "n/a"
 retrieval_hint: "project conventions style rules linting formatting"
-last_verified: "2025-01-15"
+last_verified: "2026-05-24"
 confidence: "draft"
 ---
 
@@ -64,6 +64,38 @@ confidence: "draft"
 ```
 
 ## Common Mistakes
+
+```python
+# WRONG: Defining rules that nobody enforces
+# STYLE_GUIDE.md says "Use type hints everywhere"
+# But pyproject.toml has no mypy config, CI doesn't check types
+# Result: Rules are ignored within a month
+
+# CORRECT: Enforce rules with tooling
+# pyproject.toml
+# [tool.mypy]
+# strict = true
+# CI runs: mypy --strict src/
+
+# WRONG: Copying rules from another project without adapting
+# .eslintrc.js copied from a React project into a Node.js CLI tool
+# import/no-unresolved fails because CLI uses different module resolution
+# jsx-a11y rules fire on server-side code with no UI
+
+# CORRECT: Start minimal, add rules as pain points emerge
+module.exports = {
+    extends: ['eslint:recommended'],
+    rules: { 'no-unused-vars': 'error', 'no-console': 'off' },
+};
+
+# WRONG: Conflicting linter and formatter rules
+# ESLint: "Use double quotes" — Prettier: "Use single quotes"
+# Every save triggers a format → lint → format → lint loop
+
+# CORRECT: Let formatter handle style, linter handles logic
+# .prettierrc: { "singleQuote": true }
+# .eslintrc.js: extends: ['eslint:recommended', 'prettier']
+```
 
 - Defining rules that are too strict and ignored by the team
 - Not configuring linters to enforce the rules
@@ -129,3 +161,5 @@ confidence: "draft"
 
 ## Related
 - project-conventions/architecture.md
+- patterns/input-validation.md
+- error-handling/structured-errors.md

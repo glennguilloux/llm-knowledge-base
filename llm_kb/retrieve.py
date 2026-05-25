@@ -26,21 +26,22 @@ def load_entries(kb_path: Path | None = None) -> list[KBEntry]:
     
     entries = []
     skip_files = {"README.md", "schema.md", "CONTRIBUTING.md", "LLM_CODEBASE_KNOWLEDGE_BASE.md"}
+    skip_parents = {"templates", ".github", "scripts", "__pycache__"}
 
     md_files = []
     for root, dirs, files in os.walk(str(kb_path), followlinks=True):
         for f in files:
             if f.endswith(".md"):
                 md_file = Path(root) / f
-                
+
                 # Check for hidden directories or skip files
                 if any(part.startswith(".") for part in md_file.parts):
                     continue
                 if md_file.name in skip_files:
                     continue
-                if md_file.parent.name in ("templates", ".github"):
+                if any(p.name in skip_parents for p in md_file.parents):
                     continue
-                
+
                 md_files.append(md_file)
 
     for md_file in sorted(md_files):
@@ -77,6 +78,8 @@ def search_by_language(entries: list[KBEntry], language: str) -> list[KBEntry]:
 
 def search_by_keywords(entries: list[KBEntry], query: str) -> list[KBEntry]:
     """Search entries by keyword matching in title, tags, and retrieval_hint."""
+    if not isinstance(query, str):
+        raise TypeError(f"query must be a string, got {type(query).__name__}")
     query_lower = query.lower()
     query_words = set(re.findall(r"\w+", query_lower))
 
@@ -121,9 +124,14 @@ def search(
     kb_path: Path | None = None,
 ) -> list[KBEntry]:
     """Search the knowledge base with a natural language query."""
+    if not isinstance(top_k, int):
+        raise TypeError(f"top_k must be an int, got {type(top_k).__name__}")
+    if top_k < 0:
+        raise ValueError(f"top_k must be non-negative, got {top_k}")
+
     if kb_path is None:
         kb_path = get_kb_path()
-        
+
     entries = load_entries(kb_path)
 
     if language:

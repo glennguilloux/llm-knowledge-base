@@ -7,7 +7,7 @@ subcategory: "middleware"
 tags: ["fastapi", "middleware", "request", "response", "logging", "cors"]
 version: "3.10+"
 retrieval_hint: "FastAPI middleware request response logging CORS timing"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

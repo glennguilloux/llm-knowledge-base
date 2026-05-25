@@ -7,7 +7,7 @@ subcategory: "search"
 tags: ["postgres", "full-text", "search", "tsvector", "tsquery", "ranking"]
 version: "14+"
 retrieval_hint: "PostgreSQL full text search tsvector tsquery ranking"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 
@@ -82,6 +82,12 @@ SELECT * FROM posts WHERE search_vector @@ query;  -- Full table scan!
 
 -- CORRECT: Create GIN index
 CREATE INDEX idx_posts_search ON posts USING gin(search_vector);
+
+-- WRONG: Using to_tsvector() inline in WHERE — no index used, full scan
+SELECT * FROM posts WHERE to_tsvector('english', title || ' ' || content) @@ to_tsquery('english', 'postgres');
+
+-- CORRECT: Use a stored tsvector column with a GIN index
+SELECT * FROM posts WHERE search_vector @@ to_tsquery('english', 'postgres');
 ```
 
 ## Gotchas

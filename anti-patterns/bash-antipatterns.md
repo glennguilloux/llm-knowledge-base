@@ -6,7 +6,7 @@ category: "anti-patterns"
 tags: ["antipatterns", "bash", "shell", "scripting", "common-mistakes"]
 version: "n/a"
 retrieval_hint: "bash common mistakes quoting variables ls loop set pipefail backticks exit code"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

@@ -7,7 +7,7 @@ subcategory: "document-store"
 tags: ["mongodb", "nosql", "aggregation", "pipeline", "lookup", "facet", "bucket", "analytics"]
 version: "7.0+"
 retrieval_hint: "MongoDB aggregation pipeline $lookup $facet $bucket $unwind $group $project analytics reporting"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 
@@ -172,6 +172,28 @@ await db.collection("orders").aggregate([
   { $lookup: { from: "users", localField: "userId", foreignField: "_id", as: "user" } },
   { $unwind: "$user" },
   { $project: { userName: "$user.name" } },
+]);
+
+// WRONG: $lookup with no pipeline filter — scans entire foreign collection
+await db.collection("orders").aggregate([
+  { $lookup: { from: "users", localField: "userId", foreignField: "_id", as: "user" } },
+  { $unwind: "$user" },
+  { $match: { "user.status": "active" } }, // joined ALL users first, then filtered
+]);
+
+// CORRECT: Filter inside $lookup pipeline to reduce joined data
+await db.collection("orders").aggregate([
+  {
+    $lookup: {
+      from: "users",
+      let: { userId: "$userId" },
+      pipeline: [
+        { $match: { $expr: { $eq: ["$_id", "$$userId"] }, status: "active" } },
+      ],
+      as: "user",
+    },
+  },
+  { $unwind: "$user" },
 ]);
 ```
 

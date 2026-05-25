@@ -6,7 +6,7 @@ category: "performance"
 tags: ["n-plus-one", "query", "optimization", "eager-loading", "batching", "JOIN"]
 version: "n/a"
 retrieval_hint: "N+1 query optimization eager loading batching JOIN dataloader performance"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

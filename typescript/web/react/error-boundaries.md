@@ -7,7 +7,7 @@ subcategory: "frontend"
 tags: ["react", "error", "boundary", "fallback", "suspense", "catch"]
 version: "5.0+"
 retrieval_hint: "React error boundary fallback componentDidCatch Suspense error handling"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 
@@ -166,6 +166,6 @@ class ErrorBoundary extends Component { ... }
 - Error boundaries reset when you change their `key` prop
 
 ## Related
-- typescript/web/react/suspense.md
-- typescript/web/nextjs/error-handling.md
 - typescript/testing/playwright-e2e.md
+- typescript/web/nextjs/app-router.md
+- typescript/web/react/hooks.md

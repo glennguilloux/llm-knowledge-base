@@ -6,7 +6,7 @@ category: "web"
 tags: ["websocket", "ws", "real-time", "async", "fastapi"]
 version: "3.10+"
 retrieval_hint: "WebSocket real-time chat live update connection"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

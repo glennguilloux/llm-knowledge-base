@@ -6,7 +6,7 @@ category: "data"
 tags: ["pandas", "dataframe", "csv", "data-processing", "analysis", "series", "groupby"]
 version: "3.10+"
 retrieval_hint: "pandas dataframe csv data processing analysis series groupby merge filter"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

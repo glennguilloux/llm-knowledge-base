@@ -7,7 +7,7 @@ subcategory: "authentication"
 tags: ["jwt", "token", "authentication", "bearer", "signing"]
 version: "n/a"
 retrieval_hint: "JWT token creation validation signing bearer authentication"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

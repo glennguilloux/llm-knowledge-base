@@ -7,7 +7,7 @@ subcategory: "data-fetching"
 tags: ["nextjs", "data-fetching", "server-components", "cache", "revalidation"]
 version: "14+"
 retrieval_hint: "Next.js data fetching server components cache revalidation"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 
@@ -116,6 +116,26 @@ export default async function Page() {
 export default async function Page() {
   const data = await fetch('https://api.example.com/static-data', {
     cache: 'force-cache',
+  });
+}
+
+// WRONG: Same fetch URL and options but expecting different data
+export default async function PageA() {
+  const data = await fetch('https://api.example.com/items');  // Cached!
+}
+export default async function PageB() {
+  const data = await fetch('https://api.example.com/items');  // Same cache hit!
+}
+
+// CORRECT: Use distinct cache keys or revalidation
+export default async function PageA() {
+  const data = await fetch('https://api.example.com/items', {
+    next: { tags: ['items-a'] },
+  });
+}
+export default async function PageB() {
+  const data = await fetch('https://api.example.com/items', {
+    next: { tags: ['items-b'] },
   });
 }
 ```

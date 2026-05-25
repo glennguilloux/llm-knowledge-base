@@ -6,7 +6,7 @@ category: "stdlib"
 tags: ["bash", "shell", "scripting", "automation", "cli"]
 version: "n/a"
 retrieval_hint: "bash script shebang variables arguments functions"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

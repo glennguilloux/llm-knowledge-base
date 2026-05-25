@@ -7,7 +7,7 @@ subcategory: "orm"
 tags: ["spring", "data", "jpa", "repository", "custom", "specification", "projection"]
 version: "17+"
 retrieval_hint: "Spring Data JPA custom repository Specification Projection DTO criteria"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

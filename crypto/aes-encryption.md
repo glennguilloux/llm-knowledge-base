@@ -7,7 +7,7 @@ subcategory: "encryption"
 tags: ["aes", "gcm", "encryption", "decryption", "symmetric", "authenticated"]
 version: "n/a"
 retrieval_hint: "AES GCM encryption decryption symmetric authenticated"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 
@@ -112,6 +112,17 @@ nonce = b"fixed_nonce"  # NEVER reuse nonce with same key!
 
 # CORRECT: Generate random nonce each time
 nonce = os.urandom(12)
+
+# WRONG: Not verifying authentication tag — accepts tampered ciphertext
+aesgcm = AESGCM(key)
+plaintext = aesgcm.decrypt(nonce, ciphertext, None)  # tag auto-verified, but...
+
+# If you manually split ciphertext and tag, skipping tag check:
+plaintext = cipher.decrypt(ciphertext)  # No integrity check — data could be forged!
+
+# CORRECT: Always use authenticated decryption (AES-GCM verifies tag automatically)
+aesgcm = AESGCM(key)
+plaintext = aesgcm.decrypt(nonce, ciphertext, None)  # Raises InvalidTag if tampered
 ```
 
 ## Gotchas

@@ -7,7 +7,7 @@ subcategory: "auth"
 tags: ["fastapi", "oauth2", "password", "bearer", "login", "security"]
 version: "3.10+"
 retrieval_hint: "FastAPI OAuth2 password bearer token login form authentication"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 
@@ -169,4 +169,4 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends()):
 ## Related
 - python/web/fastapi/auth-jwt.md
 - python/web/fastapi/dependency-injection.md
-- security/authentication.md
+- patterns/authentication-patterns.md

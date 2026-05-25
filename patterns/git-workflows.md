@@ -7,7 +7,7 @@ subcategory: "workflow"
 tags: ["git", "branching", "commit", "rebase", "merge", "conventional"]
 version: ""
 retrieval_hint: "Git branching rebase merge conventional commits workflow PR review"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

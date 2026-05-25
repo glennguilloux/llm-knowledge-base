@@ -7,7 +7,7 @@ subcategory: "authentication"
 tags: ["fastapi", "jwt", "authentication", "oauth2", "bearer", "security"]
 version: "3.10+"
 retrieval_hint: "JWT authentication FastAPI OAuth2 bearer token login"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

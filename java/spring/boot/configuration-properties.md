@@ -7,7 +7,7 @@ subcategory: "api-framework"
 tags: ["spring", "boot", "configuration", "properties", "yaml", "type-safe"]
 version: "17+"
 retrieval_hint: "Spring Boot ConfigurationProperties type-safe configuration YAML properties"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

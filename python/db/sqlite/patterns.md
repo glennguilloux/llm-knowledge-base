@@ -7,7 +7,7 @@ subcategory: "sqlite"
 tags: ["sqlite", "database", "embedded", "lightweight", "testing", "file"]
 version: "3.10+"
 retrieval_hint: "SQLite embedded database file-based testing in-memory connection"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

@@ -7,7 +7,7 @@ subcategory: "react"
 tags: ["react", "state", "useState", "useReducer", "zustand", "context"]
 version: "18+"
 retrieval_hint: "React state management useState useReducer Zustand context"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 
@@ -127,6 +127,17 @@ const [count, setCount] = useState(0);  // Redundant!
 // CORRECT: Derive from existing state
 const [items, setItems] = useState([]);
 const count = items.length;  // Derived value
+
+// WRONG: Mutating nested state
+const [user, setUser] = useState({ name: 'Alice', address: { city: 'NYC' } });
+user.address.city = 'LA';  // Mutation!
+setUser(user);  // No re-render — same reference!
+
+// CORRECT: Spread all levels to create new references
+setUser(prev => ({
+  ...prev,
+  address: { ...prev.address, city: 'LA' },
+}));
 ```
 
 ## Gotchas

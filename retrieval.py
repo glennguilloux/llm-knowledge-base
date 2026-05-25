@@ -59,13 +59,17 @@ def load_entries(kb_path: Path = Path(".")) -> list[KBEntry]:
     """Load all knowledge base entries."""
     entries = []
     skip_files = {"README.md", "schema.md", "CONTRIBUTING.md", "LLM_CODEBASE_KNOWLEDGE_BASE.md"}
+    skip_parents = {"templates", ".github", "scripts", "__pycache__"}
 
     for md_file in sorted(kb_path.rglob("*.md")):
         if any(part.startswith(".") for part in md_file.parts):
             continue
         if md_file.name in skip_files:
             continue
-        if md_file.parent.name in ("templates", ".github"):
+        if any(p.name in skip_parents for p in md_file.parents):
+            continue
+        # Skip build artifacts (e.g. build/lib/llm_kb/data/) but not java/build/
+        if "build" in md_file.parts and md_file.parts.index("build") == 0:
             continue
 
         entry = parse_entry(md_file)

@@ -6,7 +6,7 @@ category: "concurrency"
 tags: ["go", "goroutine", "concurrency", "waitgroup", "parallel"]
 version: "1.21+"
 retrieval_hint: "goroutine go keyword WaitGroup concurrency parallel"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

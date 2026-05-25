@@ -6,7 +6,7 @@ category: "concurrency"
 tags: ["async", "await", "tokio", "spawn", "channel", "mutex", "select"]
 version: "1.75+"
 retrieval_hint: "async await tokio spawn select channel Mutex concurrency task"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

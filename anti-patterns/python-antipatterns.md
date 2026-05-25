@@ -6,7 +6,7 @@ category: "anti-patterns"
 tags: ["antipatterns", "python", "common-mistakes", "best-practices"]
 version: "n/a"
 retrieval_hint: "python common mistakes antipatterns mutable default bare except"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

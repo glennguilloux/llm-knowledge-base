@@ -7,7 +7,7 @@ subcategory: "validation"
 tags: ["zod", "validation", "schema", "type", "inference", "form", "api"]
 version: "5.0+"
 retrieval_hint: "Zod validation schema type inference parse safeParse form API"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

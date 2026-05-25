@@ -7,7 +7,7 @@ subcategory: "passwords"
 tags: ["password", "hash", "bcrypt", "argon2", "security", "authentication"]
 version: "n/a"
 retrieval_hint: "password hash bcrypt argon2 secure storage authentication"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

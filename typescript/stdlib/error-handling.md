@@ -7,7 +7,7 @@ subcategory: "error-handling"
 tags: ["error", "exception", "result", "error-handling", "try-catch"]
 version: "5.0+"
 retrieval_hint: "TypeScript error handling result pattern try catch"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

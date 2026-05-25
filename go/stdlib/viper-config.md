@@ -7,7 +7,7 @@ subcategory: "configuration"
 tags: ["go", "viper", "config", "env", "yaml", "toml", "settings"]
 version: "1.21+"
 retrieval_hint: "Go Viper configuration YAML TOML environment variables settings"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

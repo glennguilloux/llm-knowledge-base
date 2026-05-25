@@ -7,7 +7,7 @@ subcategory: "general"
 tags: ["anti-pattern", "premature-optimization", "cargo-cult", "over-abstraction", "design"]
 version: ""
 retrieval_hint: "General anti-pattern premature optimization cargo cult over-abstraction complexity"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

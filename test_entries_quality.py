@@ -32,22 +32,47 @@ def get_entry_files() -> list[Path]:
         "RELEASE_CHECKLIST.md",
         "LLM_CODEBASE_KNOWLEDGE_BASE.md", "CHANGELOG.md", "LICENSE",
     }
-    skip_parents = {"templates", ".github", "docs", "scripts", "architecture", "benchmark_prompts", "prompts"}
+    skip_parents = {"templates", ".github", "docs", "scripts", "architecture", "benchmark_prompts", "prompts", "build", "__pycache__"}
     files = []
     for md_file in sorted(kb_path.rglob("*.md")):
         if any(part.startswith(".") for part in md_file.parts):
             continue
         if md_file.name in skip_files:
             continue
-        # Skip if any parent directory is in the exclude set
         if any(p.name in skip_parents for p in md_file.parents):
             continue
         files.append(md_file)
     return files
 
 
+def extract_section(content: str, heading: str) -> str:
+    """Extract the text of a section by heading name.
+
+    Skips headings that appear inside fenced code blocks.
+    """
+    lines = content.split("\n")
+    in_section = False
+    in_code_block = False
+    result_lines = []
+
+    for line in lines:
+        if re.match(r"^```\w*\s*$", line):
+            in_code_block = not in_code_block
+        if in_section:
+            if not in_code_block and re.match(r"^##\s+\S", line):
+                break
+            result_lines.append(line)
+        elif not in_code_block and line.strip() == heading:
+            in_section = True
+
+    return "\n".join(result_lines)
+
+
 def count_wrong_correct_pairs(content: str) -> int:
-    """Count WRONG/CORRECT pairs in Common Mistakes section.
+    """Count WRONG/CORRECT pairs in Common Mistakes AND Standard Pattern.
+
+    Anti-pattern entries often place WRONG/CORRECT pairs in Standard Pattern
+    instead of Common Mistakes. Check both sections.
 
     Supports language-specific comment styles:
     - # WRONG / # CORRECT (Python, Bash, YAML)
@@ -55,45 +80,46 @@ def count_wrong_correct_pairs(content: str) -> int:
     - -- WRONG / -- CORRECT (SQL)
     - <!-- WRONG --> / <!-- CORRECT --> (HTML)
     """
-    # Find Common Mistakes section
-    cm_match = re.search(r"## Common Mistakes\s*\n(.*?)(?=\n## |\Z)", content, re.DOTALL)
-    if not cm_match:
-        return 0
-    cm_text = cm_match.group(1)
-    # Match any comment prefix followed by WRONG or CORRECT
-    wrong_count = len(re.findall(r"(?:#|//|--|<!--)\s*WRONG", cm_text))
-    correct_count = len(re.findall(r"(?:#|//|--|<!--)\s*CORRECT", cm_text))
+    cm_text = extract_section(content, "## Common Mistakes")
+    sp_text = extract_section(content, "## Standard Pattern")
+    combined = cm_text + "\n" + sp_text
+    wrong_count = len(re.findall(r"(?:#|//|--|<!--)\s*WRONG", combined))
+    correct_count = len(re.findall(r"(?:#|//|--|<!--)\s*CORRECT", combined))
     return min(wrong_count, correct_count)
 
 
 def count_gotchas(content: str) -> int:
     """Count gotcha bullet points."""
-    g_match = re.search(r"## Gotchas\s*\n(.*?)(?=\n## |\Z)", content, re.DOTALL)
-    if not g_match:
+    g_text = extract_section(content, "## Gotchas")
+    if not g_text:
         return 0
-    g_text = g_match.group(1)
-    # Count non-empty bullet lines
     bullets = re.findall(r"^-\s+\S", g_text, re.MULTILINE)
     return len(bullets)
 
 
 def count_related_links(content: str) -> int:
     """Count Related section links."""
-    r_match = re.search(r"## Related\s*\n(.*?)(?=\n## |\Z)", content, re.DOTALL)
-    if not r_match:
+    r_text = extract_section(content, "## Related")
+    if not r_text:
         return 0
-    r_text = r_match.group(1)
     links = re.findall(r"^-\s+\S", r_text, re.MULTILINE)
     return len(links)
 
 
 def get_related_link_targets(content: str) -> list[str]:
     """Extract Related link file paths."""
-    r_match = re.search(r"## Related\s*\n(.*?)(?=\n## |\Z)", content, re.DOTALL)
-    if not r_match:
+    r_text = extract_section(content, "## Related")
+    if not r_text:
         return []
-    r_text = r_match.group(1)
-    return re.findall(r"^-\s+(.+\.md)", r_text, re.MULTILINE)
+    md_links = re.findall(r"\[.*?\]\((.+?\.md)\)", r_text)
+    plain_links = re.findall(r"^-\s+(.+\.md)\s*$", r_text, re.MULTILINE)
+    seen = set()
+    result = []
+    for link in md_links + plain_links:
+        if link not in seen:
+            seen.add(link)
+            result.append(link)
+    return result
 
 
 def check_balanced_delimiters(content: str) -> list[str]:
@@ -158,11 +184,10 @@ def count_mistake_items(content: str) -> int:
     - Bullet-point descriptions (- item)
     - Prose descriptions (sentences describing mistakes — anti-pattern entries)
     """
-    cm_match = re.search(r"## Common Mistakes\s*\n(.*?)(?=\n## |\Z)", content, re.DOTALL)
-    if not cm_match:
+    cm_text = extract_section(content, "## Common Mistakes")
+    if not cm_text:
         return 0
-    cm_text = cm_match.group(1).strip()
-    # Count WRONG/CORRECT pairs
+    # Count WRONG/CORRECT pairs (in CM + SP)
     pairs = count_wrong_correct_pairs(content)
     if pairs >= 2:
         return pairs
@@ -171,9 +196,7 @@ def count_mistake_items(content: str) -> int:
     if bullets >= 2:
         return bullets
     # Count prose sentences (for anti-pattern entries that describe mistakes in paragraph form)
-    # Count non-empty lines that look like content (not just whitespace)
     prose_lines = [l.strip() for l in cm_text.split("\n") if l.strip() and not l.strip().startswith("```")]
-    # Count sentences (periods followed by space or end) — anti-patterns pack multiple into one line
     all_prose = " ".join(prose_lines)
     sentence_count = len(re.findall(r"[.!?]\s+", all_prose)) + (1 if all_prose and not all_prose.endswith(" ") else 0)
     return max(pairs, bullets, sentence_count)

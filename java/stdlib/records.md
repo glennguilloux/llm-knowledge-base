@@ -7,7 +7,7 @@ subcategory: "data-structures"
 tags: ["records", "immutable", "data-class", "pattern-matching"]
 version: "16+"
 retrieval_hint: "Java records immutable data class pattern matching"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

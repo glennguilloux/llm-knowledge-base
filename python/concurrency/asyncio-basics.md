@@ -7,7 +7,7 @@ subcategory: "asyncio"
 tags: ["asyncio", "async", "await", "event-loop", "task", "gather", "semaphore"]
 version: "3.10+"
 retrieval_hint: "asyncio event loop task gather semaphore timeout concurrent async await"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

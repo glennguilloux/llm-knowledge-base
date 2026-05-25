@@ -7,7 +7,7 @@ subcategory: "error-handling"
 tags: ["rust", "error", "thiserror", "anyhow", "result", "custom-error"]
 version: "1.75+"
 retrieval_hint: "Rust thiserror anyhow error handling custom error Result context"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

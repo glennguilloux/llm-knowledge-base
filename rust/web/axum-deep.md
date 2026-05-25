@@ -7,7 +7,7 @@ subcategory: "api-framework"
 tags: ["rust", "axum", "extractor", "middleware", "state", "tower", "handler"]
 version: "1.75+"
 retrieval_hint: "Axum extractor middleware state tower handler routing JSON body"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

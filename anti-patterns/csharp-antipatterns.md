@@ -6,7 +6,7 @@ category: "anti-patterns"
 tags: ["antipatterns", "csharp", "dotnet", "async", "common-mistakes"]
 version: "n/a"
 retrieval_hint: "csharp common mistakes async void deadlock IDisposable LINQ side effects"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

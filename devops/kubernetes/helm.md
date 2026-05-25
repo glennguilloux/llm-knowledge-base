@@ -7,7 +7,7 @@ subcategory: "package-manager"
 tags: ["helm", "chart", "template", "values", "release"]
 version: "3.0+"
 retrieval_hint: "Helm chart template values release package"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

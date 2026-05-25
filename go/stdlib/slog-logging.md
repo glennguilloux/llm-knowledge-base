@@ -7,7 +7,7 @@ subcategory: "logging"
 tags: ["go", "slog", "logging", "structured", "json", "handler"]
 version: "1.21+"
 retrieval_hint: "Go slog structured logging JSON handler log level context"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

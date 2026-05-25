@@ -7,7 +7,7 @@ subcategory: "json"
 tags: ["postgres", "jsonb", "json", "query", "path", "operator"]
 version: "14+"
 retrieval_hint: "PostgreSQL JSONB json query path operator"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 
@@ -76,6 +76,12 @@ SELECT * FROM items WHERE metadata @> '{"color": "red"}';  -- Full scan!
 
 -- CORRECT: Create GIN index
 CREATE INDEX idx_metadata ON items USING gin(metadata);
+
+-- WRONG: Using -> instead of ->> for text comparison
+SELECT * FROM items WHERE metadata->'color' = 'red';  -- JSONB = text fails!
+
+-- CORRECT: Use ->> to extract as text for comparison
+SELECT * FROM items WHERE metadata->>'color' = 'red';
 ```
 
 ## Gotchas

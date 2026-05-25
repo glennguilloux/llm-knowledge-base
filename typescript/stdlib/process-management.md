@@ -6,7 +6,7 @@ category: "stdlib"
 tags: ["process", "shutdown", "signals", "SIGTERM", "SIGINT", "cluster", "worker"]
 version: "5.0+"
 retrieval_hint: "process management graceful shutdown SIGTERM SIGINT cluster worker signal handling"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

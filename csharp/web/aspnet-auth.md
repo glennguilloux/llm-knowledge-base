@@ -7,7 +7,7 @@ subcategory: "api-framework"
 tags: ["csharp", "dotnet", "aspnet", "jwt", "authentication", "authorization", "bearer", "claims"]
 version: "8.0+"
 retrieval_hint: "ASP.NET JWT bearer authentication authorization policy claims roles token"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 
@@ -76,6 +76,10 @@ app.Run();
 ## Token Generation
 
 ```csharp
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using Microsoft.IdentityModel.Tokens;
+
 public class TokenService
 {
     private readonly IConfiguration _config;
@@ -139,6 +143,9 @@ public class UsersController : ControllerBase
 ## Custom Authorization Requirement
 
 ```csharp
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
+
 public class MinimumAgeRequirement : IAuthorizationRequirement
 {
     public int MinimumAge { get; }
@@ -157,7 +164,9 @@ public class MinimumAgeHandler : AuthorizationHandler<MinimumAgeRequirement>
             return Task.CompletedTask;
         }
 
-        var age = DateTime.Today.Year - DateTime.Parse(dobClaim.Value).Year;
+        var dob = DateTime.Parse(dobClaim.Value);
+        var age = DateTime.Today.Year - dob.Year;
+        if (dob > DateTime.Today.AddYears(-age)) age--;
         if (age >= requirement.MinimumAge)
             context.Succeed(requirement);
 

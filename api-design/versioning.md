@@ -7,7 +7,7 @@ subcategory: "versioning"
 tags: ["api", "versioning", "rest", "breaking-change", "backward-compatible"]
 version: ""
 retrieval_hint: "API versioning URL path header breaking change backward compatible"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 
@@ -115,6 +115,15 @@ app.include_router(v2)
 # Deprecation: true
 # Sunset: 2026-01-01
 # Link: </api/v2/users>; rel="successor-version"
+
+# WRONG: Changing response envelope between versions without documentation
+# v1: {"users": [...]}
+# v2: {"data": [...], "meta": {"total": 50}}  — clients parsing "users" key break silently
+
+# CORRECT: Document envelope changes and provide migration guide
+# v1: {"users": [...]}  (unchanged)
+# v2: {"data": [...], "meta": {"total": 50}}
+# Migration: v2 wraps all lists in "data", adds "meta" for pagination
 ```
 
 ## Gotchas

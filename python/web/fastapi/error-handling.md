@@ -7,7 +7,7 @@ subcategory: "error-handling"
 tags: ["fastapi", "error", "exception", "http", "validation"]
 version: "3.10+"
 retrieval_hint: "FastAPI error handling HTTPException validation error response"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

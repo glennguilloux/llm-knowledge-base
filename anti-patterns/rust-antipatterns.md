@@ -7,7 +7,7 @@ subcategory: "rust"
 tags: ["rust", "anti-pattern", "clone", "unwrap", "deref", "result"]
 version: "1.75+"
 retrieval_hint: "Rust anti-pattern unnecessary clone unwrap Deref inheritance ignore Result"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

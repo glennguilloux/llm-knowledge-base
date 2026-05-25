@@ -7,7 +7,7 @@ subcategory: "filesystem"
 tags: ["pathlib", "path", "file", "directory", "filesystem"]
 version: "3.10+"
 retrieval_hint: "file path directory join resolve glob walk"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 
@@ -101,3 +101,5 @@ Path("deep/nested/dir/file.txt").write_text("data")
 
 ## Related
 - python/stdlib/context-managers.md
+- python/stdlib/file-io.md
+- python/stdlib/shutil.md

@@ -7,7 +7,7 @@ subcategory: "ci-cd"
 tags: ["github", "actions", "ci-cd", "workflow", "pipeline"]
 version: "n/a"
 retrieval_hint: "GitHub Actions CI CD workflow pipeline build test deploy"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 
@@ -110,6 +110,22 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
+
+# WRONG: Using setup-node without checkout — no source code to build
+steps:
+  - uses: actions/setup-node@v4
+    with:
+      node-version: 20
+  - run: npm ci  # Fails: no package.json found!
+
+# CORRECT: Always checkout first
+steps:
+  - uses: actions/checkout@v4
+  - uses: actions/setup-node@v4
+    with:
+      node-version: 20
+      cache: 'npm'
+  - run: npm ci
 ```
 
 ## Gotchas

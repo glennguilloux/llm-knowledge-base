@@ -7,7 +7,7 @@ subcategory: "orm"
 tags: ["sqlalchemy", "orm", "model", "declarative", "database", "table"]
 version: "3.10+"
 retrieval_hint: "SQLAlchemy ORM model declarative table column relationship"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

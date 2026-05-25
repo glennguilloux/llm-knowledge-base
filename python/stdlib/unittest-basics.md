@@ -7,7 +7,7 @@ subcategory: "unittest"
 tags: ["unittest", "testing", "legacy", "mock", "assert", "testcase"]
 version: "3.10+"
 retrieval_hint: "unittest TestCase mock patch assert legacy test runner setUp"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

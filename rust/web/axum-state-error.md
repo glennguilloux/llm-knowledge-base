@@ -6,7 +6,7 @@ category: "web"
 tags: ["axum", "state", "error", "into_response", "extension", "database", "pool"]
 version: "1.75+"
 retrieval_hint: "axum state sharing error handling IntoResponse database pool AppState extractor"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 
@@ -240,6 +240,6 @@ AppError::Internal(err) => {
 - axum 0.7+ uses `Router::with_state` instead of `Extension` for type-safe state
 
 ## Related
-- rust/web/axum.md
+- rust/web/axum-deep.md
 - rust/web/axum-middleware.md
 - rust/db/sqlx-patterns.md

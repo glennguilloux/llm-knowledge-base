@@ -7,7 +7,7 @@ subcategory: "snapshot"
 tags: ["snapshot", "syrupy", "testing", "golden", "regression", "output"]
 version: "3.10+"
 retrieval_hint: "snapshot testing syrupy golden file regression test output comparison"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

@@ -6,7 +6,7 @@ category: "stdlib"
 tags: ["Vec", "HashMap", "BTreeMap", "HashSet", "iterator", "collect", "entry"]
 version: "1.75+"
 retrieval_hint: "Vec HashMap BTreeMap HashSet iterator map filter collect entry API"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

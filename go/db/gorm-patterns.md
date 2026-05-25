@@ -7,7 +7,7 @@ subcategory: "orm"
 tags: ["go", "gorm", "orm", "model", "migration", "query", "transaction"]
 version: "1.21+"
 retrieval_hint: "Go GORM ORM model migration query transaction hooks preload"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

@@ -7,7 +7,7 @@ subcategory: "concurrency"
 tags: ["asyncio", "async", "await", "concurrency", "coroutine"]
 version: "3.10+"
 retrieval_hint: "async await concurrency coroutine gather task"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

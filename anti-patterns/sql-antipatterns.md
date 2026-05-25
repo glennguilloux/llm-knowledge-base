@@ -7,7 +7,7 @@ subcategory: "database"
 tags: ["sql", "anti-pattern", "select-star", "n-plus-one", "index", "performance"]
 version: ""
 retrieval_hint: "SQL anti-pattern SELECT * N+1 implicit casting no index foreign key"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

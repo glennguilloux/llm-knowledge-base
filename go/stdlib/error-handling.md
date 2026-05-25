@@ -6,7 +6,7 @@ category: "stdlib"
 tags: ["go", "error", "errors", "error-handling", "sentinel", "wrap"]
 version: "1.21+"
 retrieval_hint: "error handling sentinel errors Is As wrap fmt.Errorf"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

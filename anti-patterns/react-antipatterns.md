@@ -6,7 +6,7 @@ category: "anti-patterns"
 tags: ["antipatterns", "react", "hooks", "components", "common-mistakes"]
 version: "n/a"
 retrieval_hint: "react common mistakes useEffect dependency derived state prop drilling key re-render"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

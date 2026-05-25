@@ -7,7 +7,7 @@ subcategory: "task-queue"
 tags: ["celery", "task", "queue", "async", "worker", "redis", "rabbitmq"]
 version: "3.10+"
 retrieval_hint: "Celery task queue async worker background Redis RabbitMQ retry"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

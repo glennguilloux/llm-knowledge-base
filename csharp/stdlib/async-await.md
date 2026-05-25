@@ -6,7 +6,7 @@ category: "stdlib"
 tags: ["csharp", "dotnet", "async", "await", "task", "concurrency"]
 version: ".NET 8+"
 retrieval_hint: "C# async await Task concurrency parallel cancellation"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

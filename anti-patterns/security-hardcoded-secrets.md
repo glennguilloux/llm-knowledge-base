@@ -39,7 +39,7 @@ API_KEY = os.environ["API_KEY"]
 ```javascript
 // WRONG: Hardcoded secret in config module
 const config = {
-  stripeKey: "sk_live_4eC39HqLyjWDarjtT1zdp7dc",
+  stripeKey: "REPLACE_WITH_ENV_VAR",
   jwtSecret: "my-super-secret-key-123",
   dbPassword: "production-password-here"
 };
@@ -78,7 +78,7 @@ secrets:
 // WRONG: Hardcoded in properties file (committed to git)
 // application.properties
 // spring.datasource.password=productionpassword
-// stripe.api.key=sk_live_abcdef
+// stripe.api.key=sk-demo-replace-with-env-var
 
 // CORRECT: Use environment variables or vault
 // application.properties
@@ -120,3 +120,5 @@ Hardcoded secrets are the most common and most dangerous security anti-pattern. 
 - anti-patterns/docker-antipatterns.md
 - security/web-security-basics.md
 - python/stdlib/env-config.md
+- anti-patterns/security-error-info-leak.md
+- patterns/secret-management.md

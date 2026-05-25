@@ -7,7 +7,7 @@ subcategory: "pytest"
 tags: ["pytest", "fixtures", "conftest", "parametrize", "scope", "testing"]
 version: "3.10+"
 retrieval_hint: "pytest fixtures conftest parametrize scope session module factory"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

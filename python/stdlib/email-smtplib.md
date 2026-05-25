@@ -7,7 +7,7 @@ subcategory: "networking"
 tags: ["email", "smtp", "smtplib", "mime", "send", "attachment"]
 version: "3.10+"
 retrieval_hint: "email smtplib SMTP send email attachment MIME HTML template"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

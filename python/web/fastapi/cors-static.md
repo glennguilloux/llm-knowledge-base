@@ -7,7 +7,7 @@ subcategory: "api-framework"
 tags: ["fastapi", "cors", "static", "files", "middleware", "origins"]
 version: "3.10+"
 retrieval_hint: "FastAPI CORS cross-origin static files mount middleware origins"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

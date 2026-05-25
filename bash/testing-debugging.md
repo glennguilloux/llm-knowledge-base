@@ -6,7 +6,7 @@ category: "testing"
 tags: ["bash", "shell", "testing", "debugging", "shellcheck", "bats"]
 version: "n/a"
 retrieval_hint: "bash test debug set -x bats shellcheck"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

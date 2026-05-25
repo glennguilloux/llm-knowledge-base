@@ -1,7 +1,7 @@
 # LLM Knowledge Base
 
 > **Make your 7B model write code like a senior engineer.**
-> 275 curated patterns. 2,804 tests. 92/100 quality score. Zero ML dependencies.
+> 385 curated patterns. 6,220 tests. 96/100 quality score. Zero ML dependencies.
 
 ![Validate](https://github.com/glennguilloux/llm-knowledge-base/actions/workflows/validate.yml/badge.svg)
 ![Release](https://github.com/glennguilloux/llm-knowledge-base/actions/workflows/release.yml/badge.svg)
@@ -52,15 +52,17 @@ That's it. One install, immediate improvement.
 
 ## What's Inside
 
-275 validated knowledge entries across 13 languages and categories:
+385 validated knowledge entries across 16 languages and categories:
 
 | Language | Entries | Language | Entries |
 |:---|:---:|:---|:---:|
-| Python | 74 | Go | 20 |
-| Java | 39 | Rust | 15 |
-| TypeScript | 35 | SQL | 11 |
-| C# | 11 | Bash/Shell | 5 |
-| Crypto | 5 | DevOps/Other | 9 |
+| Python | 101 | Go | 30 |
+| Java | 49 | Rust | 30 |
+| TypeScript | 41 | C# | 24 |
+| Multi/Cross-cutting | 41 | Kotlin | 15 |
+| PHP | 10 | Bash/Shell | 13 |
+| SQL | 10 | Swift | 8 |
+| Crypto | 10 | DevOps/Other | 8 |
 
 Each entry contains:
 - **Standard Pattern** — Idiomatic, runnable code with imports and type annotations

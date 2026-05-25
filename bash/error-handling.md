@@ -6,7 +6,7 @@ category: "stdlib"
 tags: ["bash", "shell", "error-handling", "trap", "exit-codes"]
 version: "n/a"
 retrieval_hint: "bash trap ERR exit code error handling set -e"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

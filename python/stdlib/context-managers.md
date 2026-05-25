@@ -7,7 +7,7 @@ subcategory: "resource-management"
 tags: ["context-manager", "with", "resource", "cleanup", "exception"]
 version: "3.10+"
 retrieval_hint: "context manager with statement resource cleanup exception"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

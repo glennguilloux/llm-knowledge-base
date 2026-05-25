@@ -6,7 +6,7 @@ category: "stdlib"
 tags: ["file-io", "nio", "Files", "BufferedReader", "Path", "streams", "reading", "writing"]
 version: "17+"
 retrieval_hint: "file IO NIO Files BufferedReader Path read write lines stream"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

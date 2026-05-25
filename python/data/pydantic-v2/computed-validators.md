@@ -7,7 +7,7 @@ subcategory: "validation"
 tags: ["pydantic", "validation", "computed", "json-schema", "settings", "model"]
 version: "3.10+"
 retrieval_hint: "Pydantic v2 computed field validator JSON schema settings env"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

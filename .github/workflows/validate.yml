@@ -22,4 +22,5 @@ jobs:
       - run: pip install -e ".[vector]"
       - run: pip install pytest
       - run: python -m llm_kb validate
-      - run: python -m pytest test_retrieval.py test_entries_quality.py test_retrieval_comprehensive.py test_e2e.py test_retrieval_edge_cases.py test_phase14_profiles.py -v --tb=short
+      - run: python scripts/quality_auditor.py
+      - run: python -m pytest test_retrieval.py test_entries_quality.py test_retrieval_comprehensive.py test_e2e.py test_retrieval_edge_cases.py test_phase14_profiles.py test_quality_audit.py -v --tb=short

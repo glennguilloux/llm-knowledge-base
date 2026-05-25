@@ -6,7 +6,7 @@ category: "db"
 tags: ["csharp", "dotnet", "entity-framework", "ef-core", "orm", "database"]
 version: ".NET 8+"
 retrieval_hint: "C# Entity Framework Core DbContext LINQ migration querying"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

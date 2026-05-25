@@ -6,7 +6,7 @@ category: "db"
 tags: ["sql", "postgresql", "window-functions", "analytics", "ranking"]
 version: "14+"
 retrieval_hint: "window function ROW_NUMBER RANK LAG LEAD OVER PARTITION BY"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

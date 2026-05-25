@@ -7,7 +7,7 @@ subcategory: "api-framework"
 tags: ["fastapi", "background", "tasks", "async", "email", "processing"]
 version: "3.10+"
 retrieval_hint: "FastAPI background task after response send email processing"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

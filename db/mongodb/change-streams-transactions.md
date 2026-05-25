@@ -7,7 +7,7 @@ subcategory: "document-store"
 tags: ["mongodb", "nosql", "change-streams", "transactions", "sessions", "real-time", "event-driven"]
 version: "7.0+"
 retrieval_hint: "MongoDB change streams watch transactions sessions real-time event processing retryable writes"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

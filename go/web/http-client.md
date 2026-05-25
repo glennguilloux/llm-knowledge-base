@@ -6,7 +6,7 @@ category: "web"
 tags: ["go", "http", "client", "timeout", "retry", "transport", "connection-pool"]
 version: "1.21+"
 retrieval_hint: "http.Client timeout transport retry request response connection pool"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

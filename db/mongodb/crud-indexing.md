@@ -7,7 +7,7 @@ subcategory: "document-store"
 tags: ["mongodb", "nosql", "crud", "indexing", "bulkwrite", "query-optimization"]
 version: "7.0+"
 retrieval_hint: "MongoDB CRUD insert update delete index compound text explain query optimization"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

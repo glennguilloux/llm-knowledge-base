@@ -6,7 +6,7 @@ category: "web"
 tags: ["scraping", "beautifulsoup", "playwright", "html", "parsing", "automation"]
 version: "3.10+"
 retrieval_hint: "web scraping beautifulsoup playwright HTML parsing automation extraction"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

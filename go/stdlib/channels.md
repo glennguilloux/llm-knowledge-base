@@ -6,7 +6,7 @@ category: "concurrency"
 tags: ["go", "channel", "select", "buffered", "unbuffered", "concurrency"]
 version: "1.21+"
 retrieval_hint: "channel buffered unbuffered select close range"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

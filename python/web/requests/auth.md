@@ -7,7 +7,7 @@ subcategory: "authentication"
 tags: ["requests", "authentication", "basic", "bearer", "oauth", "api-key"]
 version: "3.10+"
 retrieval_hint: "requests authentication basic bearer OAuth API key header"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

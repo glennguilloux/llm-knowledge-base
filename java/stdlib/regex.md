@@ -6,7 +6,7 @@ category: "stdlib"
 tags: ["regex", "Pattern", "Matcher", "regular-expression", "matching", "groups"]
 version: "17+"
 retrieval_hint: "regex Pattern Matcher regular expression matching groups compile find"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

@@ -7,7 +7,7 @@ subcategory: "state-management"
 tags: ["zustand", "state", "store", "global", "react", "typescript"]
 version: "5.0+"
 retrieval_hint: "Zustand store state management create persist middleware TypeScript"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

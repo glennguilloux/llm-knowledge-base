@@ -7,7 +7,7 @@ subcategory: "migrations"
 tags: ["alembic", "migration", "downgrade", "data", "schema", "branching"]
 version: "3.10+"
 retrieval_hint: "Alembic downgrade data migration branching merge schema migration"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

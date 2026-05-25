@@ -7,7 +7,7 @@ subcategory: "validation"
 tags: ["spring", "mvc", "validation", "bean", "constraint", "valid", "request"]
 version: "17+"
 retrieval_hint: "Spring MVC Bean Validation @Valid @NotNull @Size @Email constraints"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

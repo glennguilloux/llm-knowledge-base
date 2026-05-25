@@ -7,7 +7,7 @@ subcategory: "api-framework"
 tags: ["fastapi", "upload", "file", "form", "multipart", "binary"]
 version: "3.10+"
 retrieval_hint: "FastAPI file upload form multipart UploadFile File binary"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

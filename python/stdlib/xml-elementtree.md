@@ -7,7 +7,7 @@ subcategory: "file-formats"
 tags: ["xml", "elementtree", "parse", "xpath", "namespace", "etree"]
 version: "3.10+"
 retrieval_hint: "XML ElementTree parse XPath namespace find findall iter"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

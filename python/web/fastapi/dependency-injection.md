@@ -7,7 +7,7 @@ subcategory: "api-framework"
 tags: ["fastapi", "dependency", "injection", "depends", "yield", "async"]
 version: "3.10+"
 retrieval_hint: "FastAPI Depends dependency injection yield database session auth"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

@@ -7,7 +7,7 @@ subcategory: "api-framework"
 tags: ["django", "views", "urls", "routing", "cbv", "fbv", "path", "reverse"]
 version: "3.10+"
 retrieval_hint: "Django function views class-based views ListView DetailView URL routing path re_path reverse namespacing"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

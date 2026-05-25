@@ -6,7 +6,7 @@ category: "security"
 tags: ["security", "owasp", "xss", "csrf", "sql-injection", "input-validation"]
 version: "n/a"
 retrieval_hint: "OWASP XSS CSRF SQL injection security input validation Content Security Policy"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

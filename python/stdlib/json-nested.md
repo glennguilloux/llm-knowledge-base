@@ -7,7 +7,7 @@ subcategory: "serialization"
 tags: ["json", "parse", "nested", "encoder", "decoder", "serialization"]
 version: "3.10+"
 retrieval_hint: "JSON parse nested dict list custom encoder decoder datetime serialization"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

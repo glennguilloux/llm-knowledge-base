@@ -7,7 +7,7 @@ subcategory: "api-design"
 tags: ["webhook", "event", "signature", "retry", "idempotent", "async"]
 version: ""
 retrieval_hint: "Webhook signature verification retry idempotent event HMAC"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

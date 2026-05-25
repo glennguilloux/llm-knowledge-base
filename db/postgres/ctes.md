@@ -6,7 +6,7 @@ category: "db"
 tags: ["sql", "postgresql", "cte", "with-clause", "recursive", "readability"]
 version: "14+"
 retrieval_hint: "CTE WITH clause recursive query common table expression"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

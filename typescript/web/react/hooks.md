@@ -7,7 +7,7 @@ subcategory: "react"
 tags: ["react", "hooks", "custom-hooks", "use-state", "use-effect"]
 version: "18+"
 retrieval_hint: "React custom hooks useState useEffect useReducer"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 
@@ -146,6 +146,19 @@ function Component({ id }: { id: string }) {
   useEffect(() => {
     fetchData(id);
   }, [id]);
+}
+
+// WRONG: Calling hooks inside a loop
+function Component({ items }: { items: string[] }) {
+  items.forEach((item) => {
+    const [selected, setSelected] = useState(false);  // Error: hooks in loop!
+  });
+}
+
+// CORRECT: Call hook unconditionally, iterate inside the render
+function Component({ items }: { items: string[] }) {
+  const [selectedMap, setSelectedMap] = useState<Record<string, boolean>>({});
+  // Use selectedMap[item] in the loop below
 }
 ```
 

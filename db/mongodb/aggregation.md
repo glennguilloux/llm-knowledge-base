@@ -7,7 +7,7 @@ subcategory: "aggregation"
 tags: ["mongodb", "aggregation", "pipeline", "match", "group", "lookup"]
 version: "6.0+"
 retrieval_hint: "MongoDB aggregation pipeline match group lookup"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 
@@ -108,6 +108,20 @@ db.orders.aggregate([
 
 // CORRECT: Create index for frequently queried fields
 db.orders.createIndex({ status: 1, createdAt: -1 });
+
+// WRONG: Using $sort after $limit — gets wrong top-N results
+db.orders.aggregate([
+  { $match: { status: "completed" } },
+  { $limit: 10 },
+  { $sort: { total: -1 } },  // sorts only 10 arbitrary docs, not top 10!
+]);
+
+// CORRECT: $sort before $limit to get actual top-N
+db.orders.aggregate([
+  { $match: { status: "completed" } },
+  { $sort: { total: -1 } },
+  { $limit: 10 },
+]);
 ```
 
 ## Gotchas

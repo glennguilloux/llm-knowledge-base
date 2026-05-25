@@ -6,7 +6,7 @@ category: "stdlib"
 tags: ["lifetime", "borrow", "reference", "elision", "static"]
 version: "1.75+"
 retrieval_hint: "lifetime annotation elision static borrow reference dangling"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

@@ -6,7 +6,7 @@ category: "web"
 tags: ["upload", "multipart", "presigned-url", "s3", "file", "form-data"]
 version: "3.10+"
 retrieval_hint: "file upload multipart presigned URL S3 form data"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

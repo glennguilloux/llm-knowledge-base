@@ -7,7 +7,7 @@ subcategory: "monitoring"
 tags: ["sentry", "error", "tracking", "monitoring", "exception", "logging"]
 version: "3.10+"
 retrieval_hint: "Sentry error tracking monitoring exception capture breadcrumbs context"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 
@@ -148,4 +148,4 @@ sentry_sdk.init(traces_sample_rate=0.1)  # 10% of transactions
 ## Related
 - python/stdlib/logging.md
 - python/web/fastapi/error-handling.md
-- error-handling/error-patterns.md
+- error-handling/structured-errors.md

@@ -7,7 +7,7 @@ subcategory: "null-safety"
 tags: ["optional", "null", "null-safety", "maybe"]
 version: "17+"
 retrieval_hint: "Java Optional null safety maybe empty orElse"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

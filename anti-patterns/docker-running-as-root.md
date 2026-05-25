@@ -138,3 +138,4 @@ Running containers as root is the most critical Docker security anti-pattern. If
 - devops/docker/dockerfile-patterns.md
 - devops/docker/compose.md
 - security/web-security-basics.md
+- anti-patterns/docker-antipatterns.md

@@ -7,7 +7,7 @@ subcategory: "api-framework"
 tags: ["trpc", "type-safe", "api", "rpc", "typescript", "end-to-end"]
 version: "5.0+"
 retrieval_hint: "tRPC type-safe API RPC end-to-end TypeScript procedure router query mutation"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

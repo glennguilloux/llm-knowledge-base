@@ -7,7 +7,7 @@ subcategory: "data-structures"
 tags: ["dataclass", "data-classes", "immutable", "frozen", "typing"]
 version: "3.10+"
 retrieval_hint: "dataclass immutable frozen typed data structure"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

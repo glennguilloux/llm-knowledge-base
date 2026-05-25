@@ -7,7 +7,7 @@ subcategory: "operations"
 tags: ["shutdown", "graceful", "signal", "drain", "connection", "cleanup"]
 version: ""
 retrieval_hint: "Graceful shutdown signal SIGTERM drain connection cleanup server"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

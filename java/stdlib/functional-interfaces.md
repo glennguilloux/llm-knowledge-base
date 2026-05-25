@@ -6,7 +6,7 @@ category: "stdlib"
 tags: ["java", "lambda", "functional", "stream", "predicate", "function"]
 version: "17+"
 retrieval_hint: "lambda functional interface Predicate Function Consumer Supplier stream"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

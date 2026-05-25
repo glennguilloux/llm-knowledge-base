@@ -6,7 +6,7 @@ category: "stdlib"
 tags: ["json", "jackson", "gson", "serialization", "deserialization", "ObjectMapper"]
 version: "17+"
 retrieval_hint: "json jackson gson serialization deserialization ObjectMapper annotation mapping"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

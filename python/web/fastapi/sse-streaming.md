@@ -7,7 +7,7 @@ subcategory: "api-framework"
 tags: ["fastapi", "sse", "streaming", "eventsource", "response", "async"]
 version: "3.10+"
 retrieval_hint: "FastAPI server-sent events SSE streaming response EventSource async generator"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 
@@ -160,4 +160,4 @@ async def stream():
 ## Related
 - python/web/fastapi/basics.md
 - python/web/fastapi/background-tasks.md
-- python/web/websocket-basics.md
+- python/web/websocket.md

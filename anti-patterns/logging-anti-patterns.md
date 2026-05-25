@@ -133,5 +133,5 @@ Using `print()` instead of proper logging is the most common logging anti-patter
 ## Related
 - python/stdlib/logging.md
 - python/stdlib/logging-structured.md
-- patterns/error-handling.md
+- bash/error-handling.md
 - security/web-security-basics.md

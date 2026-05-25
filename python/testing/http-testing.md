@@ -7,7 +7,7 @@ subcategory: "integration-testing"
 tags: ["testing", "http", "api", "testclient", "httpx", "integration"]
 version: "3.10+"
 retrieval_hint: "testing HTTP API integration testclient httpx mock"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

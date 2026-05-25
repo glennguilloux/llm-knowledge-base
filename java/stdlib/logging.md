@@ -6,7 +6,7 @@ category: "stdlib"
 tags: ["logging", "SLF4J", "Logback", "logger", "structured", "MDC"]
 version: "17+"
 retrieval_hint: "logging SLF4J Logback logger MDC structured log level"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

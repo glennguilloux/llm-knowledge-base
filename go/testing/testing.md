@@ -6,7 +6,7 @@ category: "testing"
 tags: ["go", "testing", "benchmark", "subtest", "table-driven", "TestMain"]
 version: "1.21+"
 retrieval_hint: "test benchmark subtest table-driven TestMain t.Run t.Helper"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

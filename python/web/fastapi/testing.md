@@ -7,7 +7,7 @@ subcategory: "testing"
 tags: ["fastapi", "testing", "testclient", "pytest", "httpx"]
 version: "3.10+"
 retrieval_hint: "FastAPI testing TestClient pytest httpx async test"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

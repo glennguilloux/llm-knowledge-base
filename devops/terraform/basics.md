@@ -7,7 +7,7 @@ subcategory: "infrastructure-as-code"
 tags: ["terraform", "iac", "infrastructure", "hcl", "modules", "state", "cloud"]
 version: "latest"
 retrieval_hint: "Terraform resource variable output provider state module workspace infrastructure"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

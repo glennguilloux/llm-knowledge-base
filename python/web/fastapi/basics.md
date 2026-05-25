@@ -7,7 +7,7 @@ subcategory: "api-framework"
 tags: ["fastapi", "routing", "api", "rest", "uvicorn", "pydantic"]
 version: "3.10+"
 retrieval_hint: "FastAPI app setup routing endpoint REST API uvicorn"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

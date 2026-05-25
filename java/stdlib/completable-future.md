@@ -6,7 +6,7 @@ category: "concurrency"
 tags: ["CompletableFuture", "async", "compose", "exception", "thenApply", "thenCompose"]
 version: "17+"
 retrieval_hint: "CompletableFuture async compose thenApply thenCompose exception handling supplyAsync"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

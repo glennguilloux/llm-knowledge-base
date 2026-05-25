@@ -7,7 +7,7 @@ subcategory: "api-framework"
 tags: ["django", "templates", "forms", "template-tags", "filters", "validation", "crispy"]
 version: "3.10+"
 retrieval_hint: "Django templates inheritance context processors forms validation crispy form rendering"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

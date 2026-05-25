@@ -6,7 +6,7 @@ category: "stdlib"
 tags: ["go", "modules", "dependency", "go.mod", "go.sum", "versioning", "vendor"]
 version: "1.21+"
 retrieval_hint: "go.mod go.sum version replace vendor workspace go get go install"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

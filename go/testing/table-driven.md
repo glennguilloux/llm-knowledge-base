@@ -7,7 +7,7 @@ subcategory: "unit-testing"
 tags: ["go", "testing", "table-driven", "httptest", "assert", "testify"]
 version: "1.21+"
 retrieval_hint: "Go testing table-driven httptest testify assertions HTTP handler test"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

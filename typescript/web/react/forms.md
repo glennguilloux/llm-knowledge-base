@@ -7,7 +7,7 @@ subcategory: "frontend"
 tags: ["react", "forms", "controlled", "hook-form", "validation", "input"]
 version: "5.0+"
 retrieval_hint: "React forms controlled component react-hook-form validation input handleSubmit"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

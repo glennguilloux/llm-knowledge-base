@@ -6,7 +6,7 @@ category: "stdlib"
 tags: ["go", "interface", "type-assertion", "type-switch", "composition"]
 version: "1.21+"
 retrieval_hint: "interface type assertion type switch composition io.Reader"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

@@ -7,7 +7,7 @@ subcategory: "web-server"
 tags: ["nginx", "reverse-proxy", "load-balancing", "ssl", "caching", "rate-limiting"]
 version: "latest"
 retrieval_hint: "Nginx reverse proxy upstream proxy_pass WebSocket caching rate limiting SSL termination load balancing"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

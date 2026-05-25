@@ -7,7 +7,7 @@ subcategory: "concurrency"
 tags: ["concurrency", "executor", "future", "completable-future", "thread"]
 version: "17+"
 retrieval_hint: "Java concurrency executor future thread pool async"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

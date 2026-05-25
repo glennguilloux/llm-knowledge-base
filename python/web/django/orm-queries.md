@@ -7,7 +7,7 @@ subcategory: "database"
 tags: ["django", "orm", "queries", "filter", "annotate", "aggregate", "q-objects", "f-expressions"]
 version: "3.10+"
 retrieval_hint: "Django ORM filter annotate aggregate Q objects F expressions select_related prefetch_related complex queries"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

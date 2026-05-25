@@ -1,13 +1,13 @@
 ---
 id: "devops-docker-compose"
-title: "Docker Compose"
+title: "Docker Compose: Deploy Multi-Container Application"
 language: "yaml"
 category: "devops"
 subcategory: "container"
-tags: ["docker", "compose", "services", "networks", "volumes"]
+tags: ["docker", "compose", "services", "networks", "volumes", "deploy", "containers", "application"]
 version: "n/a"
-retrieval_hint: "Docker Compose services networks volumes multi-container"
-last_verified: "2026-05-22"
+retrieval_hint: "Docker Compose services networks volumes multi-container deploy application containers"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 
@@ -97,6 +97,28 @@ services:
       - db  # May start before DB is ready!
 
 # CORRECT: Use healthcheck
+services:
+  db:
+    image: postgres:16
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 5s
+      retries: 5
+  app:
+    depends_on:
+      db:
+        condition: service_healthy
+
+# WRONG: depends_on with condition but no healthcheck on target
+services:
+  db:
+    image: postgres:16
+  app:
+    depends_on:
+      db:
+        condition: service_healthy  # Error: no healthcheck defined for db!
+
+# CORRECT: Define healthcheck on the target service
 services:
   db:
     image: postgres:16

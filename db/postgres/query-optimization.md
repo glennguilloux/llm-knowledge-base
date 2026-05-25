@@ -6,7 +6,7 @@ category: "db"
 tags: ["sql", "postgresql", "optimization", "explain", "performance", "query-plan"]
 version: "14+"
 retrieval_hint: "EXPLAIN ANALYZE query plan optimization slow query N+1"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

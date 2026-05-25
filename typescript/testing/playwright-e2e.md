@@ -7,7 +7,7 @@ subcategory: "e2e"
 tags: ["playwright", "e2e", "testing", "browser", "automation", "selectors"]
 version: "5.0+"
 retrieval_hint: "Playwright E2E testing browser automation selectors page test expect"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

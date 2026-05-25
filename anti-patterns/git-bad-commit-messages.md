@@ -121,3 +121,5 @@ Bad commit messages are a long-term maintenance cost that compounds over time. W
 ## Related
 - anti-patterns/security-hardcoded-secrets.md
 - devops/ci-cd/github-actions.md
+- anti-patterns/git-antipatterns.md
+- patterns/git-workflows.md

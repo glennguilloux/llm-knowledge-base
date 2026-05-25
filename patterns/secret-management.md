@@ -7,7 +7,7 @@ subcategory: "secrets"
 tags: ["secrets", "vault", "env", "encryption", "rotation", "management"]
 version: ""
 retrieval_hint: "Secret management environment variables vault rotation encryption"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

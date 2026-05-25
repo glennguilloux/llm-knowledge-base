@@ -7,7 +7,7 @@ subcategory: "cli"
 tags: ["rust", "clap", "cli", "args", "subcommand", "derive", "parser"]
 version: "1.75+"
 retrieval_hint: "Rust clap CLI argument parsing derive subcommand parser options"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

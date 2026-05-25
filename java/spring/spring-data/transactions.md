@@ -7,7 +7,7 @@ subcategory: "transactions"
 tags: ["spring", "data", "jpa", "transaction", "rollback", "isolation"]
 version: "17+"
 retrieval_hint: "Spring Data JPA transaction rollback isolation propagation"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 
@@ -118,6 +118,20 @@ public void process() {
 @Transactional
 public void process() {
     riskyOperation();  // Exception propagates, transaction rolls back
+}
+
+// WRONG: readOnly = true on a write method
+@Transactional(readOnly = true)
+public User createUser(UserRequest request) {
+    User user = new User();
+    user.setName(request.getName());
+    return userRepository.save(user);  // May not flush — dirty checking disabled
+}
+
+// CORRECT: Use readOnly only for queries
+@Transactional(readOnly = true)
+public List<User> findActiveUsers() {
+    return userRepository.findByActive(true);
 }
 ```
 

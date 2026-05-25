@@ -7,7 +7,7 @@ subcategory: "networking"
 tags: ["socket", "tcp", "udp", "network", "server", "client", "connection"]
 version: "3.10+"
 retrieval_hint: "socket TCP UDP server client network connection bind listen accept"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

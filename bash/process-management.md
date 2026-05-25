@@ -6,7 +6,7 @@ category: "stdlib"
 tags: ["bash", "shell", "process", "background", "jobs", "signals"]
 version: "n/a"
 retrieval_hint: "bash background process jobs wait kill signal nohup"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

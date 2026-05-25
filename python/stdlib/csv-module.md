@@ -7,7 +7,7 @@ subcategory: "file-formats"
 tags: ["csv", "read", "write", "dictreader", "dictwriter", "pandas"]
 version: "3.10+"
 retrieval_hint: "CSV read write DictReader DictWriter pandas import export"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

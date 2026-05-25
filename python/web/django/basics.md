@@ -7,7 +7,7 @@ subcategory: "api-framework"
 tags: ["django", "models", "views", "orm", "urls", "admin", "mtv"]
 version: "3.10+"
 retrieval_hint: "Django model view URL routing ORM admin template MTV pattern"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

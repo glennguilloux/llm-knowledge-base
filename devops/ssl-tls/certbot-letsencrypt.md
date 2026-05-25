@@ -7,7 +7,7 @@ subcategory: "security"
 tags: ["ssl", "tls", "certbot", "letsencrypt", "certificates", "https", "renewal"]
 version: "latest"
 retrieval_hint: "Certbot Let's Encrypt SSL TLS certificate renewal wildcard automated HTTPS"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

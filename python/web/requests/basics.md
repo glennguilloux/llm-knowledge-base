@@ -7,7 +7,7 @@ subcategory: "http-client"
 tags: ["requests", "http", "get", "post", "api", "rest"]
 version: "3.10+"
 retrieval_hint: "HTTP GET POST requests API call REST client"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

@@ -7,7 +7,7 @@ subcategory: "integration-testing"
 tags: ["spring", "boot", "testing", "webmvctest", "datajpatest", "springboottest"]
 version: "17+"
 retrieval_hint: "Spring Boot testing WebMvcTest DataJpaTest SpringBootTest MockMvc test slices"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

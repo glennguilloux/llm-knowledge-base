@@ -7,7 +7,7 @@ subcategory: "api-framework"
 tags: ["flask", "blueprint", "routing", "app-factory", "jinja", "wsgi"]
 version: "3.10+"
 retrieval_hint: "Flask app factory blueprint routing template Jinja WSGI"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 
@@ -154,4 +154,4 @@ def get_data():
 ## Related
 - python/web/fastapi/basics.md
 - python/db/sqlalchemy-2.0/models.md
-- python/web/django-basics.md
+- python/web/django/basics.md

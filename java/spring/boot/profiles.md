@@ -7,7 +7,7 @@ subcategory: "api-framework"
 tags: ["spring", "boot", "profiles", "environment", "configuration", "dev", "prod"]
 version: "17+"
 retrieval_hint: "Spring Boot profiles dev staging prod environment configuration"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

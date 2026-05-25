@@ -7,7 +7,7 @@ subcategory: "data-fetching"
 tags: ["react-query", "tanstack", "data-fetching", "cache", "stale", "mutation"]
 version: "5.0+"
 retrieval_hint: "TanStack Query React Query data fetching cache stale mutation useQuery useMutation"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

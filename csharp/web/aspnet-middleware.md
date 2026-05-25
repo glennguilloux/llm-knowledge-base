@@ -7,7 +7,7 @@ subcategory: "api-framework"
 tags: ["csharp", "dotnet", "aspnet", "middleware", "pipeline", "request", "exception"]
 version: "8.0+"
 retrieval_hint: "ASP.NET middleware pipeline UseWhen exception handler request logging"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

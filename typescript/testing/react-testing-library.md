@@ -7,7 +7,7 @@ subcategory: "unit-testing"
 tags: ["react-testing-library", "rtl", "testing", "render", "screen", "user-event"]
 version: "5.0+"
 retrieval_hint: "React Testing Library render screen userEvent waitFor getBy queryBy"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

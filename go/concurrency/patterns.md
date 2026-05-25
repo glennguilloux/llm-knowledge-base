@@ -6,7 +6,7 @@ category: "concurrency"
 tags: ["go", "concurrency", "worker-pool", "pipeline", "fan-out", "sync.Once", "sync.Pool", "rate-limit"]
 version: "1.21+"
 retrieval_hint: "worker pool pipeline fan-out rate limit sync.Once sync.Pool mutex race"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

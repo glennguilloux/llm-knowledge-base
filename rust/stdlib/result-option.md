@@ -6,7 +6,7 @@ category: "stdlib"
 tags: ["result", "option", "error-handling", "unwrap", "question-mark", "combinators"]
 version: "1.75+"
 retrieval_hint: "Result Option unwrap ? operator map and_then error handling"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

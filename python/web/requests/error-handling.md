@@ -7,7 +7,7 @@ subcategory: "error-handling"
 tags: ["requests", "error", "timeout", "retry", "exception", "http"]
 version: "3.10+"
 retrieval_hint: "requests error timeout retry exception handling HTTP"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

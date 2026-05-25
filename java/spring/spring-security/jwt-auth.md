@@ -7,7 +7,7 @@ subcategory: "authentication"
 tags: ["spring", "security", "jwt", "authentication", "filter", "bearer"]
 version: "17+"
 retrieval_hint: "Spring Security JWT authentication filter bearer token"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 
@@ -21,6 +21,10 @@ confidence: "high"
 ## Standard Pattern
 
 ```java
+import java.time.Duration;
+import java.time.Instant;
+import java.util.Date;
+
 // Security configuration
 @Configuration
 @EnableWebSecurity
@@ -99,8 +103,8 @@ public class JwtService {
     public String generateToken(UserDetails userDetails) {
         return Jwts.builder()
             .setSubject(userDetails.getUsername())
-            .setIssuedAt(new Date())
-            .setExpiration(new Date(System.currentTimeMillis() + 86400000))
+            .setIssuedAt(Date.from(Instant.now()))
+            .setExpiration(Date.from(Instant.now().plus(Duration.ofHours(24))))
             .signWith(getSigningKey(), SignatureAlgorithm.HS256)
             .compact();
     }
@@ -132,12 +136,31 @@ Jwts.builder()
     .signWith(key)  // Token lives forever!
     .compact();
 
-// CORRECT: Set expiration
+// CORRECT: Set expiration with java.time
 Jwts.builder()
     .setSubject(username)
-    .setExpiration(new Date(System.currentTimeMillis() + 86400000))
+    .setExpiration(Date.from(Instant.now().plus(Duration.ofHours(24))))
     .signWith(key)
     .compact();
+
+// WRONG: Not checking token validity in filter
+if (username != null) {
+    UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+    // Missing isTokenValid() — expired tokens still authenticate!
+    UsernamePasswordAuthenticationToken authToken =
+        new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+    SecurityContextHolder.getContext().setAuthentication(authToken);
+}
+
+// CORRECT: Always validate token before setting authentication
+if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+    UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+    if (jwtService.isTokenValid(token, userDetails)) {
+        UsernamePasswordAuthenticationToken authToken =
+            new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(authToken);
+    }
+}
 ```
 
 ## Gotchas

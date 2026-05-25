@@ -7,7 +7,7 @@ subcategory: "configuration-management"
 tags: ["ansible", "playbook", "role", "inventory", "automation", "configuration"]
 version: "latest"
 retrieval_hint: "Ansible playbook role inventory handler template variable automation configuration"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

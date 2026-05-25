@@ -7,7 +7,7 @@ subcategory: "operations"
 tags: ["feature-flags", "toggle", "rollout", "experiment", "a-b-testing"]
 version: ""
 retrieval_hint: "Feature flags toggle rollout experiment A/B testing gradual release"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

@@ -7,7 +7,7 @@ subcategory: "functional"
 tags: ["rust", "iterator", "closure", "map", "filter", "fold", "chain"]
 version: "1.75+"
 retrieval_hint: "Rust iterator closure map filter fold chain collect functional"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

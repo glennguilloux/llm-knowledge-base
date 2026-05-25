@@ -7,7 +7,7 @@ subcategory: "migrations"
 tags: ["alembic", "migration", "database", "schema", "version-control"]
 version: "3.10+"
 retrieval_hint: "Alembic migration database schema version upgrade downgrade"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

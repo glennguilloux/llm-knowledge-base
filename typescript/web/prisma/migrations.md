@@ -7,7 +7,7 @@ subcategory: "orm"
 tags: ["prisma", "migrations", "seed", "relations", "transactions", "schema"]
 version: "5.0+"
 retrieval_hint: "Prisma migrations seed relations transactions schema PostgreSQL"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

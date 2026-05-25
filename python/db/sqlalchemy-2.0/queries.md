@@ -7,7 +7,7 @@ subcategory: "orm"
 tags: ["sqlalchemy", "query", "crud", "select", "insert", "update", "delete"]
 version: "3.10+"
 retrieval_hint: "SQLAlchemy query CRUD select insert update delete filter"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

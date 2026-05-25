@@ -7,7 +7,7 @@ subcategory: "api-design"
 tags: ["rate-limiting", "token-bucket", "sliding-window", "throttle", "api"]
 version: ""
 retrieval_hint: "Rate limiting token bucket sliding window throttle API 429"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 
@@ -108,6 +108,15 @@ if count < limit:
 count = INCR rate:{ip}
 if count == 1: EXPIRE rate:{ip} 60
 if count > limit: return 429
+
+# WRONG: Returning 429 without Retry-After header
+HTTP/1.1 429 Too Many Requests
+# Client doesn't know when to retry — may hammer the server immediately
+
+# CORRECT: Include Retry-After header in 429 response
+HTTP/1.1 429 Too Many Requests
+Retry-After: 60
+# Client waits 60 seconds before retrying
 ```
 
 ## Gotchas

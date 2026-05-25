@@ -7,7 +7,7 @@ subcategory: "resilience"
 tags: ["retry", "tenacity", "exponential-backoff", "resilience", "transient"]
 version: "3.10+"
 retrieval_hint: "retry tenacity exponential backoff resilience transient error"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

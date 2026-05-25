@@ -7,7 +7,7 @@ subcategory: "http-client"
 tags: ["requests", "session", "cookies", "connection-pool", "persistent"]
 version: "3.10+"
 retrieval_hint: "requests session cookies connection pool persistent"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

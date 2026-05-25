@@ -7,7 +7,7 @@ subcategory: "validation"
 tags: ["fastapi", "pydantic", "validation", "request", "body", "query"]
 version: "3.10+"
 retrieval_hint: "FastAPI request validation Pydantic body query parameter"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

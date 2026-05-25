@@ -1,12 +1,12 @@
 ---
 id: "java-stdlib-exception-handling"
-title: "Exception Handling Hierarchy"
+title: "Java Exception Handling: try-catch, Custom Exception Hierarchy"
 language: "java"
 category: "stdlib"
-tags: ["exception", "try-catch", "throws", "custom-exception", "checked", "unchecked", "finally"]
+tags: ["java", "exception", "try-catch", "throws", "custom-exception", "checked", "unchecked", "finally", "handling"]
 version: "17+"
-retrieval_hint: "exception try catch throws custom checked unchecked finally hierarchy"
-last_verified: "2026-05-22"
+retrieval_hint: "Java exception handling try catch throws custom checked unchecked finally hierarchy exception handling"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

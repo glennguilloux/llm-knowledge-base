@@ -7,7 +7,7 @@ subcategory: "cache"
 tags: ["redis", "cache", "key-value", "session", "pub-sub"]
 version: "3.10+"
 retrieval_hint: "Redis cache key-value session pub-sub expire"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

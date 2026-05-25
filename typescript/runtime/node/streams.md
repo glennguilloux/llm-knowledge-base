@@ -7,7 +7,7 @@ subcategory: "io"
 tags: ["stream", "readable", "writable", "transform", "pipe"]
 version: "18+"
 retrieval_hint: "Node.js stream readable writable transform pipe"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 
@@ -92,6 +92,21 @@ stream.pipe(transform).pipe(output);  // Unhandled errors!
 pipeline(stream, transform, output, (err) => {
   if (err) console.error('Pipeline failed:', err);
 });
+
+// WRONG: Writing to fast without checking return value
+const writeStream = createWriteStream('output.txt');
+for (const chunk of hugeArray) {
+  writeStream.write(chunk);  // Buffer grows unbounded — memory leak!
+}
+
+// CORRECT: Respect backpressure
+const writeStream = createWriteStream('output.txt');
+for (const chunk of hugeArray) {
+  const canContinue = writeStream.write(chunk);
+  if (!canContinue) {
+    await new Promise<void>((resolve) => writeStream.once('drain', resolve));
+  }
+}
 ```
 
 ## Gotchas

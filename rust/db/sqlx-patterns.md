@@ -7,7 +7,7 @@ subcategory: "sql"
 tags: ["rust", "sqlx", "async", "database", "postgresql", "query", "migrate"]
 version: "1.75+"
 retrieval_hint: "Rust SQLx async database PostgreSQL query compile-time migrate"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

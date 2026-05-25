@@ -6,7 +6,7 @@ category: "stdlib"
 tags: ["bash", "shell", "strings", "text-processing", "sed", "awk"]
 version: "n/a"
 retrieval_hint: "bash string manipulation sed awk grep cut tr"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

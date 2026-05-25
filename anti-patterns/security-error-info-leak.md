@@ -127,3 +127,4 @@ Information leakage in errors is subtle because it works fine in development —
 - python/patterns/error-handling.md
 - python/web/fastapi/error-handling.md
 - api-design/error-response-format.md
+- anti-patterns/security-hardcoded-secrets.md

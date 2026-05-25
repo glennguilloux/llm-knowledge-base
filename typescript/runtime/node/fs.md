@@ -7,7 +7,7 @@ subcategory: "filesystem"
 tags: ["fs", "file", "read", "write", "path", "node"]
 version: "18+"
 retrieval_hint: "Node.js fs file read write path promises"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

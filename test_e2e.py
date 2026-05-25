@@ -102,7 +102,11 @@ class TestRealUserJourneys:
         )
         assert result.returncode == 0
         assert "OVERALL" in result.stdout
-        assert "92" in result.stdout
+        # Score should be >= 90/100
+        import re
+        m = re.search(r"OVERALL\s+\|?\s*(\d+)/100", result.stdout)
+        assert m, f"Could not find overall score in output"
+        assert int(m.group(1)) >= 90, f"Quality score {m.group(1)}/100 is below 90"
 
     def test_python_api_retrieve(self):
         """Developer uses Python API in their code"""

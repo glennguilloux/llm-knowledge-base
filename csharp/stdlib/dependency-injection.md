@@ -6,7 +6,7 @@ category: "stdlib"
 tags: ["csharp", "dotnet", "dependency-injection", "di", "ioc", "service-lifetime"]
 version: ".NET 8+"
 retrieval_hint: "C# dependency injection IServiceCollection AddSingleton AddTransient AddScoped"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

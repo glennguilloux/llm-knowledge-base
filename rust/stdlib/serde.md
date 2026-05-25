@@ -6,7 +6,7 @@ category: "stdlib"
 tags: ["serde", "serialization", "json", "deserialization", "derive"]
 version: "1.75+"
 retrieval_hint: "serde Serialize Deserialize json serialization derive custom"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

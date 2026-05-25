@@ -7,7 +7,7 @@ subcategory: "documentation"
 tags: ["integration", "ollama", "lm-studio", "openai", "cli", "prompt"]
 version: "3.10+"
 retrieval_hint: "integration guide ollama lm studio openai compatible CLI prompt builder"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 
@@ -640,3 +640,8 @@ system_prompt, _ = build_prompt(query, top_k=3, max_tokens=8192)
 - Language auto-detection works for Python, Java, TypeScript, Go, Rust, C#, and Bash — other languages need explicit `language=` parameter
 - Anti-pattern entries for the detected language are automatically included when available
 - The `--dry-run` flag is essential for debugging — always verify what the model receives before generating
+
+## Related
+- docs/getting-started.md
+- docs/model-support.md
+- patterns/api-design.md

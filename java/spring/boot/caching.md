@@ -7,7 +7,7 @@ subcategory: "caching"
 tags: ["spring", "boot", "cache", "cacheable", "evict", "redis", "ehcache"]
 version: "17+"
 retrieval_hint: "Spring Boot Cacheable CachePut CacheEvict caching Redis EhCache"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

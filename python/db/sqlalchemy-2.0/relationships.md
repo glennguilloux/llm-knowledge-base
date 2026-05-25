@@ -7,7 +7,7 @@ subcategory: "orm"
 tags: ["sqlalchemy", "relationship", "foreign-key", "one-to-many", "many-to-many"]
 version: "3.10+"
 retrieval_hint: "SQLAlchemy relationship foreign key one-to-many many-to-many join"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

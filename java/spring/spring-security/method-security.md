@@ -7,7 +7,7 @@ subcategory: "security"
 tags: ["spring", "spring-security", "preauthorize", "spel", "method-security", "rbac"]
 version: "17+"
 retrieval_hint: "Spring Security method level @PreAuthorize @PostAuthorize SpEL expression role-based"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

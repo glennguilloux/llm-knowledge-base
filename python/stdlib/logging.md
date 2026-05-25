@@ -7,7 +7,7 @@ subcategory: "logging"
 tags: ["logging", "structured", "logger", "handler", "format"]
 version: "3.10+"
 retrieval_hint: "logging structured logger handler format level"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

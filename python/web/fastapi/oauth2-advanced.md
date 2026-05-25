@@ -7,7 +7,7 @@ subcategory: "auth"
 tags: ["fastapi", "oauth2", "scopes", "refresh", "token", "security"]
 version: "3.10+"
 retrieval_hint: "FastAPI OAuth2 scopes refresh token rotation fine-grained permissions"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

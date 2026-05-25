@@ -6,7 +6,7 @@ category: "stdlib"
 tags: ["datetime", "timezone", "dateutil", "parsing", "formatting", "timedelta"]
 version: "3.10+"
 retrieval_hint: "datetime timezone timedelta parsing formatting date time UTC"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

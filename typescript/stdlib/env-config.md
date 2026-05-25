@@ -6,7 +6,7 @@ category: "stdlib"
 tags: ["env", "config", "zod", "dotenv", "environment", "validation", "12-factor"]
 version: "5.0+"
 retrieval_hint: "environment variables config zod dotenv validation 12-factor process.env"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

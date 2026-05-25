@@ -7,7 +7,7 @@ subcategory: "collections"
 tags: ["collections", "list", "map", "set", "arraylist", "hashmap"]
 version: "17+"
 retrieval_hint: "Java collections list map set arraylist hashmap"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

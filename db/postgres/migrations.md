@@ -7,7 +7,7 @@ subcategory: "migrations"
 tags: ["postgres", "migration", "schema", "alter", "index"]
 version: "n/a"
 retrieval_hint: "PostgreSQL migration schema alter table index"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

@@ -7,7 +7,7 @@ subcategory: "api-framework"
 tags: ["spring", "mvc", "controller", "request", "response", "exception"]
 version: "17+"
 retrieval_hint: "Spring MVC controller request mapping exception handler"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 
@@ -119,6 +119,19 @@ public User getUser(@PathVariable Long id) {
 }
 
 // CORRECT: Use @ControllerAdvice for exception handling
+
+// WRONG: Missing @RequestBody on POST parameter
+@PostMapping("/users")
+public User createUser(UserRequest request) {
+    // Request body not deserialized — fields are null!
+    return userService.create(request);
+}
+
+// CORRECT: Add @RequestBody
+@PostMapping("/users")
+public User createUser(@RequestBody UserRequest request) {
+    return userService.create(request);
+}
 ```
 
 ## Gotchas

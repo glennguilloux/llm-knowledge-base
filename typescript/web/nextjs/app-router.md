@@ -7,7 +7,7 @@ subcategory: "framework"
 tags: ["nextjs", "app-router", "server-components", "layout", "routing"]
 version: "14+"
 retrieval_hint: "Next.js App Router server components layout routing"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 
@@ -114,6 +114,22 @@ export default function Page({ params }: { params: { id: string } }) {
 // CORRECT: Await params
 export default async function Page({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
+}
+
+// WRONG: 'use client' on a layout that wraps server components
+'use client';
+export default function Layout({ children }: { children: React.ReactNode }) {
+  return <div><nav /><main>{children}</main></div>;  // All children become client!
+}
+
+// CORRECT: Keep layout as server component, extract interactive parts
+export default function Layout({ children }: { children: React.ReactNode }) {
+  return <div><Nav /><main>{children}</main></div>;
+}
+'use client';
+function Nav() {
+  const [open, setOpen] = useState(false);
+  return <nav>{/* interactive logic here */}</nav>;
 }
 ```
 

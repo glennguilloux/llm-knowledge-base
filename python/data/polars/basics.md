@@ -7,7 +7,7 @@ subcategory: "dataframe"
 tags: ["polars", "dataframe", "data", "csv", "parquet", "fast", "lazy"]
 version: "3.10+"
 retrieval_hint: "Polars DataFrame CSV Parquet lazy evaluation expressions data processing"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 
@@ -134,6 +134,6 @@ result = df.filter(pl.col("value") > 10)
 - String operations use `pl.col("x").str.method()` namespace
 
 ## Related
-- python/data/pandas/basics.md
+- python/data/pandas-basics.md
 - python/stdlib/csv-module.md
 - python/web/fastapi/sse-streaming.md

@@ -6,7 +6,7 @@ category: "devops"
 tags: ["docker", "container", "multi-stage", "security", "health-check", "optimization"]
 version: "n/a"
 retrieval_hint: "Docker multi-stage build security health check resource limits best practices"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

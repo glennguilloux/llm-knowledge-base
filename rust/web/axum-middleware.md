@@ -6,7 +6,7 @@ category: "web"
 tags: ["axum", "middleware", "tower", "cors", "tracing", "layer", "from_fn"]
 version: "1.75+"
 retrieval_hint: "axum middleware from_fn layer cors tracing tower request response"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 
@@ -173,6 +173,6 @@ async fn middleware(req: Request, next: Next) -> Response {
 - Middleware applied to nested routes via `nest()` only affects routes inside that nest
 
 ## Related
-- rust/web/axum.md
+- rust/web/axum-deep.md
 - rust/web/axum-deep.md
 - rust/concurrency/async-tokio.md

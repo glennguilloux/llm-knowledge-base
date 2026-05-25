@@ -6,7 +6,7 @@ category: "stdlib"
 tags: ["concurrency", "threading", "multiprocessing", "asyncio", "parallelism", "gil"]
 version: "3.10+"
 retrieval_hint: "threading multiprocessing asyncio GIL concurrency parallelism"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

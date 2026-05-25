@@ -6,7 +6,7 @@ category: "web"
 tags: ["typescript", "websocket", "ws", "socket-io", "real-time"]
 version: "5.0+"
 retrieval_hint: "TypeScript WebSocket ws socket.io real-time chat"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

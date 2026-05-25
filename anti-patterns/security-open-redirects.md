@@ -128,4 +128,5 @@ Open redirects occur when an application takes a user-supplied URL and redirects
 ## Related
 - security/web-security-basics.md
 - python/web/fastapi/oauth2-password.md
-- security/sso-saml-oidc.md
+- anti-patterns/security-cors-misconfig.md
+- security/csrf-protection.md

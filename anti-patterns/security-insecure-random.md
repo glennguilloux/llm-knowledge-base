@@ -115,3 +115,4 @@ The core mistake is using pseudorandom number generators (PRNGs) designed for si
 ## Related
 - crypto/jwt-tokens.md
 - security/web-security-basics.md
+- anti-patterns/security-hardcoded-secrets.md

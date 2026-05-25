@@ -7,7 +7,7 @@ subcategory: "framework"
 tags: ["nextjs", "server-actions", "form", "mutation", "server"]
 version: "14+"
 retrieval_hint: "Next.js server actions form mutation server-side"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 
@@ -128,6 +128,20 @@ export async function createItem(formData: FormData) {
 }
 
 // CORRECT: Revalidate path
+export async function createItem(formData: FormData) {
+  await db.items.create({ data: { name: formData.get('name') } });
+  revalidatePath('/items');
+}
+
+// WRONG: Missing 'use server' directive
+export async function createItem(formData: FormData) {
+  await db.items.create({ data: { name: formData.get('name') } });
+  revalidatePath('/items');
+}
+// Client calling this gets: "createItem is not a function"
+
+// CORRECT: Add 'use server' at top of file or inline
+'use server';
 export async function createItem(formData: FormData) {
   await db.items.create({ data: { name: formData.get('name') } });
   revalidatePath('/items');

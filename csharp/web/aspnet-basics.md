@@ -6,7 +6,7 @@ category: "web"
 tags: ["csharp", "dotnet", "aspnet", "web-api", "minimal-api", "controller"]
 version: ".NET 8+"
 retrieval_hint: "C# ASP.NET Core Web API controller minimal API routing middleware"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

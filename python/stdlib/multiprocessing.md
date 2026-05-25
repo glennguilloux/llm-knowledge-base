@@ -6,7 +6,7 @@ category: "concurrency"
 tags: ["multiprocessing", "threading", "asyncio", "concurrency", "parallelism", "GIL", "process-pool"]
 version: "3.10+"
 retrieval_hint: "multiprocessing threading asyncio concurrency parallelism GIL process pool thread pool"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

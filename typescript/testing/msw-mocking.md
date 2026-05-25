@@ -7,7 +7,7 @@ subcategory: "mocking"
 tags: ["msw", "mock", "api", "service-worker", "testing", "intercept"]
 version: "5.0+"
 retrieval_hint: "MSW Mock Service Worker API mocking intercept handlers setup browser node"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

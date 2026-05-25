@@ -7,7 +7,7 @@ subcategory: "router"
 tags: ["go", "chi", "router", "middleware", "http", "rest", "api"]
 version: "1.21+"
 retrieval_hint: "Go Chi router middleware REST API routing group handler"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

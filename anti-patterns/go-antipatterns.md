@@ -7,7 +7,7 @@ subcategory: "go"
 tags: ["go", "anti-pattern", "goroutine-leak", "error-ignoring", "interface"]
 version: "1.21+"
 retrieval_hint: "Go anti-pattern goroutine leak error ignoring interface pollution naked return"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

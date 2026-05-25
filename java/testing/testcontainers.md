@@ -7,7 +7,7 @@ subcategory: "integration-testing"
 tags: ["testcontainers", "docker", "integration", "postgresql", "redis", "kafka"]
 version: "17+"
 retrieval_hint: "Testcontainers Docker PostgreSQL Redis Kafka integration test container"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

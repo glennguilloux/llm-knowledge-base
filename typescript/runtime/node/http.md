@@ -7,7 +7,7 @@ subcategory: "http"
 tags: ["http", "server", "client", "request", "response", "node"]
 version: "18+"
 retrieval_hint: "Node.js HTTP server client request response"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 
@@ -96,6 +96,28 @@ request('https://api.example.com');  // Wrong module!
 // CORRECT: Use https for HTTPS URLs
 import { request } from 'https';
 request('https://api.example.com');
+
+// WRONG: Not consuming request body on POST
+const server = createServer((req, res) => {
+  if (req.method === 'POST') {
+    // Body never read — connection hangs until timeout!
+    res.writeHead(200);
+    res.end('OK');
+  }
+});
+
+// CORRECT: Consume the body before responding
+const server = createServer((req, res) => {
+  if (req.method === 'POST') {
+    let body = '';
+    req.on('data', (chunk) => { body += chunk; });
+    req.on('end', () => {
+      const data = JSON.parse(body);
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ received: data }));
+    });
+  }
+});
 ```
 
 ## Gotchas

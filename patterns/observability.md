@@ -7,7 +7,7 @@ subcategory: "operations"
 tags: ["observability", "tracing", "metrics", "opentelemetry", "prometheus", "jaeger"]
 version: ""
 retrieval_hint: "Observability tracing metrics OpenTelemetry Prometheus Jaeger logging"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

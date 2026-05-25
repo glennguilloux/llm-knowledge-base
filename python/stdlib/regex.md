@@ -6,7 +6,7 @@ category: "stdlib"
 tags: ["regex", "re", "pattern", "matching", "string", "parsing"]
 version: "3.10+"
 retrieval_hint: "regex re match search findall compile pattern regular expression"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

@@ -19,7 +19,7 @@ REQUIRED_FIELDS = {
 }
 
 VALID_CONFIDENCE = {"high", "medium", "draft"}
-VALID_LANGUAGES = {"python", "java", "typescript", "multi", "sql", "yaml", "docker", "javascript", "go", "rust", "bash", "csharp", "shell"}
+VALID_LANGUAGES = {"python", "java", "typescript", "multi", "sql", "yaml", "docker", "javascript", "go", "rust", "bash", "csharp", "shell", "kotlin", "php", "swift"}
 VALID_CATEGORIES = {
     "stdlib",
     "web",

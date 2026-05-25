@@ -7,7 +7,7 @@ subcategory: "container"
 tags: ["docker", "dockerfile", "multi-stage", "slim", "security"]
 version: "n/a"
 retrieval_hint: "Dockerfile multi-stage slim image build security"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 
@@ -81,6 +81,27 @@ COPY . .  # Copies node_modules, .git, etc.
 # node_modules
 # .git
 # *.md
+
+# WRONG: Single-stage build with dev dependencies in production image
+FROM node:20
+WORKDIR /app
+COPY package*.json ./
+RUN npm install  # Installs devDependencies too
+COPY . .
+CMD ["node", "index.js"]  # 800MB+ image with test frameworks, linters, etc.
+
+# CORRECT: Multi-stage build, production dependencies only
+FROM node:20-alpine AS builder
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci --only=production
+COPY . .
+
+FROM node:20-alpine
+WORKDIR /app
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/index.js ./
+CMD ["node", "index.js"]
 ```
 
 ## Gotchas

@@ -7,7 +7,7 @@ subcategory: "orchestration"
 tags: ["kubernetes", "k8s", "pod", "deployment", "service", "ingress"]
 version: "n/a"
 retrieval_hint: "Kubernetes pod deployment service ingress manifest"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 
@@ -123,6 +123,33 @@ image: my-app:latest  # Unpredictable deployments!
 
 # CORRECT: Pin version
 image: my-app:1.0.0
+
+# WRONG: No liveness or readiness probes — K8s can't detect unhealthy pods
+containers:
+  - name: app
+    image: my-app:1.0.0
+    ports:
+      - containerPort: 3000
+# Pod stays "Running" even if app crashes or is not ready for traffic
+
+# CORRECT: Define both probes
+containers:
+  - name: app
+    image: my-app:1.0.0
+    ports:
+      - containerPort: 3000
+    livenessProbe:
+      httpGet:
+        path: /health
+        port: 3000
+      initialDelaySeconds: 30
+      periodSeconds: 10
+    readinessProbe:
+      httpGet:
+        path: /ready
+        port: 3000
+      initialDelaySeconds: 5
+      periodSeconds: 5
 ```
 
 ## Gotchas

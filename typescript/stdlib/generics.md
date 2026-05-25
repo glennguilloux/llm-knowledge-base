@@ -7,7 +7,7 @@ subcategory: "typing"
 tags: ["generics", "utility-types", "type-narrowing", "conditional-types"]
 version: "5.0+"
 retrieval_hint: "TypeScript generics utility types conditional narrowing"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 
@@ -98,6 +98,16 @@ function merge<T extends object>(a: T, b: T): T {
 // CORRECT: Use separate generics
 function merge<A extends object, B extends object>(a: A, b: B): A & B {
   return { ...a, ...b } as A & B;
+}
+
+// WRONG: Forgetting constraint on generic parameter
+function getLength<T>(item: T): number {
+  return item.length;  // Error: 'T' has no property 'length'
+}
+
+// CORRECT: Constrain T to types with length
+function getLength<T extends { length: number }>(item: T): number {
+  return item.length;
 }
 ```
 

@@ -6,7 +6,7 @@ category: "stdlib"
 tags: ["environment", "config", "dotenv", "pydantic-settings", "secrets", "12-factor"]
 version: "3.10+"
 retrieval_hint: "environment variables os.environ getenv dotenv config pydantic-settings"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

@@ -7,7 +7,7 @@ subcategory: "sync"
 tags: ["go", "sync", "waitgroup", "mutex", "errgroup", "once", "pool"]
 version: "1.21+"
 retrieval_hint: "Go sync WaitGroup Mutex errgroup Once Pool concurrent goroutine"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

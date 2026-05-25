@@ -7,7 +7,7 @@ subcategory: "backend"
 tags: ["express", "middleware", "error-handling", "routing", "auth", "chain"]
 version: "5.0+"
 retrieval_hint: "Express middleware chain error handling NextFunction router auth"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 
@@ -159,4 +159,4 @@ app.use(errorHandler);
 ## Related
 - typescript/web/express-server.md
 - typescript/web/nextjs/app-router.md
-- error-handling/error-patterns.md
+- error-handling/structured-errors.md

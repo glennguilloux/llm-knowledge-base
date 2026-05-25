@@ -7,7 +7,7 @@ subcategory: "performance"
 tags: ["postgres", "index", "btree", "gin", "gist", "performance"]
 version: "n/a"
 retrieval_hint: "PostgreSQL index btree gin gist performance query"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

@@ -7,7 +7,7 @@ subcategory: "architecture"
 tags: ["architecture", "adr", "decisions", "design", "documentation"]
 version: "n/a"
 retrieval_hint: "architecture decision record ADR design documentation"
-last_verified: "2025-01-15"
+last_verified: "2026-05-24"
 confidence: "draft"
 ---
 
@@ -46,6 +46,56 @@ What becomes easier or more difficult to do because of this change?
 ```
 
 ## Common Mistakes
+
+```python
+# WRONG: Writing an ADR with no context
+"""
+## Decision
+We will use PostgreSQL.
+## Consequences
+It will work fine.
+"""
+# No context, no alternatives, no useful information
+
+# CORRECT: Include context, rationale, and trade-offs
+"""
+## Context
+We need a relational database for transactional data. Our team has
+5 years of PostgreSQL experience. We expect ~10K writes/sec.
+
+## Decision
+Use PostgreSQL 16 as our primary database.
+
+## Consequences
+- Easier: Team expertise, mature ecosystem, JSON support
+- Harder: Horizontal scaling requires Citus or partitioning
+"""
+
+# WRONG: Writing ADRs after implementation
+# git log shows "switched to MongoDB" two months ago
+# ADR-003: "We decided to use MongoDB" — written retroactively
+# Too late — rationale is lost, alternatives not recorded
+
+# CORRECT: Write ADRs BEFORE implementation
+# ADR-003 is approved in a design review, THEN code changes begin
+# Decision rationale is captured while alternatives are still fresh
+
+# WRONG: Vague consequences
+"""
+## Consequences
+- This is a good decision.
+- Things will be better.
+"""
+# No actionable information for future maintainers
+
+# CORRECT: Specific, measurable consequences
+"""
+## Consequences
+- Easier: Query latency drops from 200ms to 15ms for user lookups
+- Harder: Migration requires 4-hour downtime window
+- Risk: Team needs training on new ORM (est. 2 sprint days)
+"""
+```
 
 - Writing ADRs after the decision is already implemented
 - Not including enough context for future readers
@@ -123,3 +173,5 @@ We will use FastAPI as our web framework.
 
 ## Related
 - project-conventions/style-rules.md
+- patterns/input-validation.md
+- error-handling/structured-errors.md

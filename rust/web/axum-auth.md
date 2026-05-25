@@ -6,7 +6,7 @@ category: "web"
 tags: ["axum", "auth", "jwt", "session", "middleware", "tower-cookies", "extractor"]
 version: "1.75+"
 retrieval_hint: "axum JWT authentication session cookies middleware extractor protected routes"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 
@@ -299,7 +299,7 @@ let claims = Claims {
 - In middleware-based auth, the user info isn't available to handlers unless you add it via `Extension` — prefer `AuthUser` extractor for handler-level auth
 
 ## Related
-- rust/web/axum.md
+- rust/web/axum-deep.md
 - rust/web/axum-middleware.md
 - rust/web/axum-state-error.md
 - rust/stdlib/serde.md

@@ -6,7 +6,7 @@ category: "testing"
 tags: ["go", "mock", "httptest", "interface", "test-double", "dependency-injection"]
 version: "1.21+"
 retrieval_hint: "mock interface httptest dependency injection test double fake stub"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

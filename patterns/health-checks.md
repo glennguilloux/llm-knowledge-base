@@ -7,7 +7,7 @@ subcategory: "operations"
 tags: ["health", "check", "liveness", "readiness", "kubernetes", "monitoring"]
 version: ""
 retrieval_hint: "Health check liveness readiness Kubernetes probe monitoring status"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

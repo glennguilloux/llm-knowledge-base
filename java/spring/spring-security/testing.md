@@ -7,7 +7,7 @@ subcategory: "testing"
 tags: ["spring", "spring-security", "testing", "mock-user", "integration-test", "mockmvc"]
 version: "17+"
 retrieval_hint: "Spring Security testing @WithMockUser @WithUserDetails MockMvc security context"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 
@@ -210,6 +210,28 @@ class UserTest {
 @WebMvcTest(UserController.class)
 @Import(MethodSecurityConfig.class)  // ensures @EnableMethodSecurity is active
 class UserTest { ... }
+
+// WRONG: Testing secured endpoint without any authentication annotation
+@WebMvcTest(UserController.class)
+class UserTest {
+    @Test
+    void listUsers_shouldReturnOk() throws Exception {
+        mockMvc.perform(get("/api/users"))
+            .andExpect(status().isOk());  // Fails: 401 Unauthorized
+    }
+}
+
+// CORRECT: Add @WithMockUser for authenticated tests
+@WebMvcTest(UserController.class)
+@Import(MethodSecurityConfig.class)
+class UserTest {
+    @Test
+    @WithMockUser(roles = "ADMIN")
+    void listUsers_asAdmin_shouldReturnOk() throws Exception {
+        mockMvc.perform(get("/api/users"))
+            .andExpect(status().isOk());
+    }
+}
 ```
 
 ## Gotchas

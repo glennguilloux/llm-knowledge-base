@@ -6,7 +6,7 @@ category: "anti-patterns"
 tags: ["antipatterns", "django", "orm", "views", "common-mistakes"]
 version: "n/a"
 retrieval_hint: "django common mistakes N+1 select_related prefetch_related fat views raw SQL transactions"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

@@ -7,7 +7,7 @@ subcategory: "background-processing"
 tags: ["csharp", "dotnet", "background", "worker", "hosted-service", "timer", "queue"]
 version: "8.0+"
 retrieval_hint: ".NET BackgroundService IHostedService Worker Service periodic timer queue processing"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

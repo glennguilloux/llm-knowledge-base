@@ -7,7 +7,7 @@ subcategory: "security"
 tags: ["spring", "spring-security", "oauth2", "jwt", "resource-server", "oidc"]
 version: "17+"
 retrieval_hint: "Spring Security OAuth2 resource server client JWT validation OIDC"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

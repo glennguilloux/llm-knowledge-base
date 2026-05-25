@@ -7,7 +7,7 @@ subcategory: "orm"
 tags: ["spring", "data", "jpa", "query", "jpql", "specification"]
 version: "17+"
 retrieval_hint: "Spring Data JPA query JPQL specification criteria"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 
@@ -107,6 +107,12 @@ List<User> findByName(@Param("name") String name);
 // CORRECT: Use JPQL for portability
 @Query("SELECT u FROM User u WHERE u.name = :name")
 List<User> findByName(@Param("name") String name);
+
+// WRONG: Derived query name doesn't match entity field
+List<User> findByUserName(String name);  // "userName" is not a field — query fails at startup
+
+// CORRECT: Match the actual entity field name
+List<User> findByName(String name);  // "name" is the entity field
 ```
 
 ## Gotchas

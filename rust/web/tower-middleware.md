@@ -6,7 +6,7 @@ category: "web"
 tags: ["tower", "service", "layer", "middleware", "rate-limit", "timeout", "compression"]
 version: "1.75+"
 retrieval_hint: "tower service layer middleware rate limit timeout compression reusable"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 
@@ -216,6 +216,6 @@ fn call(&mut self, req: Request<Body>) -> Self::Future {
 - Middleware order matters: `TimeoutLayer` should wrap `RateLimitLayer` so timeouts don't count against rate limit
 
 ## Related
-- rust/web/axum.md
+- rust/web/axum-deep.md
 - rust/web/axum-middleware.md
 - rust/concurrency/async-tokio.md

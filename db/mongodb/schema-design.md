@@ -7,7 +7,7 @@ subcategory: "document-store"
 tags: ["mongodb", "nosql", "schema", "embedding", "referencing", "modeling", "validation"]
 version: "7.0+"
 retrieval_hint: "MongoDB schema design embedding referencing one-to-many validation modeling normalization"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 
@@ -151,6 +151,22 @@ await db.createCollection("orders", {
       properties: { amount: { bsonType: "double" } },
     },
   },
+});
+
+// WRONG: Embedding data that changes frequently (e.g., product price in every order)
+await orders.insertOne({
+  userId: "user123",
+  items: [{ productId: "p1", name: "Widget", price: 9.99 }], // price cached here
+  total: 9.99,
+});
+// If product price changes, all past orders show stale data
+
+// CORRECT: Reference stable data; snapshot only what won't change
+await orders.insertOne({
+  userId: "user123",
+  items: [{ productId: "p1", quantity: 1 }],
+  total: 9.99, // total captured at time of purchase
+  createdAt: new Date(),
 });
 ```
 

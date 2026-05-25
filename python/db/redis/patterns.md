@@ -7,7 +7,7 @@ subcategory: "cache"
 tags: ["redis", "cache", "pubsub", "rate-limit", "session", "async"]
 version: "3.10+"
 retrieval_hint: "Redis cache pub/sub rate limiting session TTL invalidation"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 
@@ -169,4 +169,4 @@ def is_rate_limited(key: str, limit: int, window: int) -> bool:
 ## Related
 - python/db/sqlalchemy-2.0/async-sessions.md
 - python/web/fastapi/dependency-injection.md
-- patterns/caching-strategies.md
+- performance/caching-strategies.md

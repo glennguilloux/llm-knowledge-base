@@ -7,7 +7,7 @@ subcategory: "unit-testing"
 tags: ["junit", "testing", "assertions", "parameterized", "mockito"]
 version: "17+"
 retrieval_hint: "JUnit 5 testing assertions parameterized mockito"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 
@@ -153,6 +153,36 @@ void test2() {
 @BeforeEach
 void setUp() {
     calculator = new Calculator();
+}
+
+// WRONG: Using Mockito annotations without @ExtendWith
+class UserServiceTest {
+    @Mock
+    private UserRepository userRepository;  // Null — annotations not processed
+
+    @InjectMocks
+    private UserService userService;
+
+    @Test
+    void shouldFindUser() {
+        when(userRepository.findById(1L)).thenReturn(Optional.empty());  // NullPointerException
+    }
+}
+
+// CORRECT: Add @ExtendWith(MockitoExtension.class)
+@ExtendWith(MockitoExtension.class)
+class UserServiceTest {
+    @Mock
+    private UserRepository userRepository;
+
+    @InjectMocks
+    private UserService userService;
+
+    @Test
+    void shouldFindUser() {
+        when(userRepository.findById(1L)).thenReturn(Optional.empty());
+        assertThrows(ResourceNotFoundException.class, () -> userService.findById(1L));
+    }
 }
 ```
 

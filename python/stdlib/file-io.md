@@ -6,7 +6,7 @@ category: "stdlib"
 tags: ["file-io", "open", "pathlib", "csv", "json", "tempfile", "encoding"]
 version: "3.10+"
 retrieval_hint: "file read write open pathlib csv json tempfile encoding"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

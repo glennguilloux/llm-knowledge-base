@@ -7,7 +7,7 @@ subcategory: "postgresql"
 tags: ["postgresql", "replication", "streaming", "logical", "ha", "failover"]
 version: "latest"
 retrieval_hint: "PostgreSQL replication streaming logical pg_basebackup hot standby failover replica"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 

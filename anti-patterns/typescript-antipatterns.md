@@ -6,7 +6,7 @@ category: "anti-patterns"
 tags: ["antipatterns", "typescript", "common-mistakes", "best-practices"]
 version: "n/a"
 retrieval_hint: "typescript common mistakes antipatterns any type non-null assertion"
-last_verified: "2026-05-22"
+last_verified: "2026-05-24"
 confidence: "high"
 ---
 
