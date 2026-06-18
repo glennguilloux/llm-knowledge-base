@@ -167,15 +167,16 @@ Fill in all sections:
 # Check frontmatter and sections
 llm-kb validate
 
-# Run quality tests
-python -m pytest test_entries_quality.py -v
+# Fast PR checks
+python -m pytest -m "smoke or sanity" -q
 
-# Run retrieval tests
-python -m pytest test_retrieval_comprehensive.py -v
-
-# Full test suite
-python -m pytest -v
+# Full regression for maintainers and releases
+python -m pytest test_retrieval.py test_entries_quality.py test_retrieval_comprehensive.py test_e2e.py test_retrieval_edge_cases.py test_phase14_profiles.py test_quality_audit.py -v --tb=short
 ```
+
+Smoke and sanity tests must stay fast and deterministic. Do not call external LLM providers in smoke or sanity tests. Do not add `/healthz` or `/readyz` checks; this project is a Python package, CLI, retrieval layer, and MCP server, not a web service.
+
+See `docs/test-automation-strategy.md`, `docs/checklists/pr.md`, and `docs/environment-matrix.md` for marker definitions and environment guidance.
 
 ### 6. Open a PR
 

@@ -232,12 +232,12 @@ SIMULATED_QUERIES: dict[str, list[str]] = {
 
 def find_entry_files(kb_path: Path) -> list[Path]:
     """Find all knowledge base entry markdown files."""
-    skip_files = {"README.md", "schema.md", "CONTRIBUTING.md", "LLM_CODEBASE_KNOWLEDGE_BASE.md"}
+    skip_files = {"README.md", "schema.md", "CONTRIBUTING.md"}
     files = []
     for md_file in sorted(kb_path.rglob("*.md")):
         if md_file.name in skip_files:
             continue
-        if md_file.parent.name in ("templates", ".github"):
+        if md_file.parent.name in ("templates", ".github", "docs"):
             continue
         if any(part.startswith(".") for part in md_file.parts):
             continue
@@ -732,7 +732,85 @@ def generate_markdown_report(
 
 
 # ---------------------------------------------------------------------------
-# Main
+# Programmatic API
+# ---------------------------------------------------------------------------
+
+def run_gap_detection(kb_path: str = ".", language: str | None = None,
+                      output: str = "scripts/gap_report.md",
+                      skip_trends: bool = False,
+                      skip_simulation: bool = False) -> int:
+    """Run gap detection analysis and generate a report.
+
+    Args:
+        kb_path: Path to knowledge base root.
+        language: Focus on a specific language (python, java, etc.).
+        output: Output report file path.
+        skip_trends: Skip trend analysis (network calls).
+        skip_simulation: Skip query simulation.
+
+    Returns:
+        Number of gaps found.
+    """
+    kb_path_resolved = Path(kb_path)
+
+    if not kb_path_resolved.exists():
+        print(f"Error: Path '{kb_path_resolved}' does not exist", file=sys.stderr)
+        return 0
+
+    start_time = datetime.now()
+
+    print("Loading entries...")
+    entries = load_entries_data(kb_path_resolved)
+    print(f"Loaded {len(entries)} entries")
+
+    all_gaps: list[dict] = []
+
+    # Strategy 1: Trend analysis
+    if not skip_trends:
+        print("Checking trending topics...")
+        all_gaps.extend(check_trending_topics(entries))
+
+    # Strategy 1b: Stack Overflow analysis
+    if not skip_trends:
+        print("Checking Stack Overflow top questions...")
+        all_gaps.extend(check_stackoverflow(entries, target_language=language))
+
+    # Strategy 2: Internal gap analysis
+    print("Analyzing internal coverage gaps...")
+    all_gaps.extend(analyze_internal_gaps(entries, target_language=language))
+
+    # Strategy 3: Query simulation
+    if not skip_simulation:
+        print("Simulating user queries...")
+        all_gaps.extend(simulate_queries(entries, kb_path_resolved, target_language=language))
+
+    elapsed = (datetime.now() - start_time).total_seconds()
+
+    # Generate report
+    report = generate_markdown_report(all_gaps, entries, elapsed)
+    output_path = Path(output)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    output_path.write_text(report, encoding="utf-8")
+    print(f"\nGap report saved to: {output_path}")
+    print(f"Found {len(all_gaps)} gaps in {elapsed:.1f}s")
+
+    # Quick console summary
+    high = sum(1 for g in all_gaps if g.get("priority") == "high")
+    medium = sum(1 for g in all_gaps if g.get("priority") == "medium")
+    low = sum(1 for g in all_gaps if g.get("priority") == "low")
+
+    if high:
+        print(f"  {high} high-priority gaps")
+    if medium:
+        print(f"  {medium} medium-priority gaps")
+    if low:
+        print(f"  {low} low-priority gaps")
+
+    return len(all_gaps)
+
+
+# ---------------------------------------------------------------------------
+# Main (CLI)
 # ---------------------------------------------------------------------------
 
 def main() -> int:
@@ -752,61 +830,14 @@ def main() -> int:
                         help="Skip query simulation")
 
     args = parser.parse_args()
-    kb_path = Path(args.kb_path)
 
-    if not kb_path.exists():
-        print(f"Error: Path '{kb_path}' does not exist", file=sys.stderr)
-        return 1
-
-    start_time = datetime.now()
-
-    print("Loading entries...")
-    entries = load_entries_data(kb_path)
-    print(f"Loaded {len(entries)} entries")
-
-    all_gaps: list[dict] = []
-
-    # Strategy 1: Trend analysis
-    if not args.skip_trends:
-        print("Checking trending topics...")
-        all_gaps.extend(check_trending_topics(entries))
-
-    # Strategy 1b: Stack Overflow analysis
-    if not args.skip_trends:
-        print("Checking Stack Overflow top questions...")
-        all_gaps.extend(check_stackoverflow(entries, target_language=args.language))
-
-    # Strategy 2: Internal gap analysis
-    print("Analyzing internal coverage gaps...")
-    all_gaps.extend(analyze_internal_gaps(entries, target_language=args.language))
-
-    # Strategy 3: Query simulation
-    if not args.skip_simulation:
-        print("Simulating user queries...")
-        all_gaps.extend(simulate_queries(entries, kb_path, target_language=args.language))
-
-    elapsed = (datetime.now() - start_time).total_seconds()
-
-    # Generate report
-    report = generate_markdown_report(all_gaps, entries, elapsed)
-    output_path = Path(args.output)
-    output_path.write_text(report, encoding="utf-8")
-    print(f"\nGap report saved to: {output_path}")
-    print(f"Found {len(all_gaps)} gaps in {elapsed:.1f}s")
-
-    # Quick console summary
-    high = sum(1 for g in all_gaps if g.get("priority") == "high")
-    medium = sum(1 for g in all_gaps if g.get("priority") == "medium")
-    low = sum(1 for g in all_gaps if g.get("priority") == "low")
-
-    if high:
-        print(f"  🔴 {high} high-priority gaps")
-    if medium:
-        print(f"  🟡 {medium} medium-priority gaps")
-    if low:
-        print(f"  🔵 {low} low-priority gaps")
-
-    return 0
+    return run_gap_detection(
+        kb_path=args.kb_path,
+        language=args.language,
+        output=args.output,
+        skip_trends=args.skip_trends,
+        skip_simulation=args.skip_simulation,
+    )
 
 
 if __name__ == "__main__":

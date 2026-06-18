@@ -5,12 +5,118 @@ and formats of knowledge based on their capabilities.
 """
 
 import re
+import json
 from pathlib import Path
 from dataclasses import dataclass
 from llm_kb.schema import KBEntry
 from llm_kb.retrieve import search
 from llm_kb.profiles import ModelProfile, get_profile, describe_profile
 from llm_kb.condenser import condense_entry, estimate_tokens, _trim_to_tokens
+
+
+# ---------------------------------------------------------------------------
+# Jinja2 rendering (optional dep, fallback to f-string)
+# ---------------------------------------------------------------------------
+
+_JINJA2_AVAILABLE: bool | None = None
+
+
+def _check_jinja2() -> bool:
+    """Check if Jinja2 is available (cached result)."""
+    global _JINJA2_AVAILABLE
+    if _JINJA2_AVAILABLE is not None:
+        return _JINJA2_AVAILABLE
+    try:
+        import jinja2  # noqa: F401
+        _JINJA2_AVAILABLE = True
+    except ImportError:
+        _JINJA2_AVAILABLE = False
+    return _JINJA2_AVAILABLE
+
+
+def render_template(template_str: str, context: dict) -> str:
+    """Render a template string with Jinja2 or fallback f-string substitution.
+
+    When Jinja2 is installed, full Jinja2 syntax is available (conditionals,
+    loops, filters). Falls back to simple {{ key }} substitution using f-string
+    when Jinja2 is not available.
+
+    Args:
+        template_str: Template string with {{ placeholders }}
+        context: Dict of template variables
+
+    Returns:
+        Rendered template string
+
+    Example:
+        >>> render_template("Hello {{ name }}!", {"name": "World"})
+        'Hello World!'
+    """
+    if _check_jinja2():
+        import jinja2
+        env = jinja2.Environment(
+            autoescape=False,
+            undefined=jinja2.ChainableUndefined,
+        )
+        template = env.from_string(template_str)
+        return template.render(**context)
+
+    # Fallback: f-string substitution for simple {{ key }} placeholders
+    result = template_str
+    for key, value in context.items():
+        placeholder = "{{ " + key + " }}"
+        alt_placeholder = "{{" + key + "}}"
+        str_value = str(value) if value is not None else ""
+        result = result.replace(placeholder, str_value)
+        result = result.replace(alt_placeholder, str_value)
+    return result
+
+
+# ---------------------------------------------------------------------------
+# Format wrappers for different API formats
+# ---------------------------------------------------------------------------
+
+
+FORMAT_WRAPPERS: dict[str, str] = {
+    "raw-text": "",
+    "openai-chat": "openai-chat",
+    "claude-xml": "claude-xml",
+}
+
+
+def wrap_format(system_prompt: str, user_query: str, fmt: str = "raw-text") -> str:
+    """Wrap a system prompt + user query into an API-specific format.
+
+    Args:
+        system_prompt: The assembled system prompt with knowledge
+        user_query: The original user query / coding task
+        fmt: One of "raw-text", "openai-chat", "claude-xml"
+
+    Returns:
+        Formatted string appropriate for the given API format
+    """
+    if fmt == "raw-text":
+        return f"{system_prompt}\n\n{user_query}"
+
+    if fmt == "openai-chat":
+        messages = [
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": user_query},
+        ]
+        return json.dumps({"messages": messages}, indent=2)
+
+    if fmt == "claude-xml":
+        parts = []
+        parts.append("<message role=\"system\">")
+        parts.append(system_prompt)
+        parts.append("</message>")
+        parts.append("")
+        parts.append("<message role=\"user\">")
+        parts.append(user_query)
+        parts.append("</message>")
+        return "\n".join(parts)
+
+    return f"{system_prompt}\n\n{user_query}"
 
 
 # ---------------------------------------------------------------------------
@@ -115,6 +221,8 @@ class PromptMetadata:
     budget_remaining: int
     profile: str = "small"
     model: str = ""
+    format_template: str = "raw-text"
+    system_prompt_template: str = "built-in"
 
 
 # ---------------------------------------------------------------------------
@@ -171,8 +279,20 @@ def _detect_language(query: str) -> str | None:
     return None
 
 
-def _boost_entries(entries: list[KBEntry], query: str) -> list[KBEntry]:
-    """Re-rank entries with language-aware boosting."""
+def _boost_entries(
+    entries: list[KBEntry],
+    query: str,
+    include_anti_patterns: bool = False,
+) -> list[KBEntry]:
+    """Re-rank entries with language-aware boosting.
+
+    Args:
+        entries: List of entries to re-rank
+        query: Original search query for language detection
+        include_anti_patterns: If True, anti-pattern entries are scored
+            normally alongside other entries. If False (default), anti-patterns
+            are extracted from the ranking and only the top one is prepended.
+    """
     detected_lang = _detect_language(query)
     if not detected_lang:
         return entries
@@ -186,14 +306,19 @@ def _boost_entries(entries: list[KBEntry], query: str) -> list[KBEntry]:
             score_boost = 10
         if "anti-pattern" in entry.id or "antipattern" in entry.id:
             if entry.language == detected_lang or entry.language == "multi":
-                anti_patterns.append(entry)
+                if include_anti_patterns:
+                    # Score anti-patterns normally alongside other entries
+                    boosted.append((score_boost, entry))
+                else:
+                    anti_patterns.append(entry)
+                    continue
                 continue
         boosted.append((score_boost, entry))
 
     boosted.sort(key=lambda x: -x[0])
     result = [e for _, e in boosted]
 
-    if anti_patterns:
+    if anti_patterns and not include_anti_patterns:
         result = anti_patterns[:1] + result
 
     return result
@@ -203,24 +328,29 @@ def _boost_entries(entries: list[KBEntry], query: str) -> list[KBEntry]:
 # _load_profile_prompt
 # ---------------------------------------------------------------------------
 
-def _load_profile_prompt(profile: ModelProfile) -> str:
+def _load_profile_prompt(profile: ModelProfile, custom_dir: Path | None = None) -> str:
     """Load the appropriate system prompt template for a profile.
 
-    Tries to read from llm_kb/prompts/<name>.md first, falls back to
-    the in-code templates.
-    """
-    prompt_path = Path(__file__).parent / "prompts" / f"{profile.name}.md"
-    if prompt_path.exists():
-        try:
-            content = prompt_path.read_text(encoding="utf-8").strip()
-            # Ensure the template has {knowledge_blocks} placeholder
-            if "{knowledge_blocks}" not in content:
-                content += "\n\n{knowledge_blocks}"
-            return content
-        except Exception:
-            pass
+    Resolution order:
+    1. custom_dir/<name>.md (user override, e.g. ~/.config/llm-kb/prompts/)
+    2. llm_kb/prompts/<name>.md (built-in, now Jinja2 templates)
+    3. In-code PROFILE_PROMPTS dict (fallback)
 
-    # Fall back to in-code templates
+    Returns the raw template string (may contain Jinja2 syntax).
+    """
+    search_dirs = []
+    if custom_dir is not None:
+        search_dirs.append(custom_dir)
+    search_dirs.append(Path(__file__).parent / "prompts")
+
+    for directory in search_dirs:
+        prompt_path = directory / f"{profile.name}.md"
+        if prompt_path.exists():
+            try:
+                return prompt_path.read_text(encoding="utf-8").strip()
+            except Exception:
+                pass
+
     return PROFILE_PROMPTS.get(profile.name, SYSTEM_PROMPT_TEMPLATE)
 
 
@@ -237,6 +367,9 @@ def build_prompt(
     system_prompt: str | None = None,
     model: str | None = None,
     profile: str | None = None,
+    format_template: str = "raw-text",
+    custom_prompts_dir: Path | None = None,
+    include_anti_patterns: bool = False,
 ) -> tuple[str, PromptMetadata]:
     """Build a complete prompt with retrieved knowledge, optimized for model size.
 
@@ -249,6 +382,10 @@ def build_prompt(
         system_prompt: Custom system prompt (uses profile-appropriate default if None)
         model: Model name (e.g., "qwen2.5-coder:32b") for auto-profiling
         profile: Explicit profile ("small", "medium", "large")
+        format_template: Output format ("raw-text", "openai-chat", "claude-xml")
+        custom_prompts_dir: Custom directory for profile-specific system prompt templates
+        include_anti_patterns: If True, anti-pattern entries are scored normally
+            alongside other entries instead of being consolidated to just one
 
     Returns:
         Tuple of (assembled_prompt, metadata)
@@ -280,16 +417,36 @@ def build_prompt(
     results = search(query, language=language, top_k=top_k, kb_path=kb_path)
 
     # Apply language-aware boosting
-    results = _boost_entries(results, query)
+    results = _boost_entries(results, query, include_anti_patterns=include_anti_patterns)
 
     # Select system prompt template
+    template_source = "built-in"
     if system_prompt is None:
-        sys_template = _load_profile_prompt(model_profile)
+        sys_template = _load_profile_prompt(model_profile, custom_dir=custom_prompts_dir)
+        if custom_prompts_dir and (custom_prompts_dir / f"{model_profile.name}.md").exists():
+            template_source = "custom"
+        elif (Path(__file__).parent / "prompts" / f"{model_profile.name}.md").exists():
+            template_source = "jinja2-md"
     else:
         sys_template = system_prompt
+        template_source = "user-provided"
 
-    system_tokens = estimate_tokens(sys_template)
     query_tokens = estimate_tokens(query) if query else 0
+
+    # Render template once to get accurate system token count
+    # (templates may use Jinja2 conditionals that depend on profile context)
+    template_context = {
+        "profile_name": model_profile.name,
+        "entry_mode": model_profile.entry_mode,
+        "include_mistakes": model_profile.include_mistakes,
+        "include_gotchas": model_profile.include_gotchas,
+        "include_when_to_use": model_profile.include_when_to_use,
+        "include_real_world": model_profile.include_real_world,
+        "max_entries": model_profile.max_entries,
+        "knowledge_blocks": "",  # placeholder, replaced after knowledge built
+    }
+    rendered_base = render_template(sys_template, template_context)
+    system_tokens = estimate_tokens(rendered_base)
 
     # Calculate budget
     if max_tokens:
@@ -356,11 +513,12 @@ def build_prompt(
     else:
         knowledge_text = separator.join(knowledge_blocks)
 
-    # Check if template has knowledge_blocks placeholder
-    if "{knowledge_blocks}" in sys_template:
-        assembled = sys_template.format(knowledge_blocks=knowledge_text)
-    else:
-        assembled = sys_template + "\n\n" + knowledge_text
+    # Render final prompt: combine rendered template with knowledge blocks
+    template_context["knowledge_blocks"] = knowledge_text
+    rendered = render_template(sys_template, template_context)
+
+    # Apply format wrapper
+    assembled = wrap_format(rendered, query, fmt=format_template)
 
     metadata = PromptMetadata(
         query_tokens=query_tokens,
@@ -373,6 +531,8 @@ def build_prompt(
         budget_remaining=(available - used_tokens) if max_tokens else 0,
         profile=model_profile.name,
         model=model or "",
+        format_template=format_template,
+        system_prompt_template=template_source,
     )
 
     return assembled, metadata
@@ -396,6 +556,8 @@ def format_metadata(metadata: PromptMetadata) -> str:
     if metadata.model:
         lines.append(f"Model: {metadata.model}")
     lines.append(f"Profile: {metadata.profile}")
+    lines.append(f"Template: {metadata.system_prompt_template}")
+    lines.append(f"Format: {metadata.format_template}")
     lines.append(f"Query: {metadata.query_tokens} tokens")
     lines.append(f"System: {metadata.system_prompt_tokens} tokens")
     lines.append(f"Knowledge: {metadata.knowledge_tokens} tokens")

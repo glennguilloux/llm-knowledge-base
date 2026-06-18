@@ -21,11 +21,13 @@ from retrieval import load_entries
 
 SKIP_FILES = {
     "README.md", "schema.md", "CONTRIBUTING.md", "RELEASE_CHECKLIST.md",
-    "LLM_CODEBASE_KNOWLEDGE_BASE.md", "CHANGELOG.md", "LICENSE",
+    "CHANGELOG.md", "LICENSE",
+    "LLM_CODEBASE_KNOWLEDGE_BASE.md",
 }
 SKIP_PARENTS = {
     "templates", ".github", "docs", "architecture", "scripts",
     "benchmark_prompts", "prompts", "build", "__pycache__", "node_modules",
+    "references", "llm_kb",
 }
 
 

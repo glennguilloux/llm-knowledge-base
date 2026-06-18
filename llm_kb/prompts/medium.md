@@ -7,4 +7,11 @@ Use the knowledge entries as authoritative reference for:
 
 You already know standard library APIs and general programming patterns.
 Focus on applying the LIBRARY-SPECIFIC patterns from the knowledge entries.
-If the knowledge contradicts your training, trust the knowledge — it's version-verified.
+{% if include_gotchas %}
+Every gotcha listed is a real bug that has shipped to production — treat them as mandatory reading.
+{% endif %}
+{% if include_mistakes %}
+If a WRONG/CORRECT pair contradicts your training, trust the CORRECT pattern — it's version-verified.
+{% endif %}
+
+{{ knowledge_blocks }}

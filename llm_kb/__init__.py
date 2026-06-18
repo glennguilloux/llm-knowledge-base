@@ -4,7 +4,8 @@ Now supports model-aware prompting: automatically optimizes knowledge delivery
 for 7B, 27B, and 70B+ models via profiles.
 """
 
-from llm_kb.retrieve import search, load_entries
+from llm_kb.retrieve import search, load_entries, search_expanded, hybrid_search, diversify_results, score_cross_reference_boost
+from llm_kb.expand import expand_query, EXPANSION_MAP
 from llm_kb.prompt import build_prompt as _build_prompt_full
 from llm_kb.scorecard import get_scorecard_data
 from llm_kb.profiles import list_models, describe_profile, ModelProfile, PROFILES, MODEL_MAP
@@ -31,13 +32,16 @@ def get_profile(model: str | None = None, size_hint: str | None = None) -> Model
     return _get_profile(model_name=model, size_hint=size_hint)
 
 
-def retrieve(query: str, language: str | None = None, top_k: int = 3) -> list[dict]:
+def retrieve(query: str, language: str | None = None, top_k: int = 3,
+             use_vector: bool = False,
+             include_anti_patterns: bool = False) -> list[dict]:
     """Retrieve relevant knowledge entries.
 
     Args:
         query: Natural language query (e.g., "how to hash a file in Python")
         language: Filter by language (python, java, typescript, go, rust, csharp, bash)
         top_k: Number of entries to return
+        use_vector: Enable hybrid vector+keyword search (requires vector deps)
 
     Returns:
         List of dicts with keys: id, title, language, category, content, tags
@@ -47,7 +51,19 @@ def retrieve(query: str, language: str | None = None, top_k: int = 3) -> list[di
         >>> print(results[0]["title"])
         'JWT Authentication with FastAPI'
     """
-    entries = search(query, language=language, top_k=top_k)
+    if use_vector:
+        from llm_kb.retrieve import hybrid_search
+        entries = hybrid_search(query, language=language, top_k=top_k)
+    else:
+        entries = search(query, language=language, top_k=top_k)
+
+    # Apply anti-pattern filtering at the API level
+    if not include_anti_patterns:
+        entries = [
+            e for e in entries
+            if "anti-pattern" not in e.id and "antipattern" not in e.id
+        ]
+
     return [
         {
             "id": entry.id,
@@ -67,6 +83,8 @@ def build_prompt(
     max_tokens: int | None = None,
     model: str | None = None,
     profile: str | None = None,
+    format_template: str = "raw-text",
+    include_anti_patterns: bool = False,
 ) -> str:
     """Build a complete system prompt with retrieved knowledge, optimized for model size.
 
@@ -79,6 +97,9 @@ def build_prompt(
         max_tokens: Model's context window size (uses profile default if None)
         model: Model name for auto-profiling (e.g., "qwen2.5-coder:32b")
         profile: Explicit profile: "small", "medium", or "large"
+        format_template: Output format ("raw-text", "openai-chat", "claude-xml")
+        include_anti_patterns: If True, anti-pattern entries are scored normally
+            alongside other entries instead of being consolidated to just one
 
     Returns:
         Complete system prompt string with knowledge injected
@@ -91,7 +112,8 @@ def build_prompt(
         >>> prompt = build_prompt("write a REST API", model="qwen2.5-coder:32b")
     """
     prompt_str, _ = _build_prompt_full(
-        query, language=language, max_tokens=max_tokens, model=model, profile=profile
+        query, language=language, max_tokens=max_tokens, model=model, profile=profile,
+        format_template=format_template, include_anti_patterns=include_anti_patterns,
     )
     return prompt_str
 

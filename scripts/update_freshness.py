@@ -20,7 +20,7 @@ import yaml
 
 def find_entry_files(kb_path: Path) -> list[Path]:
     """Find all knowledge base entry markdown files."""
-    skip_files = {"README.md", "schema.md", "CONTRIBUTING.md", "LLM_CODEBASE_KNOWLEDGE_BASE.md"}
+    skip_files = {"README.md", "schema.md", "CONTRIBUTING.md"}
     files = []
     for md_file in sorted(kb_path.rglob("*.md")):
         if md_file.name in skip_files:

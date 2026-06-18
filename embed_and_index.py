@@ -48,7 +48,7 @@ def extract_content(filepath: Path) -> str:
 def collect_entries(kb_path: Path) -> list[dict]:
     """Collect all knowledge base entries."""
     entries = []
-    skip_files = {"README.md", "schema.md", "CONTRIBUTING.md", "LLM_CODEBASE_KNOWLEDGE_BASE.md"}
+    skip_files = {"README.md", "schema.md", "CONTRIBUTING.md"}
 
     for md_file in sorted(kb_path.rglob("*.md")):
         if md_file.name in skip_files:

@@ -27,6 +27,12 @@ vector = [
 mcp = [
     "mcp>=0.1.0",
 ]
+jinja2 = [
+    "jinja2>=3.0",
+]
+ollama = [
+    "httpx>=0.25",
+]
 
 [project.scripts]
 llm-kb = "llm_kb.cli:main"
@@ -37,3 +43,17 @@ include = ["llm_kb*"]
 
 [tool.setuptools.package-data]
 llm_kb = ["data/**/*.md"]
+
+[tool.pytest.ini_options]
+markers = [
+    "smoke: fast CLI/package entrypoint checks; no external LLM calls",
+    "sanity: small deterministic retrieval/API sanity checks; no external LLM calls",
+    "regression: broad quality, retrieval, e2e, and profile regression tests",
+    "mcp: MCP server/tool tests; requires the mcp extra",
+    "slow: stress, performance, benchmark, or adversarial tests excluded from fast CI",
+    "external: optional external-provider/network tests; never part of PR fast path",
+]
+norecursedirs = [
+    "designing-multiagent-systems",
+    "references",
+]

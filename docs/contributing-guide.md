@@ -117,12 +117,16 @@ Required sections:
 # Check frontmatter and sections
 llm-kb validate
 
-# Run quality tests
-python -m pytest test_entries_quality.py -v
+# Fast PR checks
+python -m pytest -m "smoke or sanity" -q
 
-# Full test suite
-python -m pytest -v
+# Full regression for maintainers and releases
+python -m pytest test_retrieval.py test_entries_quality.py test_retrieval_comprehensive.py test_e2e.py test_retrieval_edge_cases.py test_phase14_profiles.py test_quality_audit.py -v --tb=short
 ```
+
+Smoke and sanity tests must stay fast and deterministic. Do not call external LLM providers in smoke or sanity tests. Do not add `/healthz` or `/readyz` checks; this project is a Python package, CLI, retrieval layer, and MCP server, not a web service.
+
+See `docs/test-automation-strategy.md`, `docs/checklists/pr.md`, and `docs/environment-matrix.md` for marker definitions and environment guidance.
 
 ### Step 6: Open a PR
 
@@ -132,10 +136,9 @@ Use the PR template. CI runs all checks automatically.
 
 ### Automated Checks (CI)
 
-1. **Schema Validation** — `llm-kb validate` checks frontmatter and required sections
-2. **Quality Checks** — `pytest test_entries_quality.py` verifies mistake/gotcha/link counts
-3. **Retrieval Regression** — `pytest test_retrieval_comprehensive.py` ensures queries still work
-4. **Cross-platform** — Tests run on Ubuntu, macOS, and Windows with Python 3.10-3.13
+1. **Fast PR Gate** — `python -m llm_kb validate` and `python -m pytest -m "smoke or sanity" -q`
+2. **Full Regression** — quality, retrieval, e2e, edge-case, and profile tests for maintainers and releases
+3. **Cross-platform** — Tests run on Ubuntu, macOS, and Windows with Python 3.10-3.13
 
 ### Human Review
 

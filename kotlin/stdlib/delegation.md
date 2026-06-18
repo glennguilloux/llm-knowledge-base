@@ -200,9 +200,26 @@ class Timer {
     var duration: Long by Delegates.notNull()
 }
 
-// val t = Timer()
-// println(t.duration)  // IllegalStateException: Property should be initialized
+val t = Timer()
+println(t.duration)  // IllegalStateException: Property should be initialized
 
+// CORRECT: Always set notNull() before first read
+class Timer {
+    var duration: Long by Delegates.notNull()
+
+    fun init() {
+        duration = 3000L  // Must be assigned before any read
+    }
+}
+
+// CORRECT: Or use lateinit for reference types (more idiomatic)
+class Timer {
+    lateinit var name: String
+
+    fun init() {
+        name = "Countdown"
+    }
+}
 
 // WRONG: Class delegation with override confusion
 interface Printer {

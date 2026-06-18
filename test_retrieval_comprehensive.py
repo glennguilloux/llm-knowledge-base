@@ -705,6 +705,18 @@ TEST_CASES: list[tuple[str, list[str]]] = [
     ("Rust unnecessary clone borrow checker", ["anti-patterns-rust-unnecessary-clone"]),
 
     # =====================================================================
+    # ANTI-PATTERNS — Deep entries (Phase 4 — 8 new entries)
+    # =====================================================================
+    ("Python orjson vs json serialization performance", ["anti-patterns-python-orjson-pitfalls"]),
+    ("Python shutil.rmtree directory permission error", ["anti-patterns-python-shutil-rmtree"]),
+    ("Python lru_cache memory leak unbounded maxsize", ["anti-patterns-python-lru-cache-memory-leak"]),
+    ("TypeScript any propagation type safety unknown", ["anti-patterns-typescript-any-propagation"]),
+    ("React useEffect cleanup missing subscription timer", ["anti-patterns-typescript-useeffect-cleanup"]),
+    ("Rust unwrap expect production error handling", ["anti-patterns-rust-unwrap-in-production"]),
+    ("Go defer inside loop resource leak file handle", ["anti-patterns-go-defer-in-loop"]),
+    ("Go recover panic defer misuse production", ["anti-patterns-go-recover-misuse"]),
+
+    # =====================================================================
     # ANTI-PATTERNS — DevOps (4 new entries)
     # =====================================================================
     ("Docker container running as root", ["anti-patterns-docker-running-as-root"]),
@@ -906,6 +918,51 @@ TEST_CASES: list[tuple[str, list[str]]] = [
     ("Django template form view", ["python-web-django-templates-forms"]),
     ("Django test client TestCase", ["python-web-django-testing"]),
     ("Django URL routing view", ["python-web-django-views-urls"]),
+
+    # =====================================================================
+    # UNCOVERED BY RETRIEVAL TESTS — Phase 9 additions (30 entries)
+    # =====================================================================
+    # DB — PostgreSQL
+    ("PostgreSQL keyset pagination cursor", ["db-postgres-keyset-pagination"]),
+    ("PostgreSQL RETURNING clause INSERT", ["db-postgres-returning-clause"]),
+    ("PostgreSQL window functions advanced", ["db-postgres-window-functions-advanced"]),
+    ("Redis patterns cache pub/sub", ["db-redis-patterns"]),
+
+    # GO — patterns
+    ("Go factory method creational pattern", ["go-patterns-factory"]),
+    ("Go fan-in concurrency merge channel", ["go-patterns-fan-in"]),
+    ("Go fan-out concurrency worker distribution", ["go-patterns-fan-out"]),
+    ("Go generator pattern yield channel", ["go-patterns-generator"]),
+    ("Go publish subscribe channel pattern", ["go-patterns-publish-subscribe"]),
+
+    # GO — stdlib
+    ("Go embed static files embed.FS", ["go-stdlib-embed-package"]),
+    ("Go Wire dependency injection", ["go-stdlib-wire-di"]),
+
+    # GO — web
+    ("Go net/http 1.22 mux modern routing", ["go-web-http-mux-modern"]),
+
+    # JAVA — concurrency
+    ("Java virtual threads deep Project Loom", ["java-concurrency-virtual-threads-deep"]),
+
+    # JAVA — patterns (from references repo)
+    ("Java abstract document pattern design", ["java-patterns-abstract-document"]),
+    ("Java active object concurrency pattern", ["java-patterns-active-object"]),
+    ("Java actor model concurrency", ["java-patterns-actor-model"]),
+    ("Java acyclic visitor pattern", ["java-patterns-acyclic-visitor"]),
+    ("Java ambassador pattern service", ["java-patterns-ambassador"]),
+    ("Java anti corruption layer pattern", ["java-patterns-anti-corruption-layer"]),
+    ("Java arrange act assert test pattern", ["java-patterns-arrange-act-assert"]),
+    ("Java async method invocation pattern", ["java-patterns-async-method-invocation"]),
+    ("Java backpressure reactive pattern", ["java-patterns-backpressure"]),
+    ("Java balking pattern guarded execution", ["java-patterns-balking"]),
+    ("Java BLoC pattern state management", ["java-patterns-bloc"]),
+    ("Java business delegate pattern", ["java-patterns-business-delegate"]),
+    ("Java bytecode pattern interpreter", ["java-patterns-bytecode"]),
+    ("Java caching pattern performance", ["java-patterns-caching"]),
+    ("Java callback pattern async", ["java-patterns-callback"]),
+    ("Java clean architecture pattern", ["java-patterns-clean-architecture"]),
+    ("Java client session state pattern", ["java-patterns-client-session"]),
 ]
 
 # ---------------------------------------------------------------------------

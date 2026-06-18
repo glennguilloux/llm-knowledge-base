@@ -211,7 +211,6 @@ def main() -> int:
             "README.md",
             "schema.md",
             "CONTRIBUTING.md", "RELEASE_CHECKLIST.md",
-            "LLM_CODEBASE_KNOWLEDGE_BASE.md",
             "CHANGELOG.md",
             "LICENSE",
         ):

@@ -17,7 +17,7 @@ from pathlib import Path
 import pytest
 import yaml
 
-from retrieval import load_entries, parse_entry, KBEntry
+from llm_kb.retrieve import KBEntry, load_entries, parse_entry
 
 
 # ---------------------------------------------------------------------------
@@ -30,9 +30,10 @@ def get_entry_files() -> list[Path]:
     skip_files = {
         "README.md", "schema.md", "CONTRIBUTING.md",
         "RELEASE_CHECKLIST.md",
-        "LLM_CODEBASE_KNOWLEDGE_BASE.md", "CHANGELOG.md", "LICENSE",
+        "CHANGELOG.md", "LICENSE",
+        "LLM_CODEBASE_KNOWLEDGE_BASE.md",
     }
-    skip_parents = {"templates", ".github", "docs", "scripts", "architecture", "benchmark_prompts", "prompts", "build", "__pycache__"}
+    skip_parents = {"templates", ".github", "docs", "scripts", "architecture", "benchmark_prompts", "prompts", "build", "__pycache__", "references"}
     files = []
     for md_file in sorted(kb_path.rglob("*.md")):
         if any(part.startswith(".") for part in md_file.parts):

@@ -122,7 +122,9 @@ def score_cross_references(entries: list[KBEntry]) -> tuple[int, list[str]]:
 
     for entry in entries:
         content = entry.content
-        r_match = re.search(r"## Related\s*\n(.*?)(?=\n## |\Z)", content, re.DOTALL)
+        # Strip fenced code blocks so we don't match ## Related inside embedded examples
+        cleaned = re.sub(r'```.*?\n(.*?)```', '', content, flags=re.DOTALL)
+        r_match = re.search(r"## Related\s*\n(.*?)(?=\n## |\Z)", cleaned, re.DOTALL)
         if not r_match:
             broken.append(f"{entry.id}: no Related section")
             continue

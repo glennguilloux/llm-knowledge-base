@@ -1,8 +1,20 @@
 # Release Checklist for v1.0.0
 
 ## Pre-Release
-- [ ] All tests pass: `python -m pytest -v` (2,790/2,790)
+
+### Fast test gates
+
 - [ ] Validation passes: `python -m llm_kb validate` (278/278)
+- [ ] Smoke and sanity pass: `python -m pytest -m "smoke or sanity" -q`
+- [ ] Fast tests do not call external LLM providers.
+- [ ] No `/healthz` or `/readyz` checks were added. This project is not a web service.
+
+### Full regression
+
+- [ ] Full regression passes: `python -m pytest test_retrieval.py test_entries_quality.py test_retrieval_comprehensive.py test_e2e.py test_retrieval_edge_cases.py test_phase14_profiles.py test_quality_audit.py -v --tb=short`
+
+### Release prep
+
 - [ ] Quality scorecard: `python -m llm_kb scorecard` (92/100)
 - [ ] No pre-existing failures
 - [ ] CHANGELOG.md updated
@@ -10,6 +22,8 @@
 - [ ] README.md links are valid
 - [ ] CONTRIBUTING.md is accurate
 - [ ] .gitignore is comprehensive
+
+See `docs/test-automation-strategy.md`, `docs/checklists/pr.md`, and `docs/environment-matrix.md` before release.
 
 ## Build
 - [ ] `pip install -e .` works on fresh Python 3.10

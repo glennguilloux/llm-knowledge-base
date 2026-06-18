@@ -49,18 +49,22 @@ llm-kb validate
 
 ## Running Validation and Tests
 
-We enforce quality and retrieval precision through automated test suites:
+Use marker-based commands for day-to-day work. The current CI regression command remains in `.github/workflows/validate.yml`.
 
 ```bash
 # Validate frontmatter and mandatory sections
-llm-kb validate
+python -m llm_kb validate
 
-# Run quality regression tests (checks Mistakes, Gotchas, Related Links counts)
-python -m pytest test_entries_quality.py -v
+# Fast PR checks: smoke and sanity only
+python -m pytest -m "smoke or sanity" -q
 
-# Run retrieval query recall tests
-python -m pytest test_retrieval_comprehensive.py -v
+# Full regression for maintainers and releases
+python -m pytest test_retrieval.py test_entries_quality.py test_retrieval_comprehensive.py test_e2e.py test_retrieval_edge_cases.py test_phase14_profiles.py test_quality_audit.py -v --tb=short
 ```
+
+Smoke and sanity tests must stay fast and deterministic. Do not call external LLM providers in smoke or sanity tests. Do not add `/healthz` or `/readyz` checks; this project is a Python package, CLI, retrieval layer, and MCP server, not a web service.
+
+See `docs/test-automation-strategy.md` for marker definitions, `docs/checklists/pr.md` for the PR checklist, and `docs/environment-matrix.md` for local, CI, vector, MCP, and external LLM environments.
 
 ---
 
@@ -91,6 +95,9 @@ Before opening your Pull Request, verify every item is ticked off:
 - [ ] Entry contains at least **3+ WRONG/CORRECT pairs** in the Mistakes section.
 - [ ] Entry contains at least **3+ Gotchas**.
 - [ ] Entry contains at least **2+ Related links** matching existing md files.
-- [ ] `llm-kb validate` command exits with code 0 on your updates.
-- [ ] All tests pass successfully under `pytest`.
+- [ ] `python -m llm_kb validate` exits with code 0 on your updates.
+- [ ] `python -m pytest -m "smoke or sanity" -q` passes.
+- [ ] Smoke and sanity tests do not call external LLM providers.
+- [ ] No `/healthz` or `/readyz` checks were added.
+- [ ] Maintainer full regression passes for larger changes or release prep.
 

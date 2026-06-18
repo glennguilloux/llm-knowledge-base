@@ -1,13 +1,20 @@
 #!/usr/bin/env python3
-"""Build prompts with retrieved knowledge base context.
-
-Features:
-- Context window budgeting (max_tokens parameter)
-- Entry summarization for tight budgets
-- Language-aware filtering (boost relevant entries)
-- Output with metadata (token counts, budget usage)
-- Model-aware prompting: different model sizes get optimized knowledge delivery
 """
+[DEPRECATED] Build prompts with retrieved knowledge base context.
+
+⚠️  This module is deprecated. Use `llm_kb.prompt` instead:
+    python -m llm_kb.prompt
+
+The `llm-kb prompt` CLI command now replaces this standalone script.
+"""
+
+import warnings
+
+warnings.warn(
+    "prompt_builder.py is deprecated. Use `llm_kb.prompt` via `llm-kb prompt` instead.",
+    DeprecationWarning,
+    stacklevel=2,
+)
 
 import re
 import sys

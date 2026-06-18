@@ -129,5 +129,79 @@ print("hello")
         assert entry is None
 
 
+class TestDeduplication:
+    """Verify load_entries() deduplicates entries with the same ID."""
+
+    def test_dedup_same_id_different_dirs(self, tmp_path):
+        """Two entries with the same ID should be deduplicated to one."""
+        dir1 = tmp_path / "dir1"
+        dir1.mkdir()
+        entry1 = dir1 / "test1.md"
+        entry1.write_text("""---
+id: "duplicate-id"
+title: "First Version"
+language: "python"
+category: "stdlib"
+tags: ["test"]
+retrieval_hint: "test entry"
+last_verified: "2025-01-15"
+confidence: "high"
+---
+# First Version
+
+## When to Use
+- Testing
+
+## Standard Pattern
+```python
+print("v1")
+```
+
+## Common Mistakes
+- None
+
+## Gotchas
+- None
+
+## Related
+""")
+
+        dir2 = tmp_path / "dir2"
+        dir2.mkdir()
+        entry2 = dir2 / "test2.md"
+        entry2.write_text("""---
+id: "duplicate-id"
+title: "Second Version"
+language: "python"
+category: "stdlib"
+tags: ["test"]
+retrieval_hint: "test entry"
+last_verified: "2025-01-15"
+confidence: "high"
+---
+# Second Version
+
+## When to Use
+- Testing
+
+## Standard Pattern
+```python
+print("v2")
+```
+
+## Common Mistakes
+- None
+
+## Gotchas
+- None
+
+## Related
+""")
+
+        entries = load_entries(tmp_path)
+        dups = [e for e in entries if e.id == "duplicate-id"]
+        assert len(dups) == 1, f"Expected 1 entry with duplicate-id, got {len(dups)}"
+
+
 if __name__ == "__main__":
     pytest.main([__file__, "-v"])
