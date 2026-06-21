@@ -1,7 +1,8 @@
 # LLM Knowledge Base
 
-> **Make your 7B model write code like a senior engineer.**
-> 385 curated patterns. 6,220 tests. 96/100 quality score. Zero ML dependencies.
+Retrieval-ready code patterns that help small LLMs write correct, idiomatic code.
+
+**Current baseline:** 670 validated entries, 16 languages, 16 categories, 38 mapped model profiles, 96/100 quality score. No ML dependencies are required for the default CLI, retrieval layer, prompt builder, or MCP server.
 
 ![Validate](https://github.com/glennguilloux/llm-knowledge-base/actions/workflows/validate.yml/badge.svg)
 ![Release](https://github.com/glennguilloux/llm-knowledge-base/actions/workflows/release.yml/badge.svg)
@@ -13,108 +14,148 @@
 
 ## The Problem
 
-Small coding models (7-14B) are fast and free, but they **hallucinate APIs**, invent nonexistent methods, and get syntax wrong. Larger models (27B+) are smarter but still miss library-specific patterns.
+Small coding models are fast and cheap, but they often hallucinate APIs, invent nonexistent methods, and miss framework-specific conventions. Larger models are better, but they still miss project-specific patterns and version-sensitive details.
 
-**The fix:** Give them a cheat sheet. Before the model writes code, we inject 3-5 relevant, validated patterns directly into the prompt. The model writes better code because it checks reference first.
+**LLM Knowledge Base fixes that by retrieving verified examples before the model writes code.** A user asks for a coding task, the package finds relevant entries, condenses them for the target model size, and injects the result into the prompt.
 
-**The proof:**
+---
 
-| Metric | Without KB | With KB |
-|:---|:---:|:---:|
-| Quality Score | ~45% | **92%** |
-| Tasks Fully Correct | 3/20 | **19/20** |
-| Hallucinated APIs | Frequent | **Rare** |
+## Current Baseline
+
+| Area | Current state |
+|:---|:---|
+| Entries | 670 validated knowledge entries |
+| Languages | 16: Bash, C#, Docker, Go, Java, JavaScript, Kotlin, Multi, PHP, Python, Rust, Shell, SQL, Swift, TypeScript, YAML |
+| Categories | 16: anti-patterns, API design, build, concurrency, crypto, data, DB, DevOps, error handling, patterns, performance, project conventions, security, stdlib, testing, web |
+| Model support | 38 mapped models with small, medium, and large profiles |
+| Quality score | 96/100 |
+| Validation | `python -m llm_kb validate` reports 670/670 |
+| Quality audit | 4,002/4,002 checks |
+| Retrieval regression | 1,715/1,715 representative retrieval cases |
+| CI | Ubuntu, macOS, and Windows across Python 3.10-3.13 |
+
+---
+
+## Install
+
+```bash
+pip install llm-knowledge-base
+```
+
+Install from source when you want the latest repository state:
+
+```bash
+pip install -e .
+```
+
+Optional extras:
+
+| Extra | Use case |
+|:---|:---|
+| `vector` | Build a ChromaDB index for hybrid keyword + vector search |
+| `mcp` | Run the MCP server for Claude Desktop, Cursor, and other MCP clients |
+| `jinja2` | Use full Jinja2 templates for prompt formatting |
+| `ollama` | Use the built-in Ollama client via `llm-kb ask` |
+
+For local development:
+
+```bash
+pip install -e ".[vector,mcp,jinja2,ollama]"
+```
 
 ---
 
 ## 30-Second Demo
 
 ```bash
-# Install from PyPI
-pip install llm-knowledge-base
+# Check the package
+llm-kb stats
 
-# Or install from source
-pip install git+https://github.com/glennguilloux/llm-knowledge-base.git
+# Find relevant patterns
+llm-kb search "FastAPI JWT authentication" --lang python --top 3
 
-# Search for patterns
-llm-kb search "FastAPI JWT authentication"
-
-# Build a prompt for your model (auto-detects model size)
+# Build a model-aware prompt
 llm-kb prompt "write a FastAPI endpoint with JWT auth" --model qwen2.5-coder:32b
 
-# Pipe directly to your local model
-llm-kb prompt "write a REST API with JWT auth" --lang python | ollama run qwen2.5-coder:7b
-```
+# Ask an LLM with retrieved knowledge injected
+llm-kb ask "write a REST API with JWT auth" --lang python --provider ollama --llm-model qwen2.5-coder:7b
 
-That's it. One install, immediate improvement.
+# Or pipe a prompt directly to your local model
+llm-kb prompt "write a REST API with JWT auth" --lang python --model qwen2.5-coder:32b | ollama run qwen2.5-coder:7b
+```
 
 ---
 
 ## What's Inside
 
-385 validated knowledge entries across 16 languages and categories:
+### Language Coverage
 
 | Language | Entries | Language | Entries |
-|:---|:---:|:---|:---:|
-| Python | 101 | Go | 30 |
-| Java | 49 | Rust | 30 |
-| TypeScript | 41 | C# | 24 |
-| Multi/Cross-cutting | 41 | Kotlin | 15 |
-| PHP | 10 | Bash/Shell | 13 |
-| SQL | 10 | Swift | 8 |
-| Crypto | 10 | DevOps/Other | 8 |
+|:---|---:|:---|---:|
+| Java | 200 | Python | 116 |
+| Multi | 77 | Go | 44 |
+| Rust | 39 | C# | 31 |
+| Kotlin | 24 | SQL | 22 |
+| PHP | 18 | Bash | 17 |
+| Swift | 17 | JavaScript | 6 |
+| YAML | 6 | TypeScript | 4 |
+| Docker | 3 | Shell | 2 |
 
-Each entry contains:
-- **Standard Pattern** — Idiomatic, runnable code with imports and type annotations
-- **Common Mistakes** — 3+ WRONG/CORRECT pairs showing exactly what goes wrong
-- **Gotchas** — 3+ subtle edge cases (concurrency, encoding, thread-safety, version quirks)
-- **Related Links** — Cross-references to related patterns
+### Entry Format
+
+Each entry is a Markdown file with YAML frontmatter and a consistent body:
+
+- `When to Use` — concrete scenarios where the pattern applies
+- `Standard Pattern` — runnable code with imports and useful type hints
+- `Common Mistakes` — at least 3 `WRONG` / `CORRECT` pairs
+- `Gotchas` — at least 3 subtle edge cases
+- `Related` — links to related entries for retrieval and navigation
+- Metadata — `language`, `category`, `tags`, `retrieval_hint`, `version`, `last_verified`, and `confidence`
+
+The knowledge base also includes anti-patterns for common failure modes in security, performance, API design, concurrency, logging, testing, Git workflows, and language-specific pitfalls.
 
 ---
 
 ## Works With Your Model
 
-The knowledge base automatically adapts to model size. 38 models pre-mapped, auto-detect from name:
+The prompt builder adapts retrieval count, entry detail, and prompt verbosity to model size.
 
-| Profile | Models | Entries | Format | Context |
-|:---|:---|:---:|:---|:---:|
-| **Small** (7-14B) | Qwen2.5-Coder 7B, CodeLlama 7B, Phi-3, DeepSeek-Coder 6.7B | 3 | Full | Everything: patterns, mistakes, gotchas, imports |
-| **Medium** (14-32B) | Qwen2.5-Coder 32B, Command-R, Mixtral, Codestral 22B | 5 | Condensed | Key patterns, gotchas, mistakes |
-| **Large** (70B+) | Llama 3.1 70B, Qwen 2.5 72B, DeepSeek-Coder-V2 236B | 8 | Reference | Signatures, gotchas, version quirks |
+| Profile | Model size | Entries | Format | Use when |
+|:---|:---|:---:|:---|:---|
+| **Small** | 7-14B | 3 | Full | The model needs maximum guidance |
+| **Medium** | 14-32B | 5 | Condensed | The model needs key patterns and gotchas |
+| **Large** | 30B+ | 8 | Reference | The model needs quick reminders and signatures |
 
-```bash
-# Auto-detect from model name
-llm-kb prompt "write a REST API" --model qwen2.5-coder:32b
+If your model is not listed, pass `--model my-model:32b` or `--profile medium` and the CLI will infer the profile from the size hint.
 
-# Or specify profile explicitly
-llm-kb prompt "write a REST API" --profile medium
-
-# See all 38 known models
-llm-kb profile --list
-```
+See [Model Support](docs/model-support.md) for the full model list and context windows.
 
 ---
 
 ## MCP Integration
 
-Use with Claude Desktop, Cursor, or any MCP-compatible client. Add to your config:
+Use the knowledge base from Claude Desktop, Cursor, Continue, or any MCP-compatible client.
 
 ```json
 {
   "mcpServers": {
     "llm-kb": {
       "command": "python",
-      "args": ["-m", "llm_kb.mcp_server"]
+      "args": ["-m", "llm_kb.mcp_server"],
+      "cwd": "/path/to/llm-knowledge-base"
     }
   }
 }
 ```
 
-Four tools available to your AI assistant:
-- `search_knowledge(query, language?, top_k?)` — Find relevant code patterns
-- `build_code_prompt(query, language?, model?)` — Build a system prompt with knowledge injected
-- `list_languages()` — List all covered languages
-- `get_entry(entry_id)` — Get a specific entry by ID
+Available MCP tools:
+
+- `search_knowledge(query, language?, top_k?)` — find relevant code patterns
+- `build_code_prompt(query, language?, max_tokens?, model?)` — build a model-aware system prompt
+- `list_languages()` — list covered languages
+- `get_entry(entry_id)` — fetch one entry by ID
+- `get_model_profile(model_name?, size_hint?)` — inspect profile settings
+- `list_supported_models()` — list known model names and profiles
 
 ---
 
@@ -123,54 +164,62 @@ Four tools available to your AI assistant:
 ### CLI
 
 ```bash
-# Search
-llm-kb search "how to hash a file in Python"
+# Search for patterns
 llm-kb search "JWT auth" --lang python
+llm-kb search "PostgreSQL partitioning" --top 5 --format json
 
-# Build prompt (pipe to any model)
-llm-kb prompt "write a REST API" --lang python --model qwen2.5-coder:32b
-llm-kb prompt "write a REST API" --lang python | ollama run qwen2.5-coder:7b
+# Build a prompt
+llm-kb prompt "write a FastAPI endpoint with JWT auth" --model qwen2.5-coder:32b
+llm-kb prompt "write a REST API" --profile medium --format-template openai-chat
 
-# Validate all entries
-llm-kb validate
+# Ask an LLM with KB context
+llm-kb ask "how do I stream a file in Python?" --provider ollama --llm-model qwen2.5-coder:7b
 
-# Quality scorecard
-llm-kb scorecard
-
-# Model profiles
-llm-kb profile --model qwen2.5-coder:32b
-llm-kb profile --list
-
-# Statistics
+# Inspect the knowledge base
 llm-kb stats
+llm-kb scorecard
+llm-kb profile --list
+llm-kb gaps --skip-trends --skip-simulation
+
+# Validate and benchmark
+llm-kb validate
+llm-kb benchmark
+
+# Optional vector search
+pip install -e ".[vector]"
+llm-kb index
+llm-kb search "Redis rate limiting" --use-vector
 ```
 
 ### Python API
 
 ```python
-from llm_kb import retrieve, build_prompt, get_stats
+from llm_kb import retrieve, build_prompt, get_profile, get_stats
 
-# Search for entries
-results = retrieve("FastAPI JWT authentication", language="python", top_k=3)
-print(results[0]["title"])  # "JWT Authentication with FastAPI"
+results = retrieve(
+    "FastAPI JWT authentication",
+    language="python",
+    top_k=3,
+)
 
-# Build a prompt with knowledge injected
 prompt = build_prompt(
     "write a REST API with JWT auth",
     language="python",
-    model="qwen2.5-coder:32b"
+    model="qwen2.5-coder:32b",
 )
 
-# Get stats
+profile = get_profile(model="qwen2.5-coder:32b")
 stats = get_stats()
-print(f"{stats['total_entries']} entries, quality: {stats['quality_score']}/100")
+
+print(results[0]["title"])
+print(profile.name, profile.entry_mode)
+print(stats["total_entries"], stats["quality_score"])
 ```
 
 ### IDE Integration
 
-Pre-configured for zero-friction adoption:
-- **Cursor** — `.cursorrules` with MCP setup and search patterns
-- **VS Code** — `.vscode/tasks.json` with 7 tasks (search, prompt, validate, scorecard, test)
+- **Cursor** — `.cursorrules` with search, prompt, and MCP setup
+- **VS Code** — `.vscode/tasks.json` with search, prompt, validate, scorecard, and test tasks
 - **Claude Desktop** — `docs/claude-desktop-config.json` with MCP server config
 
 ---
@@ -178,18 +227,33 @@ Pre-configured for zero-friction adoption:
 ## Quality Scorecard
 
 ```bash
-$ llm-kb scorecard
+llm-kb scorecard --verbose
 ```
 
 | Metric | Score |
 |:---|:---:|
 | Coverage | 100/100 |
-| Depth | 93/100 |
-| Cross-references | 93/100 |
-| Freshness | 99/100 |
-| Anti-pattern coverage | 80/100 |
-| Retrieval test coverage | 87/100 |
-| **Overall** | **92/100** |
+| Depth | 100/100 |
+| Cross-references | 99/100 |
+| Freshness | 100/100 |
+| Anti-pattern coverage | 100/100 |
+| Retrieval test coverage | 80/100 |
+| **Overall** | **96/100** |
+
+Fast PR checks:
+
+```bash
+python -m llm_kb validate
+python -m pytest -m "smoke or sanity" -q
+```
+
+Full regression for maintainers and releases:
+
+```bash
+python -m llm_kb validate
+python scripts/quality_auditor.py
+python -m pytest test_retrieval.py test_entries_quality.py test_retrieval_comprehensive.py test_e2e.py test_retrieval_edge_cases.py test_phase14_profiles.py test_quality_audit.py -v --tb=short
+```
 
 ---
 
@@ -199,43 +263,55 @@ $ llm-kb scorecard
 [User Request]
       │
       ▼
-[Retrieve 3-5 Related Patterns]  ←  keyword + tag matching, no ML required
+[Retrieve Relevant Entries]  ← keyword matching, query expansion, cross-reference boost
       │
       ▼
-[Condense for Model Size]        ←  small=full, medium=condensed, large=reference
+[Choose Model Profile]       ← small, medium, or large
       │
       ▼
-[Inject into System Prompt]      ←  budget-aware, fits context window
+[Condense for Context]       ← fit entries into the model's context budget
       │
       ▼
-[Model Writes Better Code]       ←  with exact patterns, gotchas, and mistakes
+[Build Prompt]               ← raw text, OpenAI chat JSON, or Claude XML
+      │
+      ▼
+[Generate or Pipe]           ← use llm-kb ask, your own LLM client, or a local model
 ```
 
-No vector database. No embeddings. No API calls. Pure grep + smart ranking. Works offline.
+Default retrieval is local, deterministic, and offline. Optional ChromaDB hybrid search is available through the `vector` extra.
+
+---
+
+## Documentation
+
+- [Getting Started](docs/getting-started.md) — install, first search, first prompt, MCP setup
+- [Model Support](docs/model-support.md) — model profiles and context windows
+- [Integration Guide](docs/integration-guide.md) — Ollama, LM Studio, OpenAI-compatible APIs, and custom integrations
+- [Adding Entries](docs/adding-entries.md) — contribution workflow and entry quality bar
+- [Test Automation Strategy](docs/test-automation-strategy.md) — pytest markers, fast gate, full regression
+- [PR Checklist](docs/checklists/pr.md) — entry and CI checklist before review
+- [Contributing Guide](docs/contributing-guide.md) — contributor workflow and review process
+- [Architecture](docs/architecture.md) — design notes and folder structure
 
 ---
 
 ## Contributing
 
-We welcome new entries! See [CONTRIBUTING.md](CONTRIBUTING.md) for the quality bar and submission checklist.
+New entries are welcome. Start with a gap report:
 
-**Entry ideas:** Run `python scripts/gap_detector.py` to find coverage gaps.
-
-**Quick start:**
 ```bash
-# 1. Copy a template
-cp templates/python.md python/stdlib/your-topic.md
-
-# 2. Fill in the pattern, mistakes, gotchas, and related links
-
-# 3. Validate
-llm-kb validate
-
-# 4. Run tests
-python -m pytest test_entries_quality.py -v
-
-# 5. Open a PR
+python scripts/gap_detector.py
 ```
+
+Then copy a template, write the required sections, validate locally, run the fast PR gate, and open a pull request.
+
+```bash
+cp templates/python.md python/<category>/<topic>.md
+llm-kb validate
+python -m pytest -m "smoke or sanity" -q
+```
+
+See [Adding Entries](docs/adding-entries.md) and the [PR Checklist](docs/checklists/pr.md) before opening a PR.
 
 ---
 
