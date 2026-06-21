@@ -98,3 +98,4 @@ public class King implements Royalty {
 ## Related
 - java/stdlib/collections.md
 
+- java/patterns/delegation.md

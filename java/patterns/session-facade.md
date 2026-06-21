@@ -124,6 +124,19 @@ public class ReportingFacade { /* reports only */ }
 public class AdminFacade { /* admin operations only */ }
 ```
 
+```java
+// WRONG: Putting domain rules directly in the facade.
+// The facade becomes a god object as use cases grow.
+public class OrderFacade {
+    public void approve(Order order) { order.applyCreditRules(); }
+}
+
+// CORRECT: Delegate business rules to domain services and keep the facade orchestration-focused.
+public class OrderFacade {
+    public void approve(Order order) { approvalService.approve(order); }
+}
+```
+
 ## Gotchas
 - Facade doesn't prevent direct subsystem access — document which path clients should use.
 - Session Facade in J2EE often manages transactions — ensure transaction boundaries are correct.

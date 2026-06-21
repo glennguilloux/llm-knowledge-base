@@ -98,3 +98,4 @@ import com.iluwatar.flux.view.MenuView;
 ## Related
 - java/stdlib/collections.md
 
+- java/patterns/delegation.md

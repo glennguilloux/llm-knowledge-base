@@ -98,3 +98,4 @@ public class TaskGenerator implements Task, Runnable {
 ## Related
 - java/stdlib/collections.md
 
+- java/patterns/delegation.md

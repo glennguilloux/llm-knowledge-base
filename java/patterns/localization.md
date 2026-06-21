@@ -58,3 +58,4 @@ confidence: "medium"
 ## Related
 - java/stdlib/collections.md
 
+- java/patterns/delegation.md

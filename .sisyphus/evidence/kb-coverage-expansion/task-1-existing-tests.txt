@@ -1,0 +1,10 @@
+ERROR: Wrong expression passed to '-k': not Django and not Flask and not Pydantic and not background and not Spring and not Go and not PostgreSQL and not Python security and not Java security and not session management and not API key and not input sanitization and not profiling and not JVM and not database indexing and not async IO and not ExecutorService and not CompletableFuture and not ConcurrentHashMap and not AtomicInteger and not ReentrantLock and not volatile: at column 122: expected end of input; got identifier
+
+
+=============================== warnings summary ===============================
+test_retrieval_comprehensive.py:11
+  /mnt/apps/ForLLm/test_retrieval_comprehensive.py:11: DeprecationWarning: retrieval.py is deprecated. Use `llm_kb.retrieve` instead.
+    from retrieval import load_entries, search_by_keywords
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+1 warning in 0.10s

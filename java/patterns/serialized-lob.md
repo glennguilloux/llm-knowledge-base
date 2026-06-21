@@ -98,3 +98,4 @@ import org.slf4j.Logger;
 ## Related
 - java/stdlib/collections.md
 
+- java/patterns/delegation.md

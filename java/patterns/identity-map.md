@@ -98,3 +98,4 @@ public final class Person implements Serializable {
 ## Related
 - java/stdlib/collections.md
 
+- java/patterns/delegation.md

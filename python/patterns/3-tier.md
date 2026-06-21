@@ -98,3 +98,4 @@ class Ui:
 ## Related
 - python/stdlib/pathlib.md
 
+- python/patterns/retry-logic.md

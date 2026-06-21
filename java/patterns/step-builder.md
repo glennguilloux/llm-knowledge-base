@@ -102,3 +102,4 @@ Validating all required fields in build() before constructing
 ## Related
 - java/stdlib/collections.md
 
+- java/patterns/delegation.md

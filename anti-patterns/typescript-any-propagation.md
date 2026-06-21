@@ -228,3 +228,4 @@ The most insidious pattern is `any` propagation: one function returning `any` ma
 
 ## Related
 - anti-patterns/typescript-antipatterns.md
+- anti-patterns/javascript-antipatterns.md

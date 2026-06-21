@@ -3,9 +3,9 @@ id: "java-stdlib-builder-pattern"
 title: "Builder, Factory, and Singleton Patterns"
 language: "java"
 category: "patterns"
-tags: ["builder", "factory", "singleton", "design-patterns", "creational", "immutable"]
+tags: ["builder", "fluent-builder", "setter-chaining", "chained-calls", "method-chaining", "lombok-builder", "factory", "singleton", "design-patterns", "creational", "immutable"]
 version: "17+"
-retrieval_hint: "builder factory singleton design pattern creational immutable object creation"
+retrieval_hint: "Java builder pattern fluent object creation setter chaining chained calls Lombok @Builder method chaining build() factory singleton creational immutable"
 last_verified: "2026-05-24"
 confidence: "high"
 ---

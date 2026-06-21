@@ -86,3 +86,4 @@ public record User(String firstName, String lastName, boolean active, String use
 ## Related
 - java/stdlib/collections.md
 
+- java/patterns/delegation.md

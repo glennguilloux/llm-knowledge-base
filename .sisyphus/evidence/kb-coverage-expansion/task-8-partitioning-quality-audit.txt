@@ -1,0 +1,10 @@
+Command:
+PYTHONDONTWRITEBYTECODE=1 python -m pytest -q -p no:cacheprovider test_quality_audit.py -k "postgres/partitioning"
+
+Result:
+6 passed, 3996 deselected, 1 warning in 0.78s
+
+Notes:
+- New replacement entry: db/postgres/partitioning.md
+- Entry id: db-postgres-partitioning
+- Markdown LSP diagnostics were not applicable because no Markdown LSP server is configured.

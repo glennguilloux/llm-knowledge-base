@@ -4,9 +4,9 @@ title: "Knowledge Base Integration Guide"
 language: "python"
 category: "web"
 subcategory: "documentation"
-tags: ["integration", "ollama", "lm-studio", "openai", "cli", "prompt"]
+tags: ["knowledge-base", "kb", "guide", "knowledge", "knowledge base", "integration", "integration-guide", "ollama", "lm-studio", "openai", "cli", "prompt"]
 version: "3.10+"
-retrieval_hint: "integration guide ollama lm studio openai compatible CLI prompt builder"
+retrieval_hint: "knowledge base KB integration guide local LLM retrieval pipeline prompt builder ollama lm studio openai CLI"
 last_verified: "2026-05-24"
 confidence: "high"
 ---

@@ -3,9 +3,9 @@ id: "security-web-security-basics"
 title: "Web Security Fundamentals"
 language: "multi"
 category: "security"
-tags: ["security", "owasp", "xss", "csrf", "sql-injection", "input-validation"]
+tags: ["secure", "web-application", "web-security", "owasp", "owasp-top-10", "xss", "csrf", "sql-injection", "input-validation"]
 version: "n/a"
-retrieval_hint: "OWASP XSS CSRF SQL injection security input validation Content Security Policy"
+retrieval_hint: "secure web application OWASP XSS CSRF SQL injection security input validation Content Security Policy"
 last_verified: "2026-05-24"
 confidence: "high"
 ---

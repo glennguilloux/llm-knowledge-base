@@ -93,3 +93,4 @@ public record User(String name, int age, Sex sex, String email) {}
 ## Related
 - java/stdlib/collections.md
 
+- java/patterns/delegation.md

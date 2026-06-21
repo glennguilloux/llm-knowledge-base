@@ -98,3 +98,4 @@ public abstract class AbstractDocument implements Document {
 ## Related
 - java/stdlib/collections.md
 
+- java/patterns/delegation.md

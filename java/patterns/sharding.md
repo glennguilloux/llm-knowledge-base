@@ -98,3 +98,4 @@ public abstract class ShardManager {
 ## Related
 - java/stdlib/collections.md
 
+- java/patterns/delegation.md

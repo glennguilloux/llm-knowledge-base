@@ -98,3 +98,4 @@ public class Character implements Prototype {
 ## Related
 - java/stdlib/collections.md
 
+- java/patterns/delegation.md

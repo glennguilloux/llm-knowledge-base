@@ -1,0 +1,24 @@
+## 2026-06-20 — Task 4 security KB quality audit
+
+Created:
+- security/python-security-best-practices.md
+- security/java-security-best-practices.md
+- security/session-management.md
+- security/api-key-management.md
+- security/input-sanitization.md
+
+Checks:
+- frontmatter-structure-check: PASS for all five files
+- related-link-check: PASS; every Related link points to a pre-existing security entry
+- manual retrieval check: PASS for all five Task 1 retrieval queries
+- git diff --check on the five new files: PASS
+- required audit command: `PYTHONDONTWRITEBYTECODE=1 python -m pytest test_quality_audit.py -k "security/python-security or security/java-security or security/session-management or security/api-key or security/input-sanitization"`
+- required audit result: 30 passed, 3930 deselected, 1 deprecation warning
+- LSP note: no Markdown LSP server is configured for `.md` files, so diagnostics were unavailable for these entry files
+
+Retrieval top-3 checks:
+- `Python security best practices secrets input validation` → security-python-best-practices
+- `Java security best practices secure defaults validation` → security-java-best-practices
+- `web session management secure cookies CSRF fixation` → security-session-management
+- `API key management rotation storage secrets` → security-api-key-management
+- `input sanitization validation escaping safe output` → security-input-sanitization

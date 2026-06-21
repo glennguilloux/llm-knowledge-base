@@ -88,3 +88,4 @@ public interface Modem {
 ## Related
 - java/stdlib/collections.md
 
+- java/patterns/delegation.md

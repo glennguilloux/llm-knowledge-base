@@ -4,9 +4,9 @@ title: "Java Stream API"
 language: "java"
 category: "stdlib"
 subcategory: "functional"
-tags: ["stream", "functional", "map", "filter", "reduce", "collect"]
+tags: ["streams", "stream", "functional", "map", "filter", "reduce", "collect", "list", "lambda"]
 version: "17+"
-retrieval_hint: "Java stream map filter reduce collect functional"
+retrieval_hint: "Java streams stream API filter map collect list lambda functional pipeline"
 last_verified: "2026-05-24"
 confidence: "high"
 ---

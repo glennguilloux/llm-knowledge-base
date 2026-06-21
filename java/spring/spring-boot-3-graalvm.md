@@ -181,3 +181,4 @@ public class MyRuntimeHints implements RuntimeHintsRegistrar {
 
 ## Related
 - java/spring/boot-basics.md
+- java/spring/spring-mvc.md

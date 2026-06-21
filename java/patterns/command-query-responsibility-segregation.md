@@ -125,6 +125,24 @@ public class PlaceOrderHandler {
 }
 ```
 
+```java
+// WRONG: Query methods mutate state or return write acknowledgments.
+// Reads should not have side effects; clients cannot reason about consistency.
+public class OrderReadService {
+    public OrderDTO getOrder(OrderId id) {
+        orderRepository.markViewed(id);
+        return orderRepository.findView(id);
+    }
+}
+
+// CORRECT: Keep reads side-effect free and route writes through commands.
+public class OrderQueryService {
+    public OrderDTO getOrder(OrderId id) {
+        return orderReadModel.find(id);
+    }
+}
+```
+
 ## Gotchas
 - Eventual consistency: query model lags behind command model. Decide on staleness tolerance upfront.
 - Event replay: when rebuilding the read model from events, ensure idempotent processing.
@@ -132,6 +150,6 @@ public class PlaceOrderHandler {
 - CQRS adds complexity. Don't use it unless you genuinely need different read/write models.
 
 ## Related
-- java/patterns/event-sourcing.md
+- java/patterns/event-driven-architecture.md
 - java/patterns/hexagonal-architecture.md
 

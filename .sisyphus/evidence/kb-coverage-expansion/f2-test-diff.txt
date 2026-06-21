@@ -1,0 +1,133 @@
+diff --git a/test_retrieval_comprehensive.py b/test_retrieval_comprehensive.py
+index c4e02de..e2bff14 100644
+--- a/test_retrieval_comprehensive.py
++++ b/test_retrieval_comprehensive.py
+@@ -8,7 +8,7 @@ Fails if overall recall@3 drops below 80%.
+ import pytest
+ from pathlib import Path
+ 
+-from retrieval import search, load_entries, search_by_keywords
++from retrieval import load_entries, search_by_keywords
+ 
+ 
+ # ---------------------------------------------------------------------------
+@@ -77,6 +77,14 @@ TEST_CASES: list[tuple[str, list[str]]] = [
+     ("web scraping BeautifulSoup", ["python-web-web-scraping"]),
+     ("file upload multipart form", ["python-web-file-uploads"]),
+ 
++    # =====================================================================
++    # PYTHON — web (Wave 2 additions)
++    # =====================================================================
++    ("Django ORM query optimization select_related prefetch_related", ["python-web-django-orm-optimization"]),
++    ("Flask blueprints application factory modular routes", ["python-web-flask-blueprints-advanced"]),
++    ("Pydantic request validation models errors web API", ["python-web-pydantic-validation"]),
++    ("Python web background tasks Celery RQ queue", ["python-web-background-tasks"]),
++
+     # =====================================================================
+     # PYTHON — testing (6 entries)
+     # =====================================================================
+@@ -183,6 +191,15 @@ TEST_CASES: list[tuple[str, list[str]]] = [
+     # =====================================================================
+     ("Spring Security JWT authentication", ["java-spring-security-jwt-auth"]),
+ 
++    # =====================================================================
++    # JAVA — spring (Wave 2 additions)
++    # =====================================================================
++    ("Spring Data JPA derived queries @Query pagination", ["java-spring-data-jpa-queries"]),
++    ("Spring Security configure HTTP security filters authorization", ["java-spring-security-config"]),
++    ("Spring Actuator monitoring endpoints health metrics prometheus", ["java-spring-actuator-monitoring"]),
++    ("Spring Boot test slices WebMvcTest DataJpaTest", ["java-spring-test-slices"]),
++    ("Spring @ConfigurationProperties typed options validation", ["java-spring-configuration-properties"]),
++
+     # =====================================================================
+     # JAVA — testing (4 entries)
+     # =====================================================================
+@@ -299,6 +316,14 @@ TEST_CASES: list[tuple[str, list[str]]] = [
+     ("Go concurrency patterns worker pool", ["go-concurrency-patterns"]),
+     ("Go sync mutex WaitGroup", ["go-concurrency-sync-patterns"]),
+ 
++    # =====================================================================
++    # GO — concurrency (Wave 2 additions)
++    # =====================================================================
++    ("Go channels select fan in fan out worker pool", ["go-concurrency-channels-patterns"]),
++    ("Go context cancellation timeout graceful shutdown", ["go-concurrency-context-cancellation"]),
++    ("Go select multiplexing channels nonblocking", ["go-concurrency-select-multiplexing"]),
++    ("Go sync primitives mutex RWMutex Cond WaitGroup", ["go-concurrency-sync-primitives"]),
++
+     # =====================================================================
+     # RUST — stdlib (10 entries)
+     # =====================================================================
+@@ -368,12 +393,21 @@ TEST_CASES: list[tuple[str, list[str]]] = [
+     ("PostgreSQL CTE recursive WITH", ["db-postgres-ctes"]),
+     ("PostgreSQL index B-tree GIN", ["db-postgres-indexes", "db-postgres-indexing-strategies"]),
+     ("PostgreSQL query optimization EXPLAIN", ["db-postgres-query-optimization"]),
++    ("PostgreSQL table partitioning range list hash", ["db-postgres-partitioning"]),
+     ("PostgreSQL transaction isolation", ["db-postgres-transactions"]),
+     ("PostgreSQL JSONB json query", ["db-postgres-json-queries", "db-postgres-json-advanced"]),
+     ("PostgreSQL full text search tsvector", ["db-postgres-full-text-search"]),
+     ("PostgreSQL migration ALTER TABLE", ["db-postgres-migrations"]),
+     ("PostgreSQL indexing strategies composite", ["db-postgres-indexing-strategies"]),
+ 
++    # =====================================================================
++    # DB — postgres (Wave 2 additions)
++    # =====================================================================
++    ("PostgreSQL EXPLAIN ANALYZE query plan indexes", ["db-postgres-explain-analyze"]),
++    ("PostgreSQL materialized views refresh query caching", ["db-postgres-materialized-views"]),
++    ("PostgreSQL UPSERT INSERT ON CONFLICT", ["db-postgres-upsert-on-conflict"]),
++    ("PostgreSQL window functions aggregate analytics", ["db-postgres-window-functions"]),
++
+     # =====================================================================
+     # DB — mongodb
+     # =====================================================================
+@@ -734,12 +768,29 @@ TEST_CASES: list[tuple[str, list[str]]] = [
+     ("password hashing best practices bcrypt", ["security-authentication-best-practices", "crypto-password-hashing"]),
+     ("HTTPS TLS configuration certificate", ["security-https-tls-must-know"]),
+ 
++    # =====================================================================
++    # SECURITY (Wave 2 additions)
++    # =====================================================================
++    ("Python security best practices secrets input validation", ["security-python-best-practices"]),
++    ("Java security best practices secure defaults validation", ["security-java-best-practices"]),
++    ("web session management secure cookies CSRF fixation", ["security-session-management"]),
++    ("API key management rotation storage secrets", ["security-api-key-management"]),
++    ("input sanitization validation escaping safe output", ["security-input-sanitization"]),
++
+     # =====================================================================
+     # PERFORMANCE (expanded)
+     # =====================================================================
+     ("slow database queries optimization", ["performance-database-optimization"]),
+     ("API pagination patterns", ["api-design-pagination-patterns"]),
+ 
++    # =====================================================================
++    # PERFORMANCE (Wave 2 additions)
++    # =====================================================================
++    ("Python profiling cProfile line_profiler performance", ["performance-python-profiling"]),
++    ("Java JVM tuning heap garbage collection flags", ["performance-java-jvm-tuning"]),
++    ("database indexing query plan performance", ["performance-database-indexing"]),
++    ("async IO nonblocking event loop performance", ["performance-async-io-patterns"]),
++
+     # =====================================================================
+     # SWIFT WEB
+     # =====================================================================
+@@ -944,6 +995,12 @@ TEST_CASES: list[tuple[str, list[str]]] = [
+ 
+     # JAVA — concurrency
+     ("Java virtual threads deep Project Loom", ["java-concurrency-virtual-threads-deep"]),
++    ("Java ExecutorService thread pool lifecycle shutdown", ["java-concurrency-executor-service"]),
++    ("Java CompletableFuture thenApply allOf exceptionally async", ["java-concurrency-completable-future"]),
++    ("Java ConcurrentHashMap CopyOnWriteArrayList concurrent collections", ["java-concurrency-concurrent-collections"]),
++    ("Java AtomicInteger AtomicReference atomic variables compareAndSet", ["java-concurrency-atomic-variables"]),
++    ("Java ReentrantLock lock tryLock condition fair lock", ["java-concurrency-locks-reentrant"]),
++    ("Java volatile visibility happens-before memory model", ["java-concurrency-volatile-visibility"]),
+ 
+     # JAVA — patterns (from references repo)
+     ("Java abstract document pattern design", ["java-patterns-abstract-document"]),
+@@ -1037,7 +1094,7 @@ class TestOverallRecallThreshold:
+         avg_recall = total_recall / len(TEST_CASES)
+         print(f"\n{'='*60}")
+         print(f"Overall recall@3: {avg_recall:.1%} ({len(TEST_CASES)} queries)")
+-        print(f"Pass threshold: 80%")
++        print("Pass threshold: 80%")
+         if failures:
+             print(f"\nFailures ({len(failures)}):")
+             for f in failures:

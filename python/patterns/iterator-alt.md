@@ -98,3 +98,4 @@ def main():
 ## Related
 - python/stdlib/pathlib.md
 
+- python/patterns/retry-logic.md

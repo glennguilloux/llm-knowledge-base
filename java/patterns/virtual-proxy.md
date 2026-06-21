@@ -146,6 +146,18 @@ public class VirtualProxy implements ExpensiveObject {
 }
 ```
 
+```java
+// WRONG: Loading the heavy dependency in the proxy constructor.
+// The proxy no longer delays expensive work until it is needed.
+this.realSubject = new ExpensiveRealSubject();
+
+// CORRECT: Create the real subject lazily on first real use.
+public Object invoke(Object proxy, Method method, Object[] args) {
+    RealSubject real = realSubjectHolder.get();
+    return method.invoke(real, args);
+}
+```
+
 ## Gotchas
 - Virtual proxy and protection proxy have different concerns — don't mix lazy loading with access control in the same proxy.
 - If the real object is cheap to create, a virtual proxy adds unnecessary indirection.
@@ -154,5 +166,5 @@ public class VirtualProxy implements ExpensiveObject {
 
 ## Related
 - java/patterns/dynamic-proxy.md
-- java/patterns/singleton.md
+- java/patterns/delegation.md
 

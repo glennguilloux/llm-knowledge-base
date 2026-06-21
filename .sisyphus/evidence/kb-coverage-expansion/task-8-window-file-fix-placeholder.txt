@@ -1,0 +1,5 @@
+Command:
+grep -rilE "TODO|TBD|FIXME|insert here|your code|example\.com" db/postgres/window-functions-advanced.md db/postgres/window-functions.md python/web/flask-blueprints.md || echo "CLEAN"
+
+Result:
+CLEAN

@@ -1,0 +1,18 @@
+llm_kb/data/db/postgres/explain-analyze.md:122:- `EXPLAIN ANALYZE` can modify data; use a transaction and `ROLLBACK` for `INSERT`, `UPDATE`, or `DELETE`.
+llm_kb/data/db/postgres/upsert-on-conflict.md:7:tags: ["sql", "postgresql", "upsert", "insert", "on-conflict", "excluded", "unique-constraint", "partial-index", "idempotency"]
+llm_kb/data/db/postgres/upsert-on-conflict.md:9:retrieval_hint: "PostgreSQL UPSERT INSERT ON CONFLICT DO UPDATE EXCLUDED unique constraint partial index idempotent write"
+llm_kb/data/db/postgres/upsert-on-conflict.md:17:- Making `INSERT` operations idempotent when a unique constraint defines the natural key
+llm_kb/data/db/postgres/upsert-on-conflict.md:20:- Avoiding race conditions between separate `SELECT`, `INSERT`, and `UPDATE` checks
+llm_kb/data/db/postgres/upsert-on-conflict.md:27:INSERT INTO users (id, email, name, updated_at)
+llm_kb/data/db/postgres/upsert-on-conflict.md:39:INSERT INTO users (email, name, updated_at)
+llm_kb/data/db/postgres/upsert-on-conflict.md:48:INSERT INTO user_profiles (user_id, last_seen_at, country, updated_at)
+llm_kb/data/db/postgres/upsert-on-conflict.md:63:INSERT INTO users (email, name, deleted_at)
+llm_kb/data/db/postgres/upsert-on-conflict.md:77:INSERT INTO users (email, name)
+llm_kb/data/db/postgres/upsert-on-conflict.md:85:INSERT INTO users (email, name)
+llm_kb/data/db/postgres/upsert-on-conflict.md:91:INSERT INTO user_profiles (user_id, last_seen_at, updated_at)
+llm_kb/data/db/postgres/upsert-on-conflict.md:100:INSERT INTO user_profiles (user_id, last_seen_at, updated_at)
+llm_kb/data/db/postgres/upsert-on-conflict.md:109:INSERT INTO leaderboard (player_id, score)
+llm_kb/data/db/postgres/upsert-on-conflict.md:116:INSERT INTO leaderboard (player_id, score)
+llm_kb/data/db/postgres/upsert-on-conflict.md:122:INSERT INTO users (email, name)
+llm_kb/data/db/postgres/upsert-on-conflict.md:129:INSERT INTO users (email, name)
+llm_kb/data/performance/database-indexing-strategy.md:102:-- Every insert or update touching indexed columns also updates indexes

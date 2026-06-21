@@ -1,0 +1,54 @@
+# Task 5 Retrieval Evidence — KB Coverage Expansion
+
+Date: 2026-06-20
+Scope: performance-python-profiling, performance-java-jvm-tuning, performance-database-indexing, performance-async-io-patterns
+
+## Required retrieval smoke check
+
+Command:
+```bash
+python -c "from llm_kb.retrieve import search; print([e.id for e in search('Python performance profiling cProfile')][:5])"
+```
+
+Result:
+```text
+['performance-python-profiling', 'anti-patterns-python-orjson-pitfalls', 'csharp-performance', 'db-sqlite-production', 'bash-python-virtualenv']
+```
+
+The required smoke query returns `performance-python-profiling` at rank 1.
+
+## Keyword retrieval check for all four Task 5 entries
+
+Script used the same keyword retriever consumed by `test_retrieval_comprehensive.py`:
+
+```python
+from pathlib import Path
+from llm_kb.retrieve import search_by_keywords, load_entries
+entries = load_entries(Path('.'))
+cases = [
+    ('Python profiling cProfile line_profiler performance', 'performance-python-profiling'),
+    ('Java JVM tuning heap garbage collection flags', 'performance-java-jvm-tuning'),
+    ('database indexing query plan performance', 'performance-database-indexing'),
+    ('async IO nonblocking event loop performance', 'performance-async-io-patterns'),
+]
+for query, expected in cases:
+    ids = [entry.id for entry in search_by_keywords(entries, query)[:5]]
+    assert expected in ids
+```
+
+Results:
+```text
+Python profiling cProfile line_profiler performance
+['performance-python-profiling', 'anti-patterns-python-orjson-pitfalls', 'anti-patterns-python-lru-cache-memory-leak', 'antipatterns-performance', 'antipatterns-python']
+
+Java JVM tuning heap garbage collection flags
+['performance-java-jvm-tuning', 'java-concurrency-concurrent-collections', 'java-stdlib-collections', 'java-patterns-collection-pipeline', 'performance-memory-patterns']
+
+database indexing query plan performance
+['performance-database-optimization', 'performance-database-indexing', 'db-query-analysis', 'anti-patterns-perf-unindexed-queries', 'db-postgres-explain-analyze']
+
+async IO nonblocking event loop performance
+['python-concurrency-asyncio-basics', 'performance-async-io-patterns', 'anti-patterns-perf-sync-in-async', 'python-db-sqlalchemy-async-sessions', 'anti-patterns-perf-string-concat-loop']
+```
+
+All four expected IDs appear in the top five keyword-retrieval results.

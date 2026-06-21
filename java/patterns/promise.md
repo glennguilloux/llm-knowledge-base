@@ -98,3 +98,4 @@ import java.util.function.Function;
 ## Related
 - java/stdlib/collections.md
 
+- java/patterns/delegation.md

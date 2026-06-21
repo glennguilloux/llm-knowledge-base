@@ -91,3 +91,4 @@ public class Orc extends ActiveCreature {
 ## Related
 - java/stdlib/collections.md
 
+- java/patterns/delegation.md

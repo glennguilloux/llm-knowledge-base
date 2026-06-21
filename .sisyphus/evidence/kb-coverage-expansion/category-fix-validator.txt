@@ -1,0 +1,284 @@
+Category validator fix evidence — 2026-06-20
+
+Required frontmatter-only changes:
+- db/postgres/partitioning.md: category "postgres" -> "db"
+- java/spring/*.md: category "spring" -> "web" in five new Spring entries
+
+Category checks:
+db/postgres/partitioning.md: category "db" OK
+java/spring/spring-data-jpa-queries.md: category "web" OK
+java/spring/spring-security-config.md: category "web" OK
+java/spring/spring-actuator-monitoring.md: category "web" OK
+java/spring/spring-test-slices.md: category "web" OK
+java/spring/spring-configuration-properties.md: category "web" OK
+
+Required verification:
+- python -m llm_kb validate: PASS
+- pytest test_quality_audit.py -q -p no:cacheprovider: PASS
+- git diff --check: PASS
+
+python -m llm_kb validate output:
+
+========================================
+Total: 669 | Passed: 669 | Failed: 0
+
+
+pytest test_quality_audit.py -q -p no:cacheprovider output:
+........................................................................ [  1%]
+........................................................................ [  3%]
+........................................................................ [  5%]
+........................................................................ [  7%]
+........................................................................ [  8%]
+........................................................................ [ 10%]
+........................................................................ [ 12%]
+........................................................................ [ 14%]
+........................................................................ [ 16%]
+........................................................................ [ 17%]
+........................................................................ [ 19%]
+........................................................................ [ 21%]
+........................................................................ [ 23%]
+........................................................................ [ 25%]
+........................................................................ [ 26%]
+........................................................................ [ 28%]
+........................................................................ [ 30%]
+........................................................................ [ 32%]
+........................................................................ [ 34%]
+........................................................................ [ 35%]
+........................................................................ [ 37%]
+........................................................................ [ 39%]
+........................................................................ [ 41%]
+........................................................................ [ 43%]
+........................................................................ [ 44%]
+........................................................................ [ 46%]
+........................................................................ [ 48%]
+........................................................................ [ 50%]
+........................................................................ [ 52%]
+........................................................................ [ 53%]
+........................................................................ [ 55%]
+........................................................................ [ 57%]
+........................................................................ [ 59%]
+........................................................................ [ 61%]
+........................................................................ [ 62%]
+........................................................................ [ 64%]
+........................................................................ [ 66%]
+........................................................................ [ 68%]
+........................................................................ [ 70%]
+........................................................................ [ 71%]
+........................................................................ [ 73%]
+........................................................................ [ 75%]
+........................................................................ [ 77%]
+........................................................................ [ 79%]
+........................................................................ [ 80%]
+........................................................................ [ 82%]
+........................................................................ [ 84%]
+........................................................................ [ 86%]
+........................................................................ [ 88%]
+........................................................................ [ 89%]
+........................................................................ [ 91%]
+........................................................................ [ 93%]
+........................................................................ [ 95%]
+........................................................................ [ 97%]
+........................................................................ [ 98%]
+..........................................                               [100%]
+=============================== warnings summary ===============================
+test_quality_audit.py:15
+  /mnt/apps/ForLLm/test_quality_audit.py:15: DeprecationWarning: retrieval.py is deprecated. Use `llm_kb.retrieve` instead.
+    from retrieval import load_entries
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+4002 passed, 1 warning in 3.15s
+
+
+git diff --check output:
+(clean)
+
+git status --short:
+ M anti-patterns/go-defer-in-loop.md
+ M anti-patterns/go-recover-misuse.md
+ M anti-patterns/typescript-any-propagation.md
+ M go/patterns/factory.md
+ M go/patterns/fan-in.md
+ M go/patterns/fan-out.md
+ M go/patterns/generator.md
+ M go/patterns/publish-subscribe.md
+ M java/concurrency/virtual-threads-deep.md
+ M java/patterns/abstract-document.md
+ M java/patterns/active-object.md
+ M java/patterns/actor-model.md
+ M java/patterns/acyclic-visitor.md
+ M java/patterns/ambassador.md
+ M java/patterns/anti-corruption-layer.md
+ M java/patterns/arrange-act-assert.md
+ M java/patterns/async-method-invocation.md
+ M java/patterns/backpressure.md
+ M java/patterns/balking.md
+ M java/patterns/bloc.md
+ M java/patterns/business-delegate.md
+ M java/patterns/bytecode.md
+ M java/patterns/caching.md
+ M java/patterns/callback.md
+ M java/patterns/clean-architecture.md
+ M java/patterns/client-session.md
+ M java/patterns/collecting-parameter.md
+ M java/patterns/collection-pipeline.md
+ M java/patterns/combinator.md
+ M java/patterns/command-query-responsibility-segregation.md
+ M java/patterns/commander.md
+ M java/patterns/component.md
+ M java/patterns/composite-entity.md
+ M java/patterns/composite-view.md
+ M java/patterns/context-object.md
+ M java/patterns/converter.md
+ M java/patterns/curiously-recurring-template-pattern.md
+ M java/patterns/currying.md
+ M java/patterns/dao-factory.md
+ M java/patterns/data-bus.md
+ M java/patterns/data-locality.md
+ M java/patterns/data-mapper.md
+ M java/patterns/delegation.md
+ M java/patterns/dirty-flag.md
+ M java/patterns/domain-model.md
+ M java/patterns/double-buffer.md
+ M java/patterns/double-checked-locking.md
+ M java/patterns/double-dispatch.md
+ M java/patterns/dynamic-proxy.md
+ M java/patterns/event-aggregator.md
+ M java/patterns/event-based-asynchronous.md
+ M java/patterns/event-driven-architecture.md
+ M java/patterns/event-queue.md
+ M java/patterns/execute-around.md
+ M java/patterns/extension-objects.md
+ M java/patterns/factory-kit.md
+ M java/patterns/fanout-fanin.md
+ M java/patterns/filterer.md
+ M java/patterns/fluent-interface.md
+ M java/patterns/flux.md
+ M java/patterns/front-controller.md
+ M java/patterns/function-composition.md
+ M java/patterns/game-loop.md
+ M java/patterns/gateway.md
+ M java/patterns/guarded-suspension.md
+ M java/patterns/half-sync-half-async.md
+ M java/patterns/hexagonal-architecture.md
+ M java/patterns/identity-map.md
+ M java/patterns/intercepting-filter.md
+ M java/patterns/layered-architecture.md
+ M java/patterns/lazy-loading.md
+ M java/patterns/leader-election.md
+ M java/patterns/leader-followers.md
+ M java/patterns/localization.md
+ M java/patterns/lockable-object.md
+ M java/patterns/map-reduce.md
+ M java/patterns/marker-interface.md
+ M java/patterns/master-worker.md
+ M java/patterns/metadata-mapping.md
+ M java/patterns/microservices-aggregrator.md
+ M java/patterns/microservices-api-gateway.md
+ M java/patterns/microservices-client-side-ui-composition.md
+ M java/patterns/microservices-distributed-tracing.md
+ M java/patterns/microservices-idempotent-consumer.md
+ M java/patterns/microservices-log-aggregation.md
+ M java/patterns/microservices-self-registration.md
+ M java/patterns/model-view-controller.md
+ M java/patterns/model-view-intent.md
+ M java/patterns/model-view-presenter.md
+ M java/patterns/model-view-viewmodel.md
+ M java/patterns/monad.md
+ M java/patterns/monitor.md
+ M java/patterns/monolithic-architecture.md
+ M java/patterns/monostate.md
+ M java/patterns/multiton.md
+ M java/patterns/mute-idiom.md
+ M java/patterns/naked-objects.md
+ M java/patterns/notification.md
+ M java/patterns/object-mother.md
+ M java/patterns/object-pool.md
+ M java/patterns/optimistic-offline-lock.md
+ M java/patterns/page-controller.md
+ M java/patterns/page-object.md
+ M java/patterns/parameter-object.md
+ M java/patterns/partial-response.md
+ M java/patterns/poison-pill.md
+ M java/patterns/presentation-model.md
+ M java/patterns/private-class-data.md
+ M java/patterns/producer-consumer.md
+ M java/patterns/promise.md
+ M java/patterns/property.md
+ M java/patterns/queue-based-load-leveling.md
+ M java/patterns/rate-limiting-pattern.md
+ M java/patterns/registry.md
+ M java/patterns/resource-acquisition-is-initialization.md
+ M java/patterns/role-object.md
+ M java/patterns/separated-interface.md
+ M java/patterns/serialized-entity.md
+ M java/patterns/serialized-lob.md
+ M java/patterns/servant.md
+ M java/patterns/server-session.md
+ M java/patterns/service-locator.md
+ M java/patterns/service-stub.md
+ M java/patterns/service-to-worker.md
+ M java/patterns/session-facade.md
+ M java/patterns/sharding.md
+ M java/patterns/single-table-inheritance.md
+ M java/patterns/spatial-partition.md
+ M java/patterns/special-case.md
+ M java/patterns/step-builder.md
+ M java/patterns/subclass-sandbox.md
+ M java/patterns/table-inheritance.md
+ M java/patterns/table-module.md
+ M java/patterns/templateview.md
+ M java/patterns/thread-pool-executor.md
+ M java/patterns/tolerant-reader.md
+ M java/patterns/trampoline.md
+ M java/patterns/transaction-script.md
+ M java/patterns/unit-of-work.md
+ M java/patterns/update-method.md
+ M java/patterns/version-number.md
+ M java/patterns/view-helper.md
+ M java/patterns/virtual-proxy.md
+ M java/spring/spring-boot-3-graalvm.md
+ M java/stdlib/sealed-classes.md
+ M project-conventions/architecture.md
+ M python/concurrency/asyncio-taskgroup.md
+ M python/patterns/3-tier.md
+ M python/patterns/flyweight-with-metaclass.md
+ M python/patterns/iterator-alt.md
+ M test_retrieval_comprehensive.py
+ M typescript/runtime/bun-intro.md
+?? .sisyphus/boulder.json
+?? .sisyphus/evidence/
+?? .sisyphus/notepads/
+?? .sisyphus/plans/kb-coverage-expansion.md
+?? db/postgres/explain-analyze.md
+?? db/postgres/materialized-views.md
+?? db/postgres/partitioning.md
+?? db/postgres/upsert-on-conflict.md
+?? go/concurrency/channels-patterns.md
+?? go/concurrency/context-cancellation.md
+?? go/concurrency/select-multiplexing.md
+?? go/concurrency/sync-primitives.md
+?? java/concurrency/atomic-variables-cas.md
+?? java/concurrency/completable-future-composition.md
+?? java/concurrency/concurrent-collections.md
+?? java/concurrency/executor-service-thread-pools.md
+?? java/concurrency/locks-reentrant.md
+?? java/concurrency/volatile-memory-visibility.md
+?? java/spring/spring-actuator-monitoring.md
+?? java/spring/spring-configuration-properties.md
+?? java/spring/spring-data-jpa-queries.md
+?? java/spring/spring-security-config.md
+?? java/spring/spring-test-slices.md
+?? performance/async-io-patterns.md
+?? performance/database-indexing-strategy.md
+?? performance/java-jvm-tuning.md
+?? performance/python-performance-profiling.md
+?? python/web/background-tasks-patterns.md
+?? python/web/django-orm-optimization.md
+?? python/web/flask-blueprints.md
+?? python/web/pydantic-validation.md
+?? security/api-key-management.md
+?? security/input-sanitization.md
+?? security/java-security-best-practices.md
+?? security/python-security-best-practices.md
+?? security/session-management.md
+

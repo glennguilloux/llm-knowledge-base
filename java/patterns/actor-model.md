@@ -98,3 +98,4 @@ public abstract class Actor implements Runnable {
 ## Related
 - java/stdlib/collections.md
 
+- java/patterns/delegation.md

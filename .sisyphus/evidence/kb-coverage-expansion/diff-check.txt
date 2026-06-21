@@ -1,0 +1,2 @@
+git diff --check: PASS (exit 0, no output)
+Working tree state: 32 new entries + ~150 modified existing entries (all uncommitted per plan constraint)

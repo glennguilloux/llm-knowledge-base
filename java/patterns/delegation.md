@@ -98,3 +98,4 @@ public class PrinterController implements Printer {
 ## Related
 - java/stdlib/collections.md
 
+- java/patterns/delegation.md

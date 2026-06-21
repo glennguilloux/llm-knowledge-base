@@ -95,3 +95,4 @@ Using a map/dictionary of type -> class for lookup
 ## Related
 - java/stdlib/collections.md
 
+- java/patterns/delegation.md

@@ -98,3 +98,4 @@ public class PresentationModel {
 ## Related
 - java/stdlib/collections.md
 
+- java/patterns/delegation.md

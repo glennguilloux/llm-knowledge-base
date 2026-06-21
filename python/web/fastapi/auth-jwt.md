@@ -4,7 +4,7 @@ title: "JWT Authentication with FastAPI"
 language: "python"
 category: "web"
 subcategory: "authentication"
-tags: ["fastapi", "jwt", "authentication", "oauth2", "bearer", "security"]
+tags: ["fastapi", "fastapi-jwt", "jwt", "jwt-auth", "jwt-token", "authentication", "oauth2", "bearer", "security"]
 version: "3.10+"
 retrieval_hint: "JWT authentication FastAPI OAuth2 bearer token login"
 last_verified: "2026-05-24"

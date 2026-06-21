@@ -126,6 +126,21 @@ public class AsyncCommandBus {
 }
 ```
 
+```java
+// WRONG: Fire-and-forget commands without idempotency keys.
+// Retries can charge customers or ship duplicate orders.
+public void submitPayment(PaymentRequest request) {
+    paymentClient.charge(request);
+}
+
+// CORRECT: Include an idempotency key and let the command bus deduplicate retries.
+public record ChargeCustomer(
+    String idempotencyKey,
+    CustomerId customerId,
+    Money amount
+) implements Command {}
+```
+
 ## Gotchas
 - Distributed transactions across services are expensive. Prefer sagas with compensating actions.
 - Ensure idempotency keys on commands so retries don't double-process.
@@ -133,6 +148,6 @@ public class AsyncCommandBus {
 - Log command execution history for debugging distributed failures.
 
 ## Related
-- java/patterns/saga.md
-- java/patterns/circuit-breaker.md
+- java/patterns/async-method-invocation.md
+- java/patterns/rate-limiting-pattern.md
 

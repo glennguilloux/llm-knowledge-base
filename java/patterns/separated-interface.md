@@ -96,3 +96,4 @@ import lombok.extern.slf4j.Slf4j;
 ## Related
 - java/stdlib/collections.md
 
+- java/patterns/delegation.md

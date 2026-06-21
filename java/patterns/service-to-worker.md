@@ -98,3 +98,4 @@ public class GiantView {
 ## Related
 - java/stdlib/collections.md
 
+- java/patterns/delegation.md

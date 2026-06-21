@@ -1,0 +1,8 @@
+..............................                                           [100%]
+=============================== warnings summary ===============================
+test_quality_audit.py:15
+  /mnt/apps/ForLLm/test_quality_audit.py:15: DeprecationWarning: retrieval.py is deprecated. Use `llm_kb.retrieve` instead.
+    from retrieval import load_entries
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+30 passed, 3960 deselected, 1 warning in 0.82s

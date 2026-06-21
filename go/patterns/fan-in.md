@@ -3,9 +3,9 @@ id: "go-patterns-fan-in"
 title: "Fan In"
 language: "go"
 category: "patterns"
-tags: ["fan-in", "go", "patterns"]
+tags: ["fan-in", "fan-in-pattern", "concurrency", "channel", "merge", "merge-channel", "merge-channels", "channel-merging", "merge-concurrency", "concurrency-pattern", "channel-pattern", "worker-results", "go", "go-concurrency", "patterns"]
 version: "1.21+"
-retrieval_hint: "Fan In go patterns design pattern"
+retrieval_hint: "fan-in fan in pattern go concurrency merge channel merge channels channel merging result aggregation combine multichannel-input worker result output"
 last_verified: "2026-05-25"
 confidence: "medium"
 ---
@@ -86,3 +86,4 @@ func Merge(cs ...<-chan int) <-chan int {
 ## Related
 - go/stdlib/error-handling.md
 
+- go/stdlib/channels.md

@@ -1,0 +1,169 @@
+# Task 7 quality audit evidence — python/web
+
+Date: 2026-06-20
+Plan: `.sisyphus/plans/kb-coverage-expansion.md`
+Task: 7 — Create python/web KB entries
+
+## Files handled
+
+Created:
+- `python/web/django-orm-optimization.md` (`python-web-django-orm-optimization`)
+- `python/web/pydantic-validation.md` (`python-web-pydantic-validation`)
+- `python/web/background-tasks-patterns.md` (`python-web-background-tasks`)
+
+Not duplicated:
+- Requested flat path `python/web/flask-blueprints.md` already has an existing committed entry at `python/web/flask/blueprints.md` with the same ID `python-web-flask-blueprints`.
+- Creating the flat file would violate the duplicate-ID guardrail, so the existing entry remains the source for that ID.
+
+## Structural/content checks
+
+Command:
+```bash
+python - <<'PY'
+from pathlib import Path
+import re
+import yaml
+root = Path('/mnt/apps/ForLLm')
+files = [
+    root/'python/web/django-orm-optimization.md',
+    root/'python/web/pydantic-validation.md',
+    root/'python/web/background-tasks-patterns.md',
+]
+for path in files:
+    text = path.read_text()
+    fm = yaml.safe_load(text.split('---', 2)[1])
+    assert fm['language'] == 'python', path
+    assert fm['category'] == 'web', path
+    assert fm['version'] == '3.10+', path
+    assert fm['confidence'] == 'medium', path
+    standard = text.split('## Standard Pattern', 1)[1].split('## Common Mistakes', 1)[0]
+    assert '```python' in standard, path
+    assert text.count('# WRONG:') >= 3 and text.count('# CORRECT:') >= 3, path
+    gotchas = re.findall(r'^-\s+\S', text.split('## Gotchas', 1)[1].split('## Related', 1)[0], re.M)
+    assert len(gotchas) >= 3, (path, len(gotchas))
+    links = re.findall(r'^-\s+(.+\.md)\s*$', text.split('## Related', 1)[1], re.M)
+    assert len(links) >= 2, (path, links)
+    for link in links:
+        target = root / link.split('#', 1)[0]
+        assert target.exists(), (path, link)
+        assert str(target).startswith(str(root / 'python/web')), (path, link)
+    print(f'{path.relative_to(root)} ok: {len(gotchas)} gotchas, {len(links)} related links')
+PY
+```
+
+Result:
+```text
+python/web/django-orm-optimization.md ok: 8 gotchas, 3 related links
+python/web/pydantic-validation.md ok: 8 gotchas, 3 related links
+python/web/background-tasks-patterns.md ok: 8 gotchas, 3 related links
+```
+
+## Placeholder scan
+
+Command:
+```bash
+grep -E "TODO|TBD|FIXME|insert here|your code|example\.com" python/web/django-orm-optimization.md python/web/pydantic-validation.md python/web/background-tasks-patterns.md
+```
+
+Result: no matches.
+
+## Related-link check
+
+Related links are limited to pre-existing `python/web/` entries:
+- `python/web/django/orm-queries.md`
+- `python/web/django/basics.md`
+- `python/web/django/templates-forms.md`
+- `python/web/fastapi/request-validation.md`
+- `python/web/fastapi/error-handling.md`
+- `python/web/file-uploads.md`
+- `python/web/fastapi/background-tasks.md`
+- `python/web/fastapi/dependency-injection.md`
+- `python/web/websocket.md`
+
+All targets exist.
+
+## Duplicate-ID check
+
+Command:
+```bash
+python - <<'PY'
+from pathlib import Path
+import re
+from collections import Counter
+import yaml
+ids=[]
+for path in Path('/mnt/apps/ForLLm').rglob('*.md'):
+    if any(part.startswith('.') for part in path.parts):
+        continue
+    if path.name in {'README.md','schema.md','CONTRIBUTING.md','RELEASE_CHECKLIST.md','CHANGELOG.md','LICENSE','LLM_CODEBASE_KNOWLEDGE_BASE.md'}:
+        continue
+    if any(p.name in {'templates','.github','docs','architecture','scripts','benchmark_prompts','prompts','build','__pycache__','node_modules','references','llm_kb'} for p in path.parents):
+        continue
+    m=re.match(r'^---\n(.*?)\n---', path.read_text(), re.S)
+    if m:
+        meta=yaml.safe_load(m.group(1)) or {}
+        if 'id' in meta:
+            ids.append((meta['id'], str(path.relative_to('/mnt/apps/ForLLm'))))
+counts=Counter(i for i,_ in ids)
+dups=[(i,p) for i,p in ids if counts[i]>1]
+for i,p in dups:
+    print(f'{i}\t{p}')
+print(f'duplicate_ids={len(dups)}')
+PY
+```
+
+Result:
+```text
+duplicate_ids=0
+```
+
+## Required quality audit
+
+Command:
+```bash
+PYTHONDONTWRITEBYTECODE=1 python -m pytest -q -p no:cacheprovider test_quality_audit.py -k "django-orm-optimization or flask-blueprints or pydantic-validation or websocket-fastapi"
+```
+
+Result:
+```text
+12 passed, 3948 deselected, 1 warning in 0.90s
+```
+
+Warning: existing `retrieval.py` deprecation warning only.
+
+## Targeted retrieval audit
+
+Command:
+```bash
+PYTHONDONTWRITEBYTECODE=1 python -m pytest -q -p no:cacheprovider \
+  'test_retrieval_comprehensive.py::TestComprehensiveRetrieval::test_recall_at_1[Django ORM query optimization select_related prefetch_relate]' \
+  'test_retrieval_comprehensive.py::TestComprehensiveRetrieval::test_recall_at_3[Django ORM query optimization select_related prefetch_relate]' \
+  'test_retrieval_comprehensive.py::TestComprehensiveRetrieval::test_recall_at_5[Django ORM query optimization select_related prefetch_relate]' \
+  'test_retrieval_comprehensive.py::TestComprehensiveRetrieval::test_recall_at_1[Flask blueprints application factory modular routes]' \
+  'test_retrieval_comprehensive.py::TestComprehensiveRetrieval::test_recall_at_3[Flask blueprints application factory modular routes]' \
+  'test_retrieval_comprehensive.py::TestComprehensiveRetrieval::test_recall_at_5[Flask blueprints application factory modular routes]' \
+  'test_retrieval_comprehensive.py::TestComprehensiveRetrieval::test_recall_at_1[Pydantic request validation models errors web API]' \
+  'test_retrieval_comprehensive.py::TestComprehensiveRetrieval::test_recall_at_3[Pydantic request validation models errors web API]' \
+  'test_retrieval_comprehensive.py::TestComprehensiveRetrieval::test_recall_at_5[Pydantic request validation models errors web API]' \
+  'test_retrieval_comprehensive.py::TestComprehensiveRetrieval::test_recall_at_1[Python web background tasks Celery RQ queue]' \
+  'test_retrieval_comprehensive.py::TestComprehensiveRetrieval::test_recall_at_3[Python web background tasks Celery RQ queue]' \
+  'test_retrieval_comprehensive.py::TestComprehensiveRetrieval::test_recall_at_5[Python web background tasks Celery RQ queue]'
+```
+
+Result:
+```text
+12 passed, 1 warning in 12.97s
+```
+
+## Whitespace check
+
+Command:
+```bash
+git diff --check -- python/web/django-orm-optimization.md python/web/pydantic-validation.md python/web/background-tasks-patterns.md
+```
+
+Result: no output, exit 0.
+
+## LSP diagnostics
+
+`lsp_diagnostics` reported no configured Markdown LSP server for `.md` files. The Markdown-specific verification was covered by the structural script, placeholder scan, related-link check, duplicate-ID check, required pytest subset, targeted retrieval tests, and whitespace check.

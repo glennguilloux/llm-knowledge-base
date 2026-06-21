@@ -86,3 +86,4 @@ public class SignalDependentObject extends DependentObject<String> {}
 ## Related
 - java/stdlib/collections.md
 
+- java/patterns/delegation.md

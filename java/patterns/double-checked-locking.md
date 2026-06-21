@@ -98,3 +98,4 @@ public class Inventory {
 ## Related
 - java/stdlib/collections.md
 
+- java/patterns/delegation.md

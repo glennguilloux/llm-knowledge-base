@@ -98,3 +98,4 @@ class Card2(metaclass=FlyweightMeta):
 ## Related
 - python/stdlib/pathlib.md
 
+- python/patterns/error-handling.md

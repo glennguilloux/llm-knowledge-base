@@ -98,3 +98,4 @@ public class ProductFrontend extends FrontendComponent {
 ## Related
 - java/stdlib/collections.md
 
+- java/patterns/delegation.md

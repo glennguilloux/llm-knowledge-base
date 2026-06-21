@@ -245,3 +245,4 @@ The biggest misuse is calling `recover()` outside of a deferred function — it 
 
 ## Related
 - anti-patterns/go-antipatterns.md
+- anti-patterns/error-handling-antipatterns.md

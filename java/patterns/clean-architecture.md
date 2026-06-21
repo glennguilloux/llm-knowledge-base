@@ -98,3 +98,4 @@ public class InMemoryOrderRepository implements OrderRepository {
 ## Related
 - java/stdlib/collections.md
 
+- java/patterns/delegation.md

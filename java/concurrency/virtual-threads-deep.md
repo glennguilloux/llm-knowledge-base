@@ -213,4 +213,4 @@ try {
 
 ## Related
 - java/stdlib/records.md
-- java/concurrency/structured-concurrency.md
+- java/concurrency/locks-reentrant.md

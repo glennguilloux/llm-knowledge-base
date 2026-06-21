@@ -98,3 +98,4 @@ Using a map/dictionary of type -> class for lookup
 ## Related
 - go/stdlib/error-handling.md
 
+- go/stdlib/interfaces.md

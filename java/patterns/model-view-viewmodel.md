@@ -96,3 +96,4 @@ public class Book {
 ## Related
 - java/stdlib/collections.md
 
+- java/patterns/delegation.md

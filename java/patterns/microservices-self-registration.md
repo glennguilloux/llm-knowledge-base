@@ -98,3 +98,4 @@ public class MyCustomHealthCheck implements HealthIndicator {
 ## Related
 - java/stdlib/collections.md
 
+- java/patterns/delegation.md

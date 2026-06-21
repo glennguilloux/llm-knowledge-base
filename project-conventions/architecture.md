@@ -44,6 +44,7 @@ What becomes easier or more difficult to do because of this change?
 ## Related
 - ADR-{NUMBER}: {related decision}
 ```
+- java/patterns/delegation.md
 
 ## Common Mistakes
 

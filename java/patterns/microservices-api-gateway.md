@@ -98,3 +98,4 @@ public class ImageClientImpl implements ImageClient {
 ## Related
 - java/stdlib/collections.md
 
+- java/patterns/delegation.md

@@ -98,3 +98,4 @@ public class StubSentimentAnalysisServer implements SentimentAnalysisServer {
 ## Related
 - java/stdlib/collections.md
 
+- java/patterns/delegation.md

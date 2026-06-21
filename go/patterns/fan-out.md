@@ -3,9 +3,9 @@ id: "go-patterns-fan-out"
 title: "Fan Out"
 language: "go"
 category: "patterns"
-tags: ["fan-out", "go", "patterns"]
+tags: ["fan-out", "fan-out-pattern", "concurrency", "concurrency-pattern", "worker", "worker-pool", "worker-distribution", "distribution", "distribution-pattern", "task-distribution", "task-allocation", "out", "go", "go-concurrency", "patterns"]
 version: "1.21+"
-retrieval_hint: "Fan Out go patterns design pattern"
+retrieval_hint: "fan-out fan out pattern go concurrency concurrency pattern worker worker pool worker distribution distribution pattern task distribution task allocation distribute distribute work multichannel-output parallel processing work pipeline"
 last_verified: "2026-05-25"
 confidence: "medium"
 ---
@@ -94,3 +94,4 @@ func Split(ch <-chan int, n int) []<-chan int {
 ## Related
 - go/stdlib/error-handling.md
 
+- go/stdlib/goroutines.md

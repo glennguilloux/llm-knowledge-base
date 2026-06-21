@@ -98,3 +98,4 @@ public class SpaceStationMir extends GameObject {
 ## Related
 - java/stdlib/collections.md
 
+- java/patterns/delegation.md

@@ -98,3 +98,4 @@ public class AddressFilter extends AbstractFilter {
 ## Related
 - java/stdlib/collections.md
 
+- java/patterns/delegation.md

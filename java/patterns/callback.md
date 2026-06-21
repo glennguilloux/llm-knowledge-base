@@ -83,3 +83,4 @@ package com.iluwatar.callback;
 ## Related
 - java/stdlib/collections.md
 
+- java/patterns/delegation.md

@@ -131,6 +131,15 @@ public class ProductPageView extends TemplateView {
 }
 ```
 
+```java
+// WRONG: Rendering business calculations inside the view template.
+// Views become hard to test and duplicate rules across pages.
+<td>${order.subtotal().subtract(order.discount())}</td>
+
+// CORRECT: Prepare a read model with display-ready values in the controller or query service.
+record OrderView(Money displayedTotal) {}
+```
+
 ## Gotchas
 - Template View uses inheritance — prefer composition (decorators, helpers) if you need to mix behaviors.
 - Keep hooks (overridable methods) to a minimum. Too many hooks make the template hard to reason about.

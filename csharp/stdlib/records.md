@@ -3,9 +3,9 @@ id: "csharp-stdlib-records"
 title: "Records in C#"
 language: "csharp"
 category: "stdlib"
-tags: ["csharp", "dotnet", "record", "immutable", "with", "equality", "positional"]
+tags: ["csharp", "csharp-records", "record", "records", "immutable", "immutable-value", "value", "value-type", "value-equality", "value-object", "with", "equality", "positional"]
 version: ".NET 8+"
-retrieval_hint: "C# record class struct with expressions equality positional records init-only"
+retrieval_hint: "C# records immutable value value type value equality immutable value object record class record struct positional with expressions init-only"
 last_verified: "2026-05-24"
 confidence: "high"
 ---

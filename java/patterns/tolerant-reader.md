@@ -98,3 +98,4 @@ public class RainbowFish implements Serializable {
 ## Related
 - java/stdlib/collections.md
 
+- java/patterns/delegation.md

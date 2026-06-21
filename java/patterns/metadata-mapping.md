@@ -97,3 +97,4 @@ import org.hibernate.service.ServiceRegistry;
 ## Related
 - java/stdlib/collections.md
 
+- java/patterns/delegation.md

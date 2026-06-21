@@ -89,3 +89,4 @@ public record State(int value) {}
 ## Related
 - java/stdlib/collections.md
 
+- java/patterns/delegation.md

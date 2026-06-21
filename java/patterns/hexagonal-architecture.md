@@ -96,3 +96,4 @@ import com.iluwatar.hexagonal.sampledata.SampleData;
 ## Related
 - java/stdlib/collections.md
 
+- java/patterns/delegation.md

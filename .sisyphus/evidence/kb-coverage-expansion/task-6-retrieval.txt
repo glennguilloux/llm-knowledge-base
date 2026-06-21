@@ -1,0 +1,5 @@
+java spring data jpa repository query projection pagination ['java-spring-data-jpa-queries', 'java-spring-data-custom-repository', 'java-spring-data-jpa-repositories', 'java-spring-data-queries', 'java-testing-spring-boot-testing']
+java spring security filter chain authorize requests ['java-spring-security-config', 'java-spring-security-method-security', 'java-spring-security-jwt-auth', 'java-spring-security-oauth2-setup', 'java-spring-security-testing']
+java spring boot actuator health metrics endpoints ['java-spring-boot-actuator', 'java-spring-actuator-monitoring', 'java-testing-spring-boot-testing', 'java-spring-boot-basics', 'java-spring-spring-boot-3-graalvm']
+java spring boot test slices datajpa webmvc json test ['java-spring-test-slices', 'java-spring-boot-basics', 'java-testing-spring-boot-testing', 'java-spring-boot-profiles', 'java-spring-boot-scheduled']
+java spring configuration properties validation enable configuration properties ['java-spring-configuration-properties', 'java-spring-boot-configuration-properties', 'java-spring-boot-basics', 'java-spring-boot-profiles', 'java-testing-spring-boot-testing']

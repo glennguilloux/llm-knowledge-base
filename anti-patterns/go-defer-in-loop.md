@@ -231,3 +231,4 @@ The most common error is using `defer` to close file handles, database rows, or 
 
 ## Related
 - anti-patterns/go-antipatterns.md
+- anti-patterns/error-handling-antipatterns.md

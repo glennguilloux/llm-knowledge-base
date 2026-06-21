@@ -98,3 +98,4 @@ public class OutOfStock implements ReceiptViewModel {
 ## Related
 - java/stdlib/collections.md
 
+- java/patterns/delegation.md

@@ -98,3 +98,4 @@ public class ServiceImpl implements Service {
 ## Related
 - java/stdlib/collections.md
 
+- java/patterns/delegation.md

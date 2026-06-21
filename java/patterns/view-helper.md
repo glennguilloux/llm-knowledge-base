@@ -94,3 +94,4 @@ public class ConsoleProductView implements View<ProductViewModel> {
 ## Related
 - java/stdlib/collections.md
 
+- java/patterns/delegation.md

@@ -98,3 +98,4 @@ public class Cash {
 ## Related
 - java/stdlib/collections.md
 
+- java/patterns/delegation.md

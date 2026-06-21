@@ -98,3 +98,4 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 ## Related
 - java/stdlib/collections.md
 
+- java/patterns/delegation.md

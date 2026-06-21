@@ -1,11 +1,11 @@
 ---
 id: "go-patterns-generator"
-title: "Generator"
+title: "Generator Pattern (yield, coroutine)"
 language: "go"
 category: "patterns"
-tags: ["generator", "go", "patterns"]
+tags: ["generator", "go-generator", "yield", "pattern-yield", "channel-yield", "channel-generator", "coroutine", "lazy-sequence", "go", "patterns"]
 version: "1.21+"
-retrieval_hint: "Generator go patterns design pattern"
+retrieval_hint: "Go generator pattern yield channel coroutine lazy sequence channel-yield design pattern"
 last_verified: "2026-05-25"
 confidence: "medium"
 ---
@@ -85,3 +85,4 @@ fmt.Println(100, "bottles of beer on the wall")
 ## Related
 - go/stdlib/error-handling.md
 
+- go/stdlib/channels.md

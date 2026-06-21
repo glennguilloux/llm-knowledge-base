@@ -3,9 +3,9 @@ id: "security-owasp-top-10"
 title: "OWASP Top 10 Security Risks and Prevention"
 language: "multi"
 category: "security"
-tags: ["owasp", "security", "injection", "xss", "broken-auth", "misconfiguration", "vulnerabilities"]
+tags: ["owasp", "owasp-top-10", "secure", "web-application", "web-security", "web-application-security", "application-security", "securing", "security", "injection", "xss", "broken-auth", "misconfiguration", "vulnerabilities"]
 version: "n/a"
-retrieval_hint: "OWASP Top 10 2024 2025 security risks injection broken access control authentication misconfiguration SSRF"
+retrieval_hint: "secure web application security checklist OWASP Top 10 2024 2025 security risks injection broken access control authentication misconfiguration SSRF"
 last_verified: "2026-05-24"
 confidence: "high"
 ---

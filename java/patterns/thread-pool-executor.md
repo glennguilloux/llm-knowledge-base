@@ -98,3 +98,4 @@ public class GuestCheckInTask implements Runnable {
 ## Related
 - java/stdlib/collections.md
 
+- java/patterns/delegation.md

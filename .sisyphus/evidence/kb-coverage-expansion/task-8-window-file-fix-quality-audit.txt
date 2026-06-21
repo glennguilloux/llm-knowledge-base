@@ -1,0 +1,11 @@
+Command:
+PYTHONDONTWRITEBYTECODE=1 python -m pytest -q -p no:cacheprovider test_quality_audit.py -k "postgres/window-functions or flask-blueprints"
+
+Result:
+18 passed, 3978 deselected, 1 warning in 0.87s
+
+Notes:
+- Restored tracked db/postgres/window-functions-advanced.md to HEAD before verification.
+- db/postgres/window-functions.md remains the entry with id db-postgres-window-functions.
+- python/web/flask-blueprints.md remains unchanged with id python-web-flask-blueprints-advanced.
+- LSP markdown diagnostics were not applicable because no Markdown LSP server is configured.

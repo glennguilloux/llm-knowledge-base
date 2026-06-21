@@ -98,3 +98,4 @@ public abstract class ObjectPool<T> {
 ## Related
 - java/stdlib/collections.md
 
+- java/patterns/delegation.md

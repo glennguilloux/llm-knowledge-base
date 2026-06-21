@@ -98,3 +98,4 @@ public class Consumer {
 ## Related
 - java/stdlib/collections.md
 
+- java/patterns/delegation.md

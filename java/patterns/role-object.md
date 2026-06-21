@@ -98,3 +98,4 @@ public class CustomerCore extends Customer {
 ## Related
 - java/stdlib/collections.md
 
+- java/patterns/delegation.md

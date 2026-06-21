@@ -128,6 +128,18 @@ public class SharedCounter {
 }
 ```
 
+```java
+// WRONG: Mutable static state shared across tests and tenants.
+// One request can change behavior for another request.
+private static Map<String, String> cache = new HashMap<>();
+
+// CORRECT: Keep shared state behind an injectable component with clear lifecycle.
+@Component
+public final class CacheService {
+    private final ConcurrentMap<String, String> cache = new ConcurrentHashMap<>();
+}
+```
+
 ## Gotchas
 - Subclassing Monostate is risky — subclasses all share the same static state.
 - Testing is harder: shared static state persists across tests. Reset state in `@BeforeEach`.
@@ -135,6 +147,6 @@ public class SharedCounter {
 - Monostate is less transparent than Singleton. Document the shared-state behavior clearly.
 
 ## Related
-- java/patterns/singleton.md
+- java/patterns/delegation.md
 - java/patterns/object-pool.md
 

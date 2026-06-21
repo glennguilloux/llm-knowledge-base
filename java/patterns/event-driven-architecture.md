@@ -97,3 +97,4 @@ import com.iluwatar.eda.model.User;
 ## Related
 - java/stdlib/collections.md
 
+- java/patterns/delegation.md

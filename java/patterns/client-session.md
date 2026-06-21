@@ -98,3 +98,4 @@ public class Session {
 ## Related
 - java/stdlib/collections.md
 
+- java/patterns/delegation.md

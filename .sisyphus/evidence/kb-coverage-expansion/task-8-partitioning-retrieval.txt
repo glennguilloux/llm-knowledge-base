@@ -1,0 +1,13 @@
+Command:
+PYTHONDONTWRITEBYTECODE=1 python - <<'PY'
+from llm_kb.retrieve import search
+ids = [entry.id for entry in search('PostgreSQL declarative partitioning partition pruning range list hash')[:5]]
+print(ids)
+assert 'db-postgres-partitioning' in ids
+PY
+
+Result:
+['db-postgres-partitioning', 'java-stdlib-collections', 'crypto-sha256', 'db-postgres-window-functions', 'java-concurrency-concurrent-collections']
+
+Assertion:
+- db-postgres-partitioning found in the top 5 retrieval results.

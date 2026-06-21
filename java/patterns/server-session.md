@@ -98,3 +98,4 @@ public class LoginHandler implements HttpHandler {
 ## Related
 - java/stdlib/collections.md
 
+- java/patterns/delegation.md

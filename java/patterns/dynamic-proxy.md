@@ -132,6 +132,19 @@ public class SafeHandler implements InvocationHandler {
 }
 ```
 
+```java
+// WRONG: Swallowing exceptions inside the invocation handler.
+// Failures disappear and callers receive misleading null results.
+return null;
+
+// CORRECT: Unwrap proxy exceptions so callers see the real failure.
+try {
+    return method.invoke(target, args);
+} catch (InvocationTargetException e) {
+    throw e.getCause();
+}
+```
+
 ## Gotchas
 - Proxy only works with interfaces — you cannot proxy concrete classes with `java.lang.reflect.Proxy`.
 - For class-based proxying, use CGLIB or ByteBuddy instead.
@@ -140,5 +153,5 @@ public class SafeHandler implements InvocationHandler {
 
 ## Related
 - java/patterns/virtual-proxy.md
-- java/stdlib/reflection.md
+- java/patterns/delegation.md
 

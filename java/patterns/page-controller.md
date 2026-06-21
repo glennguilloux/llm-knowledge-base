@@ -98,3 +98,4 @@ public class SignupController {
 ## Related
 - java/stdlib/collections.md
 
+- java/patterns/delegation.md

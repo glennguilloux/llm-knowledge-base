@@ -98,3 +98,4 @@ public class InMemoryAppender extends AppenderBase<ILoggingEvent> {
 ## Related
 - java/stdlib/collections.md
 
+- java/patterns/delegation.md

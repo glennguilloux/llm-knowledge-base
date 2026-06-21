@@ -98,3 +98,4 @@ public class SwordOfAragorn implements Lockable {
 ## Related
 - java/stdlib/collections.md
 
+- java/patterns/delegation.md

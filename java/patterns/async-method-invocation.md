@@ -98,3 +98,4 @@ public class ThreadAsyncExecutor implements AsyncExecutor {
 ## Related
 - java/stdlib/collections.md
 
+- java/patterns/delegation.md

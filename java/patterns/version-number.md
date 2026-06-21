@@ -90,3 +90,4 @@ public class VersionMismatchException extends Exception {
 ## Related
 - java/stdlib/collections.md
 
+- java/patterns/delegation.md

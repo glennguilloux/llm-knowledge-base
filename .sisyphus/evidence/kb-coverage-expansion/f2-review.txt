@@ -1,0 +1,84 @@
+kb-coverage-expansion F2 code quality review evidence
+
+Scope reviewed:
+- 32 new KB entry files under /mnt/apps/ForLLm/llm_kb/data
+- /mnt/apps/ForLLm/test_retrieval_comprehensive.py retrieval additions
+- Commands requested by the user; no KB/test implementation fixes applied
+
+1) Targeted pytest
+Command run:
+  cd /mnt/apps/ForLLm && PYTHONDONTWRITEBYTECODE=1 python -m pytest -q -p no:cacheprovider test_quality_audit.py test_retrieval_comprehensive.py > /mnt/apps/ForLLm/.sisyphus/evidence/kb-coverage-expansion/f2-pytest.log 2>&1
+
+Result:
+  pytest_exit=0
+  5715 passed, 1 warning in 1806.48s (0:30:06)
+  Warning: DeprecationWarning from test_quality_audit.py: retrieval.py is deprecated. Use `llm_kb.retrieve` instead.
+
+2) git diff --check
+Command run:
+  cd /mnt/apps/ForLLm && git diff --check > /mnt/apps/ForLLm/.sisyphus/evidence/kb-coverage-expansion/f2-diff-check.txt 2>&1
+
+Result:
+  git_diff_check_exit=0
+  No output from git diff --check.
+
+3) 32-entry quality audit
+Evidence files:
+  /mnt/apps/ForLLm/.sisyphus/evidence/kb-coverage-expansion/f2-entry-audit.txt
+  /mnt/apps/ForLLm/.sisyphus/evidence/kb-coverage-expansion/f2-code-fence-audit.txt
+  /mnt/apps/ForLLm/.sisyphus/evidence/kb-coverage-expansion/f2-empty-section-audit.txt
+  /mnt/apps/ForLLm/.sisyphus/evidence/kb-coverage-expansion/f2-placeholder-grep.txt
+  /mnt/apps/ForLLm/.sisyphus/evidence/kb-coverage-expansion/f2-your-grep.txt
+  /mnt/apps/ForLLm/.sisyphus/evidence/kb-coverage-expansion/f2-insert-grep.txt
+  /mnt/apps/ForLLm/.sisyphus/evidence/kb-coverage-expansion/f2-concrete-content-summary.txt
+
+Findings:
+- YAML frontmatter: PASS. All 32 entries parse and include required fields id, title, language, category, tags, retrieval_hint.
+- Duplicate IDs: PASS. 32 unique IDs across the 32 new entries.
+- Placeholder text: PASS. 0 true placeholder matches for TODO/TBD/FIXME/example.com/your. Grep for bare "insert" returned only legitimate SQL/tag occurrences, not placeholder text.
+- Empty H2 sections: PASS. No empty H2 sections found.
+- Common Mistakes sections: PASS. All Common Mistakes sections contain WRONG/CORRECT pairs.
+- Bare code fences: PASS. Opening code fences all include language tags; closing fences are bare as expected.
+- Generic AI-slop review: PASS. Concrete-content summary showed code blocks and concrete API/SQL/JVM/Python/Go/Java/Spring/Security terms in every entry. No vague-only sections were identified.
+
+4) Retrieval test review
+Evidence file:
+  /mnt/apps/ForLLm/.sisyphus/evidence/kb-coverage-expansion/f2-retrieval-wave2-check.txt
+
+Findings:
+- Threshold changes: PASS. Overall recall@3 threshold remains >= 80% at test_retrieval_comprehensive.py:1104; per-query recall@3/5 assertions remain >0 at lines 1067 and 1074.
+- Existing query string changes: PASS. git diff shows no edits to existing query strings; additions are new tuples only.
+- New query strings: Mostly natural for the covered entries.
+- New Wave 2 tuple coverage: FAIL. The Wave 2 sections do not reference all 32 new entry IDs.
+
+Specific retrieval failures:
+- test_retrieval_comprehensive.py:409 uses a Wave 2 DB tuple expected ID ["db-postgres-window-functions"], which is not one of the 32 new entry IDs. The new DB partitioning entry id db-postgres-partitioning is covered outside Wave 2 at test_retrieval_comprehensive.py:396, but not in the DB Wave 2 additions section.
+- test_retrieval_comprehensive.py:998-1003 covers six new Java concurrency IDs outside any Wave 2 section:
+  - java-concurrency-executor-service at test_retrieval_comprehensive.py:998
+  - java-concurrency-completable-future at test_retrieval_comprehensive.py:999
+  - java-concurrency-concurrent-collections at test_retrieval_comprehensive.py:1000
+  - java-concurrency-atomic-variables at test_retrieval_comprehensive.py:1001
+  - java-concurrency-locks-reentrant at test_retrieval_comprehensive.py:1002
+  - java-concurrency-volatile-visibility at test_retrieval_comprehensive.py:1003
+
+Wave 2 coverage summary:
+- New entry IDs: 32
+- Wave 2 cases parsed: 26
+- Missing from Wave 2 sections:
+  - db-postgres-partitioning
+  - java-concurrency-executor-service
+  - java-concurrency-completable-future
+  - java-concurrency-concurrent-collections
+  - java-concurrency-atomic-variables
+  - java-concurrency-locks-reentrant
+  - java-concurrency-volatile-visibility
+- Extra non-new ID in Wave 2 sections:
+  - db-postgres-window-functions at test_retrieval_comprehensive.py:409
+
+Final audit block:
+Quality Audit [PASS]
+Retrieval [FAIL]
+Placeholders [0 found]
+git diff --check [PASS]
+Duplicate IDs [PASS]
+VERDICT: REJECT

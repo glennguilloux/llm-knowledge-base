@@ -1,0 +1,23 @@
+Command:
+PYTHONDONTWRITEBYTECODE=1 python - <<'PY'
+from llm_kb.retrieve import search
+checks = {
+    'PostgreSQL window functions row_number lag running total': 'db-postgres-window-functions',
+    'Flask blueprint registration nested blueprint app factory': 'python-web-flask-blueprints-advanced',
+}
+for query, expected in checks.items():
+    ids = [entry.id for entry in search(query)[:5]]
+    print(query)
+    print(ids)
+    assert expected in ids, (query, expected, ids)
+PY
+
+Result:
+PostgreSQL window functions row_number lag running total
+['db-postgres-window-functions-advanced', 'db-postgres-window-functions', 'kotlin-stdlib-functions-lambdas', 'db-postgres-replication', 'java-patterns-dirty-flag']
+Flask blueprint registration nested blueprint app factory
+['python-web-flask-blueprints-advanced', 'python-web-flask-blueprints', 'python-web-flask-basics', 'csharp-testing-integration', 'go-patterns-factory']
+
+Assertions:
+- db-postgres-window-functions found for PostgreSQL window functions query.
+- python-web-flask-blueprints-advanced found for Flask blueprint registration query.

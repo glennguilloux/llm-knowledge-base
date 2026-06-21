@@ -3,9 +3,9 @@ id: "rust-stdlib-traits"
 title: "Traits and Generics"
 language: "rust"
 category: "stdlib"
-tags: ["traits", "generics", "trait-bounds", "dyn", "associated-types", "derive"]
+tags: ["traits", "trait-definition", "trait-impl", "impl-trait", "impl", "interface", "generics", "trait-bounds", "dyn", "associated-types", "derive"]
 version: "1.75+"
-retrieval_hint: "traits generics trait bounds dyn associated types derive Display Debug Clone"
+retrieval_hint: "Rust trait definition impl keyword interface trait definition for types traits trait bounds impl trait associated types dyn generics Display Debug Clone"
 last_verified: "2026-05-24"
 confidence: "high"
 ---

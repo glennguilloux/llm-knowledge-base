@@ -98,3 +98,4 @@ public class VirtualMachine {
 ## Related
 - java/stdlib/collections.md
 
+- java/patterns/delegation.md

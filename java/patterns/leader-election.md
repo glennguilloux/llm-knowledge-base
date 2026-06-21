@@ -98,3 +98,4 @@ public abstract class AbstractMessageManager implements MessageManager {
 ## Related
 - java/stdlib/collections.md
 
+- java/patterns/delegation.md

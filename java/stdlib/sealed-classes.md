@@ -200,3 +200,4 @@ return switch (vehicle) {
 
 ## Related
 - java/stdlib/records.md
+- java/stdlib/optional.md

@@ -98,3 +98,4 @@ public class QuadTree {
 ## Related
 - java/stdlib/collections.md
 
+- java/patterns/delegation.md

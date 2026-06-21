@@ -98,3 +98,4 @@ public interface CustomerDao {
 ## Related
 - java/stdlib/collections.md
 
+- java/patterns/delegation.md

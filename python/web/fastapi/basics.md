@@ -4,9 +4,9 @@ title: "FastAPI Application Setup and Routing"
 language: "python"
 category: "web"
 subcategory: "api-framework"
-tags: ["fastapi", "routing", "api", "rest", "uvicorn", "pydantic"]
+tags: ["fastapi", "fastapi-framework", "fastapi-routing", "fastapi-endpoint", "starlette", "asgi", "openapi", "uvicorn", "pydantic", "async-api"]
 version: "3.10+"
-retrieval_hint: "FastAPI app setup routing endpoint REST API uvicorn"
+retrieval_hint: "fastapi fastapi-framework python async web framework starlette asgi openapi uvicorn pydantic routing endpoint REST API"
 last_verified: "2026-05-24"
 confidence: "high"
 ---

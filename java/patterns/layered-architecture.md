@@ -98,3 +98,4 @@ public class CakeToppingInfo {
 ## Related
 - java/stdlib/collections.md
 
+- java/patterns/delegation.md

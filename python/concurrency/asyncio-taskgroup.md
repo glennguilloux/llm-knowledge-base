@@ -154,3 +154,4 @@ async def correct_only_tg():
 
 ## Related
 - python/concurrency/asyncio-basics.md
+- python/stdlib/asyncio-basics.md

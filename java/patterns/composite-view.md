@@ -98,3 +98,4 @@ import lombok.Setter;
 ## Related
 - java/stdlib/collections.md
 
+- java/patterns/delegation.md

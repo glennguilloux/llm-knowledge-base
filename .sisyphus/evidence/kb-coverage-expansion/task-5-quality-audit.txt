@@ -1,0 +1,55 @@
+# Task 5 Quality Audit Evidence — KB Coverage Expansion
+
+Date: 2026-06-20
+Scope: performance/python-performance-profiling.md, performance/java-jvm-tuning.md, performance/database-indexing-strategy.md, performance/async-io-patterns.md
+
+## Required quality audit
+
+Command:
+```bash
+PYTHONDONTWRITEBYTECODE=1 python -m pytest -q -p no:cacheprovider test_quality_audit.py -k "performance/python-profiling or performance/java-jvm or performance/database-indexing or performance/async-io"
+```
+
+Result:
+```text
+18 passed, 3942 deselected, 1 warning in 0.83s
+```
+
+Note: the required `-k` substring did not uniquely include the full `python-performance-profiling` filename, so an additional all-four check was run.
+
+Additional all-four quality audit:
+```bash
+PYTHONDONTWRITEBYTECODE=1 python -m pytest -q -p no:cacheprovider test_quality_audit.py -k "performance/python-performance-profiling or performance/java-jvm-tuning or performance/database-indexing-strategy or performance/async-io-patterns"
+```
+
+Result:
+```text
+24 passed, 3936 deselected, 1 warning in 0.81s
+```
+
+## Placeholder and benchmark-number grep checks
+
+Commands used:
+```bash
+grep -RInE 'TODO|TBD|FIXME|insert here|your code|example\.com' performance/python-performance-profiling.md performance/java-jvm-tuning.md performance/database-indexing-strategy.md performance/async-io-patterns.md
+grep -RInE '\b[0-9]+(\.[0-9]+)?(x|X|%|percent|percentile|times)\b' performance/python-performance-profiling.md performance/java-jvm-tuning.md performance/database-indexing-strategy.md performance/async-io-patterns.md
+```
+
+Result: no matches for either scan.
+
+## Related-link audit
+
+Verified each new entry links only to pre-existing allowed performance targets:
+
+- performance/python-performance-profiling.md: performance/caching-strategies.md, performance/database-optimization.md, performance/memory-patterns.md
+- performance/java-jvm-tuning.md: performance/database-optimization.md, performance/memory-patterns.md, performance/connection-pooling.md
+- performance/database-indexing-strategy.md: performance/database-optimization.md, performance/n-plus-one-prevention.md, performance/connection-pooling.md
+- performance/async-io-patterns.md: performance/caching-strategies.md, performance/connection-pooling.md, performance/database-optimization.md
+
+## LSP diagnostics
+
+`lsp_diagnostics` reported no configured Markdown language server for `.md` files. Markdown validation was covered by the repository quality audit and explicit grep checks.
+
+## Whitespace check
+
+`git diff --check -- "performance/python-performance-profiling.md" "performance/java-jvm-tuning.md" "performance/database-indexing-strategy.md" "performance/async-io-patterns.md"` produced no output.

@@ -146,5 +146,5 @@ const thisUrl = import.meta.url;   // file:// URL
 
 ## Related
 - typescript/runtime/node/fs.md
-- typescript/runtime/node/fs.md
+- typescript/runtime/node/http.md
 - typescript-runtime-node-fs

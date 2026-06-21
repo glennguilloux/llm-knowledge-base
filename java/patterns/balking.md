@@ -92,3 +92,4 @@ public enum WashingMachineState {
 ## Related
 - java/stdlib/collections.md
 
+- java/patterns/delegation.md

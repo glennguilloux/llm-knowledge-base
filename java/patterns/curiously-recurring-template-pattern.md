@@ -110,6 +110,24 @@ public abstract class Builder<T extends Builder<T>> {
 }
 ```
 
+```java
+// WRONG: CRTP base class depends on concrete subclass details.
+// The base class becomes hard to reuse and easy to break.
+public abstract class Base<T extends Base<T>> {
+    public void save() {
+        ((User) this).persist();
+    }
+}
+
+// CORRECT: Keep the base generic and require only the self type.
+public abstract class Base<T extends Base<T>> {
+    public abstract T self();
+    public void save() {
+        Repository.save(self());
+    }
+}
+```
+
 ## Gotchas
 - CRTP doesn't prevent subclass misuse — nothing stops `class Foo extends Bar<Baz>`.
 - Java's type erasure makes runtime inspection of the type parameter impossible.
@@ -117,6 +135,6 @@ public abstract class Builder<T extends Builder<T>> {
 - In most cases, composition (Strategy, Visitor) is cleaner than CRTP.
 
 ## Related
-- java/patterns/comparator.md
-- java/patterns/builder.md
+- java/stdlib/comparators.md
+- java/stdlib/builder-pattern.md
 
