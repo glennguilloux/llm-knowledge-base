@@ -25,7 +25,7 @@ jobs:
         continue-on-error: true
 
       - name: Upload freshness report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: freshness-report
           path: scripts/freshness_report.json
